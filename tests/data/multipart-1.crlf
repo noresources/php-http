@@ -1,0 +1,18 @@
+--------------------------5b03f006c07b7c87
+Content-Disposition: form-data; 
+		name="key"
+
+value
+--------------------------5b03f006c07b7c87
+Content-Disposition: form-data; name="file"; filename="curl.sh"
+Content-Type: application/octet-stream
+
+method="$(tr '[[:lower:]]' '[[:upper:]]' <<< "${1}")"
+shift
+route="${1}"
+shift
+
+curl -s -X ${method} "${@}" "http://localhost/api/${route}"
+echo ''
+
+--------------------------5b03f006c07b7c87--
