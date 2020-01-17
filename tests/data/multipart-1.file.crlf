@@ -1,0 +1,7 @@
+method="$(tr '[[:lower:]]' '[[:upper:]]' <<< "${1}")"
+shift
+route="${1}"
+shift
+
+curl -s -X ${method} "${@}" "http://localhost/api/${route}"
+echo ''

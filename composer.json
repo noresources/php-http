@@ -1,0 +1,51 @@
+{
+	"name": "noresources/ns-php-http",
+	"description": "HTTP utilities",
+	"type": "library",
+	"license": "MIT",
+	"keywords": [
+		"http",
+		"psr-7"
+	],
+	"authors": [
+		{
+			"name": "Renaud Guillard",
+			"email": "dev@nore.fr",
+			"role": "lead"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"NoreSources\\Http\\": "src/",
+			"NoreSources\\Http\\Test\\": "tests/Shared"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"NoreSources\\Http\\Test\\": "tests/Private"
+		}
+	},
+	"minimum-stability": "dev",
+	"require": {
+		"php": ">=7.0",
+		"psr/http-message": "~1.0",
+		"noresources/ns-php-core": "~2.0-dev",
+		"noresources/ns-php-mediatype": "~1.0",
+		"psr/http-server-middleware": "^1.0@dev",
+		"noresources/ns-php-http-core": "~1.0"
+	},
+	"scripts": {
+		"tests": "@php  ./vendor/bin/phpunit --color=never --bootstrap tests/bootstrap.php tests"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "~8.0",
+		"laminas/laminas-diactoros": "^2.3@dev",
+		"laminas/laminas-httphandlerrunner": "^1.2@dev",
+		"nette/php-generator": "^3.4@dev"
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.0.x-dev"
+		}
+	}
+}
