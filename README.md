@@ -1,6 +1,11 @@
 # ns-php-http
 
+HTTP message manipulation library
 
+## Features
+
+* Header field value parsing
+* Request body parsing PSR-15 middlewares
 
 ## Installation
 
