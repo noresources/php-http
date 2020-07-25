@@ -24,8 +24,13 @@ class AcceptHeaderValue implements HeaderValueInterface, ParameterMapProviderInt
 	use HeaderValueStringRepresentationTrait;
 	use ParameterMapProviderTrait;
 
-	public static function parseValue($value)
+	/**
+	 *
+	 * @param unknown $text
+	 * @return \NoreSources\MediaType\MediaRange
+	 */
+	public static function parseValue($text)
 	{
-		return MediaRange::fromString($value, false);
+		return MediaRange::fromString($text, false);
 	}
 }

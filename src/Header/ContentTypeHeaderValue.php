@@ -12,7 +12,6 @@ namespace NoreSources\Http\Header;
 
 use NoreSources\MediaType\MediaType;
 use NoreSources\MediaType\MediaTypeInterface;
-use NoreSources\TypeConversion;
 
 /**
  * Content-Type header value
@@ -29,11 +28,11 @@ class ContentTypeHeaderValue implements HeaderValueInterface
 
 	/**
 	 *
-	 * @param string $value
+	 * @param string $text
 	 * @return MediaTypeInterface
 	 */
-	public static function parseValue($value)
+	public static function parseValue($text)
 	{
-		return MediaType::fromString($value, true);
+		return MediaType::fromString($text, true);
 	}
 }

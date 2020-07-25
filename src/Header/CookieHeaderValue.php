@@ -22,13 +22,14 @@ class CookieHeaderValue implements HeaderValueInterface
 
 	/**
 	 *
-	 * @param string $value
+	 * @param string $text
+	 *        	Text representation of the header field value
 	 * @return \ArrayObject
 	 */
-	public static function parseValue($value)
+	public static function parseValue($text)
 	{
 		$a = [];
-		\parse_str($value, $a);
+		\parse_str($text, $a);
 		return new \ArrayObject($a);
 	}
 }
