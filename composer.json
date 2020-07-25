@@ -22,7 +22,8 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"NoreSources\\Http\\Test\\": "tests/Private"
+			"NoreSources\\Http\\Test\\": "tests/Private",
+			"NoreSources\\Http\\Tools\\": "tools/src"
 		}
 	},
 	"minimum-stability": "dev",
