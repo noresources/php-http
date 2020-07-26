@@ -30,7 +30,6 @@
 	"require": {
 		"php": ">=7.0",
 		"psr/http-message": "~1.0",
-		"noresources/ns-php-core": "~2.0-dev",
 		"noresources/ns-php-mediatype": "~1.1",
 		"psr/http-server-middleware": "^1.0@dev",
 		"noresources/ns-php-http-core": "~1.0"

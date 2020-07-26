@@ -39,7 +39,7 @@ final class HeaderValueFactoryTest extends \PHPUnit\Framework\TestCase
 				'error' => 0
 			],
 			'content-type with invalid media type' => [
-				'line' => 'Content-Type:  te+xt/html',
+				'line' => 'Content-Type:  te=xt/html',
 				'name' => null,
 				'value' => null,
 				'error' => InvalidHeaderException::INVALID_HEADER_VALUE
@@ -54,7 +54,8 @@ final class HeaderValueFactoryTest extends \PHPUnit\Framework\TestCase
 			$value = null;
 			try
 			{
-				list ($name, $value) = HeaderValueFactory::fromHeaderLine($test->line, true);
+				list ($name, $value) = HeaderValueFactory::fromHeaderLine(
+					$test->line, true);
 			}
 			catch (InvalidHeaderException $e)
 			{
@@ -63,14 +64,17 @@ final class HeaderValueFactoryTest extends \PHPUnit\Framework\TestCase
 
 			if ($test->error !== 0)
 			{
-				$this->assertEquals($test->error, $error, $label . ' error code');
+				$this->assertEquals($test->error, $error,
+					$label . ' error code');
 				continue;
 			}
 
-			$this->assertEquals($test->name, \strtolower($name), $label . ' name');
+			$this->assertEquals($test->name, \strtolower($name),
+				$label . ' name');
 			$this->assertInstanceOf(HeaderValueInterface::class, $value,
 				$label . ' value is a ' . HeaderValueInterface::class);
-			$this->assertEquals($test->value, \strval($value->getValue()), $label . ' value');
+			$this->assertEquals($test->value, \strval($value),
+				$label . ' value');
 		}
 	}
 }

@@ -12,10 +12,10 @@ namespace NoreSources\Http;
 
 use NoreSources\Container;
 
-final class ContentTypeTest extends \PHPUnit\Framework\TestCase
+final class RFC7230Test extends \PHPUnit\Framework\TestCase
 {
 
-	public function testParseyntex()
+	public function testRegex()
 	{
 		$tests = [
 			'param-value token' => [

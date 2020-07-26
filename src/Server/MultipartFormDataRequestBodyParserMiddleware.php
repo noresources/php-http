@@ -15,11 +15,11 @@ use NoreSources\TypeDescription;
 use NoreSources\Http\UploadedFile;
 use NoreSources\Http\Header\ContentDispositionHeaderValue;
 use NoreSources\Http\Header\ContentTypeHeaderValue;
-use NoreSources\Http\Header\Header;
+use NoreSources\Http\Header\HeaderField;
 use NoreSources\Http\Header\HeaderFieldMap;
+use NoreSources\Http\Header\HeaderFieldParser;
 use NoreSources\Http\Header\HeaderValueFactory;
 use NoreSources\Http\Header\HeaderValueInterface;
-use NoreSources\Http\Header\MessageHeaderParser;
 use NoreSources\MediaType\MediaRange;
 use NoreSources\MediaType\MediaTypeFactory;
 use Psr\Http\Message\ResponseInterface;
@@ -28,32 +28,32 @@ use Psr\Http\Message\StreamInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class MultipartFormDataRequestBodyParserMiddleware implements MiddlewareInterface
+class MultipartFormDataRequestBodyParserMiddleware implements
+	MiddlewareInterface
 {
 
 	const EOL = "\r\n";
 
 	const EOL_LENGTH = 2;
 
-	public function __construct()
-	{}
-
-	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+	public function process(ServerRequestInterface $request,
+		RequestHandlerInterface $handler): ResponseInterface
 	{
-		if (!$request->hasHeader(Header::CONTENT_TYPE))
+		if (!$request->hasHeader(HeaderField::CONTENT_TYPE))
 			return $handler->handle($request);
 
 		/**
 		 *
 		 * @var ContentTypeHeaderValue $contentType
 		 */
-		$contentType = HeaderValueFactory::fromRequest($request, Header::CONTENT_TYPE);
+		$contentType = HeaderValueFactory::fromMessage($request,
+			HeaderField::CONTENT_TYPE);
 
 		/**
 		 *
 		 * @var MediaRange $mediaType
 		 */
-		$mediaType = $contentType->getValue();
+		$mediaType = $contentType->getMediaType();
 
 		if (\strcasecmp($mediaType, 'multipart/form-data'))
 			return $handler->handle($request);
@@ -79,45 +79,52 @@ class MultipartFormDataRequestBodyParserMiddleware implements MiddlewareInterfac
 			}
 
 			// Headers
-			$parser = new MessageHeaderParser('\strtolower',
+			$parser = new HeaderFieldParser('\strtolower',
 				[
 					HeaderValueFactory::class,
 					'fromKeyValue'
 				]);
 			$headers = new HeaderFieldMap($parser->parse($stream));
 
-			self::processPart($fields, $files, $headers, $stream, $boundary);
+			self::processPart($fields, $files, $headers, $stream,
+				$boundary);
 		} // eof
 
-		return $handler->handle($request->withUploadedFiles($files)
-			->withParsedBody($fields));
+		return $handler->handle(
+			$request->withUploadedFiles($files)
+				->withParsedBody($fields));
 	}
 
-	private static function processPart(&$fields, &$files, HeaderFieldMap $headers,
-		StreamInterface $stream, $boundary)
+	private static function processPart(&$fields, &$files,
+		HeaderFieldMap $headers, StreamInterface $stream, $boundary)
 	{
-		$disposition = Container::keyValue($headers, Header::CONTENT_DISPOSITION);
+		$disposition = Container::keyValue($headers,
+			HeaderField::CONTENT_DISPOSITION);
 
 		if ($disposition instanceof ContentDispositionHeaderValue)
 		{
 			if ($disposition->getParameters()->offsetExists('filename'))
-				return self::processFilePart($files, $headers, $stream, $boundary, $disposition);
+				return self::processFilePart($files, $headers, $stream,
+					$boundary, $disposition);
 			else
-				return self::processFormData($fields, $headers, $stream, $boundary, $disposition);
+				return self::processFormData($fields, $headers, $stream,
+					$boundary, $disposition);
 		}
 	}
 
-	private static function processFormData(&$fields, HeaderFieldMap $headers,
-		StreamInterface $stream, $boundary, ContentDispositionHeaderValue $disposition)
+	private static function processFormData(&$fields,
+		HeaderFieldMap $headers, StreamInterface $stream, $boundary,
+		ContentDispositionHeaderValue $disposition)
 	{
 		$name = $disposition->getParameters()['name'];
 		$data = null;
 
-		$contentLength = Container::keyValue($headers, Header::CONTENT_LENGTH);
+		$contentLength = Container::keyValue($headers,
+			HeaderField::CONTENT_LENGTH);
 
 		if ($contentLength instanceof HeaderValueInterface)
 		{
-			$length = \intval($contentLength->getValue());
+			$length = $contentLength->getIntegerValue();
 			$data = $stream->read($length);
 		}
 		else
@@ -135,7 +142,8 @@ class MultipartFormDataRequestBodyParserMiddleware implements MiddlewareInterfac
 				if ($p !== false)
 				{
 					$data = \substr($data, 0, $p - self::EOL_LENGTH);
-					$stream->seek($t + \strlen($data) + self::EOL_LENGTH);
+					$stream->seek(
+						$t + \strlen($data) + self::EOL_LENGTH);
 					break;
 				}
 
@@ -148,13 +156,16 @@ class MultipartFormDataRequestBodyParserMiddleware implements MiddlewareInterfac
 		$fields[$name] = $data;
 	}
 
-	private static function processFilePart(&$files, HeaderFieldMap $headers,
-		StreamInterface $stream, $boundary, ContentDispositionHeaderValue $disposition)
+	private static function processFilePart(&$files,
+		HeaderFieldMap $headers, StreamInterface $stream, $boundary,
+		ContentDispositionHeaderValue $disposition)
 	{
 		$name = $disposition->getParameters()['name'];
 		$filename = $disposition->getParameters()['filename'];
-		$contentLength = Container::keyValue($headers, Header::CONTENT_LENGTH);
-		$contentType = Container::keyValue($headers, Header::CONTENT_TYPE);
+		$contentLength = Container::keyValue($headers,
+			HeaderField::CONTENT_LENGTH);
+		$contentType = Container::keyValue($headers,
+			HeaderField::CONTENT_TYPE);
 
 		$length = null;
 		$mediaType = null;
@@ -163,7 +174,7 @@ class MultipartFormDataRequestBodyParserMiddleware implements MiddlewareInterfac
 			$length = \intval($contentLength->getValue());
 
 		if ($contentType instanceof ContentTypeHeaderValue)
-			$mediaType = \strval($contentType->getValue());
+			$mediaType = \strval($contentType->getMediaType());
 
 		if (!\is_array($files))
 			$files = [];
@@ -172,16 +183,19 @@ class MultipartFormDataRequestBodyParserMiddleware implements MiddlewareInterfac
 
 		if (!(\is_string($directory) && \is_dir($directory)))
 		{
-			$files[$name] = new UploadedFile(null, $length, $filename, $mediaType,
-				UPLOAD_ERR_NO_TMP_DIR);
+			$files[$name] = new UploadedFile(null, $length, $filename,
+				$mediaType, UPLOAD_ERR_NO_TMP_DIR);
 			return;
 		}
 
-		$resource = \fopen(\tempnam($directory, TypeDescription::getLocalName(static::class)), 'wb');
-		if (!(\is_resource($resource) && \get_resource_type($resource) == 'stream'))
+		$resource = \fopen(
+			\tempnam($directory,
+				TypeDescription::getLocalName(static::class)), 'wb');
+		if (!(\is_resource($resource) &&
+			\get_resource_type($resource) == 'stream'))
 		{
-			$files[$name] = new UploadedFile(null, $length, $filename, $mediaType,
-				UPLOAD_ERR_NO_FILE);
+			$files[$name] = new UploadedFile(null, $length, $filename,
+				$mediaType, UPLOAD_ERR_NO_FILE);
 			return;
 		}
 
@@ -214,8 +228,8 @@ class MultipartFormDataRequestBodyParserMiddleware implements MiddlewareInterfac
 
 					if ($result === false)
 					{
-						$files[$name] = new UploadedFile($uri, $length, $filename, $mediaType,
-							UPLOAD_ERR_CANT_WRITE);
+						$files[$name] = new UploadedFile($uri, $length,
+							$filename, $mediaType, UPLOAD_ERR_CANT_WRITE);
 						return;
 					}
 
@@ -228,8 +242,8 @@ class MultipartFormDataRequestBodyParserMiddleware implements MiddlewareInterfac
 				$result = \fwrite($resource, $buffer, $w);
 				if ($result === false)
 				{
-					$files[$name] = new UploadedFile($uri, $length, $filename, $mediaType,
-						UPLOAD_ERR_CANT_WRITE);
+					$files[$name] = new UploadedFile($uri, $length,
+						$filename, $mediaType, UPLOAD_ERR_CANT_WRITE);
 					return;
 				}
 				$length += $w;
@@ -240,8 +254,8 @@ class MultipartFormDataRequestBodyParserMiddleware implements MiddlewareInterfac
 		$result = \fclose($resource);
 		if ($result === false)
 		{
-			$files[$name] = new UploadedFile($uri, $length, $filename, $mediaType,
-				UPLOAD_ERR_CANT_WRITE);
+			$files[$name] = new UploadedFile($uri, $length, $filename,
+				$mediaType, UPLOAD_ERR_CANT_WRITE);
 			return;
 		}
 
@@ -255,6 +269,7 @@ class MultipartFormDataRequestBodyParserMiddleware implements MiddlewareInterfac
 			{}
 		}
 
-		$files[$name] = new UploadedFile($uri, $length, $filename, $mediaType, UPLOAD_ERR_OK);
+		$files[$name] = new UploadedFile($uri, $length, $filename,
+			$mediaType, UPLOAD_ERR_OK);
 	}
 }

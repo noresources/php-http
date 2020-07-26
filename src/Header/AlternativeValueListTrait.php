@@ -15,6 +15,11 @@ use NoreSources\Container;
 trait AlternativeValueListTrait
 {
 
+	public function __construct($alternatives)
+	{
+		$this->setAlternatives($alternatives);
+	}
+
 	public function getAlternative($index)
 	{
 		if ($this->alternativeValues->offsetExists($index))
@@ -36,8 +41,8 @@ trait AlternativeValueListTrait
 	public function __toString()
 	{
 		return Container::implode($this->alternativeValues, ', ',
-			function ($index, $range) {
-				return \strval($range);
+			function ($index, $value) {
+				return \strval($value);
 			});
 	}
 

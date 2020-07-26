@@ -11,11 +11,11 @@
 namespace NoreSources\Http\Header;
 
 use NoreSources\ArrayRepresentation;
-use NoreSources\Http\CaseInsensitiveKeyMapTrait;
+use NoreSources\CaseInsensitiveKeyMapTrait;
 use Psr\Container\ContainerInterface;
 
-class HeaderFieldMap implements \ArrayAccess, ArrayRepresentation, ContainerInterface, \Countable,
-	\IteratorAggregate
+class HeaderFieldMap implements \ArrayAccess, ArrayRepresentation,
+	ContainerInterface, \Countable, \IteratorAggregate
 {
 	use CaseInsensitiveKeyMapTrait;
 }

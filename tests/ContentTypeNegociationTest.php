@@ -10,8 +10,7 @@
  */
 namespace NoreSources\Http;
 
-use NoreSources\Http\Header\AcceptAlternativeValueList;
-use NoreSources\Http\Header\ContentTypeHeaderValue;
+use NoreSources\Http\Header\HeaderField;
 use NoreSources\Http\Header\HeaderValueFactory;
 
 final class ContentTypeNegociationtTest extends \PHPUnit\Framework\TestCase
@@ -37,12 +36,13 @@ final class ContentTypeNegociationtTest extends \PHPUnit\Framework\TestCase
 		foreach ($tests as $label => $test)
 		{
 			$test = (object) $test;
-			$accept = HeaderValueFactory::fromKeyValue('Accept', $test->accept);
+			$accept = HeaderValueFactory::fromKeyValue(HeaderField::ACCEPT, $test->accept);
 			foreach ($test->mediaTypes as $mediaTypeString => $expectedQualityValue)
 			{
-				$contentType = HeaderValueFactory::fromKeyValue('Content-Type', $mediaTypeString);
+				$contentType = HeaderValueFactory::fromKeyValue(HeaderField::CONTENT_TYPE,
+					$mediaTypeString);
 				$qualityValue = ContentTypeNegociation::getContentTypeQualityValue(
-					$contentType->getValue(), $accept);
+					$contentType->getMediaType(), $accept);
 
 				$this->assertEquals($expectedQualityValue, $qualityValue,
 					$label . ' vs ' . $mediaTypeString);

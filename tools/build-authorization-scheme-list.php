@@ -18,7 +18,7 @@ require (__DIR__ . '/../vendor/autoload.php');
 $fileHeader = \file_get_contents(__DIR__ . '/../resources/templates/class-file-header.txt');
 $fileHeader = \str_replace('{year}', date('Y'), $fileHeader);
 
-$className = 'AuthorizationScheme';
+$className = 'AuthenticationScheme';
 $directory = 'Authentication';
 $dataFilename = 'authschemes.csv';
 
@@ -56,7 +56,7 @@ while ($entry = \fgetcsv($dataStream))
 	$referenceLinks = FileBuilderHelper::makePhpDocReferenceLinks($references);
 
 	$constantName = \strtoupper(\preg_replace(',[^a-zA-Z0-9],', '_', $name));
-	$constantComment = $name . ' HTTP Authorization scheme.' . PHP_EOL . $notes . PHP_EOL .
+	$constantComment = $name . ' HTTP Authentication scheme.' . PHP_EOL . $notes . PHP_EOL .
 		$referenceLinks;
 
 	$constant = $cls->addConstant($constantName, $name);

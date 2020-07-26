@@ -13,23 +13,26 @@ namespace NoreSources\Http\Header;
 /**
  * Cookie header value type
  */
-class CookieHeaderValue implements HeaderValueInterface
+class CookieHeaderValue extends \ArrayObject implements HeaderValueInterface
 {
-	use HeaderValueStringRepresentationTrait;
-	use HeaderValueTrait;
 
-	const VALUE_CLASS_NAME = \ArrayObject::class;
+	public function __construct($cookies = array())
+	{
+		parent::__construct($cookies);
+	}
 
-	/**
-	 *
-	 * @param string $text
-	 *        	Text representation of the header field value
-	 * @return \ArrayObject
-	 */
-	public static function parseValue($text)
+	public function __toString()
+	{
+		return \http_build_query($this->getArrayCopy());
+	}
+
+	public static function parseFieldValueString($text)
 	{
 		$a = [];
 		\parse_str($text, $a);
-		return new \ArrayObject($a);
+		return [
+			new CookieHeaderValue($a),
+			\strlen($text)
+		];
 	}
 }

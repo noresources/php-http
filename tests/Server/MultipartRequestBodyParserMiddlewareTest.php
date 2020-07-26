@@ -13,6 +13,7 @@ namespace NoreSources\Http;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\Diactoros\Response\TextResponse;
 use NoreSources\Http\Server\MultipartFormDataRequestBodyParserMiddleware;
+use NoreSources\Http\Test\ClosureRequestHandler;
 use NoreSources\Http\Test\Utility;
 use Psr\Http\Message\ServerRequestInterface;
 

@@ -1,8 +1,11 @@
 <?php
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\Diactoros\Response\TextResponse;
-use NoreSources\Http\ClosureRequestHandler;
+use NoreSources\Container;
+use NoreSources\TypeDescription;
 use NoreSources\Http\Server\MultipartFormDataRequestBodyParserMiddleware;
+use NoreSources\Http\Server\StructuredTextRequestBodyParserMiddleware;
+use NoreSources\Http\Test\ClosureRequestHandler;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
 
@@ -31,7 +34,8 @@ function print_request_files(ServerRequestInterface $request)
 	{
 		if ($file instanceof UploadedFileInterface)
 		{
-			echo ($file->getClientFilename() . ' ' . $file->getSize() . PHP_EOL);
+			echo ($file->getClientFilename() . ' ' . $file->getSize() .
+				PHP_EOL);
 		}
 	}
 }
@@ -46,9 +50,16 @@ include_once (__DIR__ . '/../../../vendor/autoload.php');
 
 $request = ServerRequestFactory::fromGlobals();
 
-// print_request($request);
+print_request($request);
 
-$mw = new MultipartFormDataRequestBodyParserMiddleware();
+$base = basename($request->getUri()->getPath());
+$middlewares = [
+	'multipart' => new MultipartFormDataRequestBodyParserMiddleware(),
+	'structured' => new StructuredTextRequestBodyParserMiddleware()
+];
+
+$mw = Container::keyValue($middlewares, $base,
+	Container::firstValue($middlewares));
 
 $resultRequest = null;
 $response = $mw->process($request,
@@ -58,7 +69,8 @@ $response = $mw->process($request,
 			return new TextResponse('OK');
 		}));
 
-echo ('-- After middleware --------------------------------------------' . PHP_EOL);
+echo ('-- After ' . TypeDescription::getLocalName($mw) .
+	' --------------------------------------------' . PHP_EOL);
 print_request_parsed($resultRequest);
 print_request_files($resultRequest);
 foreach ($resultRequest->getUploadedFiles() as $key => $value)
@@ -68,6 +80,7 @@ foreach ($resultRequest->getUploadedFiles() as $key => $value)
 	if ($value instanceof UploadedFileInterface)
 		$value->moveTo($filepath);
 	else
-		echo ($value->getClientFilename() . ' error ' . $value->getError() . PHP_EOL);
+		echo ($value->getClientFilename() . ' error ' .
+			$value->getError() . PHP_EOL);
 }
 

@@ -18,6 +18,21 @@ final class AcceptTest extends \PHPUnit\Framework\TestCase
 
 	public function testParse()
 	{
+		$strangeParameters = [
+			'charset' => 'utf-8',
+			'delimiter' => 'comma, or semicolon; delimiter'
+		];
+		$strangeExtensions = [
+			'ext' => 'What ? "If" !'
+		];
+
+		$allParameters = \array_merge($strangeParameters, [
+			'q' => 0.5
+		], $strangeExtensions);
+
+		$strangeParameterString = ParameterMapSerializer::serializeParameters(
+			$allParameters);
+
 		$tests = [
 			'Basic' => [
 				'string' => 'text/plain',
@@ -60,6 +75,18 @@ final class AcceptTest extends \PHPUnit\Framework\TestCase
 				],
 				'valid' => true
 			],
+			'Uncommon parameter values' => [
+				'string' => 'foo/bar; ' . $strangeParameterString,
+				'valid' => true,
+				'alternatives' => [
+					[
+						'mediaRange' => 'foo/bar',
+						'quality' => 0.5,
+						'parameters' => $strangeParameters,
+						'extensions' => $strangeExtensions
+					]
+				]
+			],
 			'Basic list' => [
 				'string' => 'text/plain , text/html',
 				'alternatives' => [
@@ -77,6 +104,24 @@ final class AcceptTest extends \PHPUnit\Framework\TestCase
 					]
 				],
 				'valid' => true
+			],
+			'A real use case' => [
+				'string' => 'text/javascript, */*; q=0.01',
+				'valid' => true,
+				'alternatives' => [
+					[
+						'mediaRange' => 'text/javascript',
+						'quality' => 1.0,
+						'parameters' => [],
+						'extensions' => []
+					],
+					[
+						'mediaRange' => '*/*',
+						'quality' => 0.01,
+						'parameters' => [],
+						'extensions' => []
+					]
+				]
 			]
 		];
 
@@ -86,7 +131,8 @@ final class AcceptTest extends \PHPUnit\Framework\TestCase
 			$valid = false;
 			try
 			{
-				$accept = HeaderValueFactory::fromKeyValue('accept', $test->string);
+				$accept = HeaderValueFactory::fromKeyValue('accept',
+					$test->string);
 				$valid = true;
 			}
 			catch (\Exception $e)
@@ -99,11 +145,12 @@ final class AcceptTest extends \PHPUnit\Framework\TestCase
 			$this->assertEquals($test->valid, $valid,
 				$label . ' is ' . ($test->valid ? '' : 'not ') . 'valid');
 
-			$this->assertInstanceOf(AcceptAlternativeValueList::class, $accept,
-				$label . ', class type');
+			$this->assertInstanceOf(AcceptAlternativeValueList::class,
+				$accept, $label . ', class type');
 			$this->assertInstanceOf(\Countable::class, $accept);
 
-			$this->assertCount(\count($test->alternatives), $accept, $label . ', alternative count');
+			$this->assertCount(\count($test->alternatives), $accept,
+				$label . ', alternative count');
 
 			foreach ($test->alternatives as $index => $alternative)
 			{
@@ -111,33 +158,40 @@ final class AcceptTest extends \PHPUnit\Framework\TestCase
 				$actual = $accept->getAlternative($index);
 				$lbl = $label . ' alternative [' . $index . ']';
 
-				$this->assertEquals($expected->mediaRange, strval($actual->getValue()),
+				$this->assertEquals($expected->mediaRange,
+					strval($actual->getMediaRange()),
 					$lbl . ' media range');
 
-				$this->assertEquals($expected->quality, $actual->getQualityValue(),
-					$lbl . ' quality value');
+				$this->assertEquals($expected->quality,
+					$actual->getQualityValue(), $lbl . ' quality value');
 
 				$this->assertCount(\count($expected->parameters),
-					$actual->getValue()
-						->getParameters(), $lbl . ' media range parameter count');
+					$actual->getMediaRange()
+						->getParameters(),
+					$lbl . ' media range parameter count');
 
 				foreach ($expected->parameters as $k => $v)
 				{
-					$this->assertEquals($v, $actual->getValue()
-						->getParameters()[$k], $lbl . ' parameter ' . $k . ' value');
+					$this->assertEquals($v,
+						$actual->getMediaRange()
+							->getParameters()[$k],
+						$lbl . ' parameter ' . $k . ' value');
 				}
 
-				$this->assertCount(\count($expected->extensions), $actual->getParameters(),
-					$lbl . ' extensions count');
+				$this->assertCount(\count($expected->extensions),
+					$actual->getExtensions(), $lbl . ' extensions count');
 
 				foreach ($expected->extensions as $k => $v)
 				{
-					$this->assertArrayHasKey($k, $actual->getParameters(),
+					$this->assertArrayHasKey($k,
+						$actual->getExtensions(),
 						$lbl . ' extension ' . $k . ' presence');
 
-					if ($actual->getParameters()->offsetExists($k))
-						$this->assertEquals($v, $actual->getParameters()
-							->offsetGet($k), $lbl . ' extension ' . $k . ' value');
+					if ($actual->getExtensions()->offsetExists($k))
+						$this->assertEquals($v,
+							$actual->getExtensions()
+								->offsetGet($k),
+							$lbl . ' extension ' . $k . ' value');
 				}
 			}
 		}

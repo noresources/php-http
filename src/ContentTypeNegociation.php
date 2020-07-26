@@ -36,7 +36,7 @@ class ContentTypeNegociation
 		{
 			if ($acceptedMediaRange instanceof AcceptHeaderValue)
 			{
-				$mediaRange = $acceptedMediaRange->getValue();
+				$mediaRange = $acceptedMediaRange->getMediaRange();
 				assert($mediaRange instanceof MediaTypeInterface);
 				;
 

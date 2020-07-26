@@ -53,12 +53,12 @@ final class ContentTypeTest extends \PHPUnit\Framework\TestCase
 			$this->assertEquals($test->valid, $valid,
 				$label . ' is ' . ($test->valid ? '' : 'not ') . 'valid');
 
-			$this->assertEquals($test->mediaType, strval($contentType->getValue()));
+			$this->assertEquals($test->mediaType, strval($contentType->getMediaType()));
 			$this->assertEquals($test->charset,
-				$contentType->getValue()
+				$contentType->getMediaType()
 					->getParameters()['charset'], $label . ' charset');
 			$this->assertEquals($test->boundary,
-				strval($contentType->getValue()
+				strval($contentType->getMediaType()
 					->getParameters()['boundary']), $label . ' boundary');
 		}
 	}

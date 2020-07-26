@@ -26,6 +26,11 @@ trait QualityValueTrait
 		$this->qualityValue = min(1, max(0.001, $qualityValue));
 	}
 
+	public function getQualityValueParameterString()
+	{
+		return \sprintf("q=%.2f", $this->qualityValue);
+	}
+
 	/**
 	 *
 	 * @var float Quality value in the range [0.001, 1]

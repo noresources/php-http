@@ -11,13 +11,11 @@
 namespace NoreSources\Http;
 
 use Laminas\Diactoros\ServerRequestFactory;
-use Psr\Http\Message\ServerRequestInterface;
-use Laminas\Diactoros\PhpInputStream;
-use Laminas\Diactoros\Stream;
-use NoreSources\Http\Test\Utility;
-use NoreSources\Http\Server\StructuredTextRequestBodyParserMiddleware;
 use Laminas\Diactoros\Response\JsonResponse;
-use NoreSources\Http\ClosureRequestHandler;
+use NoreSources\Http\Server\StructuredTextRequestBodyParserMiddleware;
+use NoreSources\Http\Test\ClosureRequestHandler;
+use NoreSources\Http\Test\Utility;
+use Psr\Http\Message\ServerRequestInterface;
 
 final class StructuredTextParserTest extends \PHPUnit\Framework\TestCase
 {

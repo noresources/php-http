@@ -14,12 +14,10 @@ use Nette\PhpGenerator\Dumper;
 use Nette\PhpGenerator\Literal;
 use Nette\PhpGenerator\PhpFile;
 use NoreSources\TypeDescription;
-use NoreSources\Http\Header\AcceptAlternativeValueList;
+use NoreSources\Http\Header\AlternativeValueListInterface;
 use NoreSources\Http\Header\AlternativeValueListTrait;
 use NoreSources\Http\Header\HeaderValueFactory;
 use NoreSources\Http\Header\HeaderValueInterface;
-use NoreSources\Http\Header\HeaderValueStringRepresentationTrait;
-use NoreSources\Http\Header\HeaderValueTrait;
 use NoreSources\Http\Header\TextHeaderValue;
 require (__DIR__ . '/../vendor/autoload.php');
 
@@ -28,13 +26,29 @@ $headerName = null;
 $createAlternativeValueListClass = false;
 $fileBasePath = __DIR__ . '/../src/Header';
 $overwrite = false;
+$useQualityValue = false;
 
 foreach ($argv as $value)
 {
+	if ($value == '-h' || $value == '--help')
+	{
+		echo ($_SERVER['argv'][0] . ' [options] <header field name>' . PHP_EOL);
+		echo <<< EOF
+ 
+	-a: Create AlternativeValueList class
+	-f: Overwrite existing files
+	-q: HeaderValue class implements QualityValueInterface
+
+
+EOF;
+		exit (0);
+	}
 	if ($value == '-a')
 		$createAlternativeValueListClass = true;
 	elseif ($value == '-f')
 		$overwrite = true;
+	elseif ($value == '-q')
+		$useQualityValue = true;
 	else
 		$headerName = $value;
 }
@@ -46,26 +60,31 @@ $fileHeader = \str_replace('{year}', date('Y'), $fileHeader);
 $projectPath = realPath(__DIR__ . '/..');
 
 $interfaceNames = [
-	AcceptAlternativeValueList::class,
-	HeaderValueInterface::class
+	[ AlternativeValueListInterface::class ],
+	[ HeaderValueInterface::class ]
 ];
 
 $traits = [
 	[
 		AlternativeValueListTrait::class
 	],
-	[
-		HeaderValueStringRepresentationTrait::class,
-		HeaderValueTrait::class
-	]
+	[]
 ];
 
 $constants = [
-	[],
+
 	[
-		'VALUE_CLASS_NAME' => new Literal(TextHeaderValue::class . '::class')
-	]
+		'HEADERVALUE_CLASSNAME' => new Literal(TextHeaderValue::class . '::class'),
+		'VALUE_DELIMITER' => ','
+	],
+	[]
 ];
+
+if ($useQualityValue)
+{
+	$interfaceNames[1][] = QualityValueInterface::class;
+	$traits[1][] = QualityValueTrait::class;
+}
 
 foreach ($classnames as $index => $classname)
 {
@@ -82,7 +101,8 @@ foreach ($classnames as $index => $classname)
 	$ns = $classFile->addNamespace('NoreSources\Http\Header');
 
 	$cls = $ns->addClass($classname);
-	$cls->addImplement($interfaceNames[$index]);
+	foreach ($interfaceNames[$index] as $i)
+		$cls->addImplement($i);
 	foreach ($traits[$index] as $trait)
 	{
 		$cls->addTrait($trait);

@@ -21,18 +21,48 @@ use NoreSources\MediaType\MediaTypeInterface;
  */
 class ContentTypeHeaderValue implements HeaderValueInterface
 {
-	use HeaderValueStringRepresentationTrait;
-	use HeaderValueTrait;
 
-	const VALUE_CLASS_NAME = MediaType::class;
+	public function __construct(MediaType $mediaType = null)
+	{
+		$this->mediaType = $mediaType;
+	}
+
+	public function __toString()
+	{
+		if ($this->mediaType instanceof MediaTypeInterface)
+			return $this->mediaType->serialize();
+		return '';
+	}
+
+	/**
+	 *
+	 * @return \NoreSources\MediaType\MediaType
+	 */
+	public function getMediaType()
+	{
+		return $this->mediaType;
+	}
 
 	/**
 	 *
 	 * @param string $text
-	 * @return MediaTypeInterface
+	 *        	Header value
+	 * @return \NoreSources\Http\Header\ContentTypeHeaderValue[]|number[] Array containing The
+	 *         HeaderValue and the consumned bytes
 	 */
-	public static function parseValue($text)
+	public static function parseFieldValueString($text)
 	{
-		return MediaType::fromString($text, true);
+		$mediaType = new MediaType(null, null);
+		$mediaType->unserialize(\trim($text));
+		return [
+			new ContentTypeHeaderValue($mediaType),
+			\strlen($text)
+		];
 	}
+
+	/**
+	 *
+	 * @var MediaType
+	 */
+	private $mediaType;
 }

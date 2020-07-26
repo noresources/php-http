@@ -14,7 +14,7 @@ namespace NoreSources\Http\Authentication;
 /**
  * HTTM Authenication schemes
  */
-class AuthorizationScheme
+class AuthenticationScheme
 {
 	/**
 	 * Basic HTTP Authorization scheme.

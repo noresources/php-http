@@ -8,7 +8,7 @@
  *
  * @package Http
  */
-namespace NoreSources\Http;
+namespace NoreSources\Http\Test;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

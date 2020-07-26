@@ -11,42 +11,75 @@
 namespace NoreSources\Http\Header;
 
 use NoreSources\Container;
-use NoreSources\Http\ParameterMapProviderInterface;
-use NoreSources\Http\ParameterMapSerializer;
-use NoreSources\Http\QualityValueInterface;
 use NoreSources\Http\RFC7230;
+use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
 
 class HeaderValueFactory
 {
 
 	/**
+	 * Get the expected Header value class names for the given header name
 	 *
-	 * @param string $headerName
-	 * @param RequestInterface $request
+	 * @param string $headerFieldName
+	 *        	Header field name
+	 * @return string[] AlternativeValueList and HeaderValue class names
+	 */
+	public static function getHeaderValueClassnames($headerFieldName)
+	{
+		$camelCaseHeeaderName = Container::implodeValues(
+			explode('-', \strtolower($headerFieldName)), '',
+			function ($part) {
+				return strtoupper(\substr($part, 0, 1)) .
+				\strtolower(\substr($part, 1));
+			});
+
+		return [
+			(__NAMESPACE__ . '\\' . $camelCaseHeeaderName .
+			'AlternativeValueList'),
+			(__NAMESPACE__ . '\\' . $camelCaseHeeaderName . 'HeaderValue')
+		];
+	}
+
+	/**
+	 *
+	 * @param string $headerFieldName
+	 * @param MessageInterface $message
 	 * @param boolean $multiple
 	 * @return AlternativeValueListInterface|HeaderValueInterface
 	 */
-	public static function fromRequest(RequestInterface $request, $headerName, $multiple = false)
+	public static function fromMessage(MessageInterface $message,
+		$headerFieldName, $multiple = false)
 	{
-		if (!$request->hasHeader($headerName))
+		if (!$message->hasHeader($headerFieldName))
 			return ($multiple) ? array() : null;
 
-		$headerValues = $request->getHeader($headerName);
+		$headerValues = $message->getHeader($headerFieldName);
 
 		if ($multiple)
 		{
-			$values = [];
+			$alternatives = [];
 			foreach ($headerValues as $headerValue)
 			{
-				$values[] = self::fromKeyValue($headerName, $headerValue);
+				$alternatives[] = self::fromKeyValue($headerFieldName,
+					$headerValue);
 			}
 
-			return $values;
+			return $alternatives;
 		}
 
 		$headerValue = Container::firstValue($headerValues);
-		return self::fromKeyValue($headerName, $headerValue);
+		return self::fromKeyValue($headerFieldName, $headerValue);
+	}
+
+	/**
+	 *
+	 * @deprecated Use fromMessage()
+	 */
+	public static function fromRequest(RequestInterface $request,
+		$headerFieldName, $multiple = false)
+	{
+		return self::fromMessage($request, $headerFieldName);
 	}
 
 	/**
@@ -58,12 +91,16 @@ class HeaderValueFactory
 	 * @return HeaderValueInterface|array The header value or an array [name, value] if
 	 *         $returnKeyValue is true
 	 */
-	public static function fromHeaderLine($headerLine, $returnKeyValue = false)
+	public static function fromHeaderLine($headerLine,
+		$returnKeyValue = false)
 	{
-		$pattern = '(' . RFC7230::TOKEN_PATTERN . '):' . RFC7230::OWS_PATTERN . '(.*)';
+		$pattern = '(' . RFC7230::TOKEN_PATTERN . '):' .
+			RFC7230::OWS_PATTERN . '(.*)';
 		$m = [];
-		if (!\preg_match(chr(1) . $pattern . chr(1) . 'i', $headerLine, $m))
-			throw new InvalidHeaderException($pattern, InvalidHeaderException::INVALID_HEADER_LINE);
+		if (!\preg_match(chr(1) . $pattern . chr(1) . 'i', $headerLine,
+			$m))
+			throw new InvalidHeaderException($pattern,
+				InvalidHeaderException::INVALID_HEADER_LINE);
 
 		try
 		{
@@ -85,18 +122,21 @@ class HeaderValueFactory
 
 	/**
 	 *
-	 * @param string $headerName
+	 * @param string $headerFieldName
 	 * @param string $headerValue
 	 * @return AlternativeValueListInterface|HeaderValueInterface
 	 */
-	public static function fromKeyValue($headerName, $headerValue)
+	public static function fromKeyValue($headerFieldName, $headerValue)
 	{
+		$headerValue = \ltrim($headerValue);
+
 		list ($alternativeValueListClassname, $headerValueClassName) = self::getHeaderValueClassnames(
-			$headerName);
+			$headerFieldName);
 
 		if (!(\class_exists($headerValueClassName) &&
 			($reflection = new \ReflectionClass($headerValueClassName)) &&
-			$reflection->implementsInterface(HeaderValueInterface::class)))
+			$reflection->implementsInterface(
+				HeaderValueInterface::class)))
 		{
 			$headerValueClassName = TextHeaderValue::class;
 		}
@@ -104,151 +144,87 @@ class HeaderValueFactory
 		// Alternative list values
 
 		if (\class_exists($alternativeValueListClassname) &&
-			($reflection = new \ReflectionClass($alternativeValueListClassname)) &&
-			$reflection->implementsInterface(AlternativeValueListInterface::class))
+			($listReflection = new \ReflectionClass(
+				$alternativeValueListClassname)) &&
+			$listReflection->implementsInterface(
+				AlternativeValueListInterface::class))
 		{
-			if ($reflection->hasMethod('fromString'))
-				return \call_user_func([
-					$alternativeValueListClassname,
-					'fromString'
-				], $headerValue);
+			if ($listReflection->hasMethod('fromString'))
+				return \call_user_func(
+					[
+						$alternativeValueListClassname,
+						'fromString'
+					], $headerValue);
 
-			$listValueClassName = $headerValueClassName;
-			if ($reflection->hasConstant('HEADERVALUE_CLASSNAME'))
-				$listValueClassName = $reflection->getConstant('HEADERVALUE_CLASSNAME');
+			$valueDelimiter = ',';
+			if ($listReflection->hasConstant('VALUE_DELIMITER'))
+				$valueDelimiter = $listReflection->getConstant(
+					'VALUE_DELIMITER');
 
-			$list = \explode(',', $headerValue);
-			$valueReflection = new \ReflectionClass($listValueClassName);
-			$values = [];
-			foreach ($list as $textValue)
+			if ($listReflection->hasConstant('HEADERVALUE_CLASSNAME'))
+				$headerValueClassName = $listReflection->getConstant(
+					'HEADERVALUE_CLASSNAME');
+
+			$valueReflection = new \ReflectionClass(
+				$headerValueClassName);
+
+			if (!$valueReflection->hasMethod('parseFieldValueString'))
+				throw new \Exception(
+					'No deserialization method available for header');
+
+			$alternatives = [];
+			$delimiter = false;
+
+			do
 			{
-				$values[] = self::parseHeaderValue($textValue, $valueReflection);
-			}
+				list ($instance, $consumed) = \call_user_func(
+					[
+						$headerValueClassName,
+						'parseFieldValueString'
+					], $headerValue);
 
-			return $reflection->newInstanceArgs([
-				$values
+				$alternatives[] = $instance;
+				$headerValue = \ltrim(\substr($headerValue, $consumed));
+
+				$delimiter = \strpos($headerValue, $valueDelimiter);
+				if ($delimiter !== false)
+					$headerValue = \ltrim(
+						\substr($headerValue, $delimiter + 1));
+			}
+			while ($delimiter !== false);
+
+			return $listReflection->newInstanceArgs([
+				$alternatives
 			]);
 		}
 
-		// Simple value
+		// Single value
 
 		if (\class_exists($headerValueClassName) &&
 			($reflection = new \ReflectionClass($headerValueClassName)) &&
-			$reflection->implementsInterface(HeaderValueInterface::class))
+			$reflection->implementsInterface(
+				HeaderValueInterface::class))
 		{
 			if ($reflection->hasMethod('fromString'))
-				return \call_user_func([
-					$headerValueClassName,
-					'fromString'
-				], $headerValue);
+				return \call_user_func(
+					[
+						$headerValueClassName,
+						'fromString'
+					], $headerValue);
 
-			return self::parseHeaderValue($headerValue, $reflection);
+			if ($reflection->hasMethod('parseFieldValueString'))
+			{
+				list ($instance, $consumed) = \call_user_func(
+					[
+						$headerValueClassName,
+						'parseFieldValueString'
+					], $headerValue);
+				return $instance;
+			}
+
+			return $reflection->newInstance($headerValue);
 		}
-		/*
-		 * Fallback
-		 */
+
 		return new TextHeaderValue($headerValue);
-	}
-
-	/**
-	 * Get the expected Header value class names for the given header name
-	 *
-	 * @param string $headerName
-	 *        	Header field name
-	 * @return string[] AlternativeValueList and HeaderValue class names
-	 */
-	public static function getHeaderValueClassnames($headerName)
-	{
-		$camelCaseHeeaderName = Container::implodeValues(explode('-', \strtolower($headerName)), '',
-			function ($part) {
-				return strtoupper(\substr($part, 0, 1)) . \strtolower(\substr($part, 1));
-			});
-
-		return [
-			(__NAMESPACE__ . '\\' . $camelCaseHeeaderName . 'AlternativeValueList'),
-			(__NAMESPACE__ . '\\' . $camelCaseHeeaderName . 'HeaderValue')
-		];
-	}
-
-	private static function parseHeaderValue($headerValueText, \ReflectionClass $headerValueClass)
-	{
-		$valueClassName = null;
-		$valueClass = null;
-		if ($headerValueClass->hasConstant('VALUE_CLASS_NAME') &&
-			($valueClassName = $headerValueClass->getConstant('VALUE_CLASS_NAME')) &&
-			\class_exists($valueClassName))
-			$valueClass = new \ReflectionClass($valueClassName);
-
-		$hasParameters = ($headerValueClass->implementsInterface(
-			ParameterMapProviderInterface::class) ||
-			$headerValueClass->implementsInterface(QualityValueInterface::class) ||
-			($valueClass && $valueClass->implementsInterface(ParameterMapProviderInterface::class)));
-
-		$parametersBefore = new \ArrayObject();
-		$parametersAfter = new \ArrayObject();
-		$qualityValue = null;
-
-		if ($hasParameters)
-		{
-			$semicolon = \strpos($headerValueText, ';');
-			if ($semicolon !== false)
-			{
-				$parametersText = \trim(\substr($headerValueText, $semicolon + 1));
-				$headerValueText = \trim(\substr($headerValueText, 0, $semicolon));
-
-				$consumed = ParameterMapSerializer::unserializeParameters($parametersBefore,
-					$parametersText,
-					function ($name, $value) use ($headerValueClass, &$qualityValue,
-					$parametersAfter) {
-
-						if ($qualityValue !== null)
-						{
-							$parametersAfter->offsetSet($name, $value);
-							return 0;
-						}
-
-						if ($name == 'q' &&
-						$headerValueClass->implementsInterface(QualityValueInterface::class))
-						{
-							$qualityValue = floatval($value);
-							return 0;
-						}
-
-						return 1;
-					});
-			}
-		}
-
-		/**
-		 *
-		 * @var HeaderValueInterface $headerValue
-		 */
-		$headerValue = $headerValueClass->newInstanceArgs([
-			$headerValueText
-		]);
-
-		if ($headerValue instanceof QualityValueInterface)
-			$headerValue->setQualityValue(\is_float($qualityValue) ? $qualityValue : 1.0);
-
-		if ($headerValue->getValue() instanceof ParameterMapProviderInterface)
-		{
-			foreach ($parametersBefore as $name => $value)
-			{
-				$headerValue->getValue()
-					->getParameters()
-					->offsetSet($name, $value);
-			}
-		}
-		elseif ($parametersBefore->count())
-			$parametersAfter->exchangeArray(
-				\array_merge($parametersBefore->getArrayCopy(), $parametersAfter->getArrayCopy()));
-
-		if ($headerValue instanceof ParameterMapProviderInterface)
-		{
-			foreach ($parametersAfter as $name => $value)
-				$headerValue->getParameters()->offsetSet($name, $value);
-		}
-
-		return $headerValue;
 	}
 }

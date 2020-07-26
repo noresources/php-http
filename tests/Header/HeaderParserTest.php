@@ -11,9 +11,9 @@
 namespace NoreSources\Http;
 
 use Laminas\Diactoros\Stream;
-use NoreSources\Http\Header\MessageHeaderParser;
+use NoreSources\Http\Header\HeaderFieldParser;
 
-class MessageHeaderParserTest extends \PHPUnit\Framework\TestCase
+class HeaderFieldParserTest extends \PHPUnit\Framework\TestCase
 {
 
 	public final function testParse()
@@ -24,7 +24,7 @@ class MessageHeaderParserTest extends \PHPUnit\Framework\TestCase
 		$stream = new Stream(\fopen($filename, 'r'));
 		$this->assertFalse($stream->eof());
 
-		$parser = new MessageHeaderParser();
+		$parser = new HeaderFieldParser();
 		$headers = $parser->parse($stream);
 
 		$this->assertCount(2, $headers, 'Header field count');

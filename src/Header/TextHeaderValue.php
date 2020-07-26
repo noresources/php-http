@@ -33,9 +33,14 @@ class TextHeaderValue implements HeaderValueInterface
 		return $this->stringValue;
 	}
 
-	public function getValue()
+	/**
+	 *
+	 * @param string $text
+	 * @return \NoreSources\Http\Header\TextHeaderValue
+	 */
+	public static function fromString($text)
 	{
-		return $this->stringValue;
+		return new TextHeaderValue($text);
 	}
 
 	private $stringValue;

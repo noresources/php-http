@@ -12,7 +12,10 @@ namespace NoreSources\Http\Header;
 
 use Psr\Http\Message\StreamInterface;
 
-class MessageHeaderParser
+/**
+ * Parse HTTP message header fields
+ */
+class HeaderFieldParser
 {
 
 	/**
@@ -36,6 +39,13 @@ class MessageHeaderParser
 		$this->headerValueProcessor = $headerValueProcessor;
 	}
 
+	/**
+	 *
+	 * @param StreamInterface $stream
+	 *        	Request header stream
+	 * @throws \ErrorException
+	 * @return mixed[]
+	 */
 	public function parse(StreamInterface $stream)
 	{
 		$headerLines = [];

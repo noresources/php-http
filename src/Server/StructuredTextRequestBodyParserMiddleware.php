@@ -13,27 +13,32 @@ namespace NoreSources\Http\Server;
 use NoreSources\StructuredText;
 use NoreSources\TypeConversionException;
 use NoreSources\Http\Header\ContentTypeHeaderValue;
-use NoreSources\Http\Header\Header;
+use NoreSources\Http\Header\HeaderField;
 use NoreSources\Http\Header\HeaderValueFactory;
+use NoreSources\Http\Request\LiteralValueRequestBody;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class StructuredTextRequestBodyParserMiddleware implements MiddlewareInterface
+class StructuredTextRequestBodyParserMiddleware implements
+	MiddlewareInterface
 {
 
-	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+	public function process(ServerRequestInterface $request,
+		RequestHandlerInterface $handler): ResponseInterface
 	{
-		if (!$request->hasHeader(Header::CONTENT_TYPE))
+		if (!$request->hasHeader(HeaderField::CONTENT_TYPE))
 			return $handler->handle($request);
 
 		/**
 		 *
 		 * @var ContentTypeHeaderValue $contentType
 		 */
-		$contentType = HeaderValueFactory::fromRequest($request, Header::CONTENT_TYPE);
-		$format = StructuredText::mediaTypeFormat(\strval($contentType->getValue()));
+		$contentType = HeaderValueFactory::fromMessage($request,
+			HeaderField::CONTENT_TYPE);
+		$format = StructuredText::mediaTypeFormat(
+			\strval($contentType->getMediaType()));
 
 		if ($format === false)
 			return $handler->handle($request);
@@ -41,7 +46,11 @@ class StructuredTextRequestBodyParserMiddleware implements MiddlewareInterface
 		try
 		{
 			$request->getBody()->rewind();
-			$data = StructuredText::textToArray($request->getBody()->getContents(), $format);
+			$data = StructuredText::parseText(
+				$request->getBody()->getContents(), $format);
+
+			if (!(\is_object($data) || \is_array($data)))
+				$data = new LiteralValueRequestBody($data);
 
 			return $handler->handle($request->withParsedBody($data));
 		}

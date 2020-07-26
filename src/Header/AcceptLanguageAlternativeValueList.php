@@ -10,15 +10,7 @@
  */
 namespace NoreSources\Http\Header;
 
-use NoreSources\Container;
-use NoreSources\MediaType\MediaRange;
-
 class AcceptLanguageAlternativeValueList implements AlternativeValueListInterface
 {
 	use AlternativeValueListTrait;
-
-	public function __construct($alternatives)
-	{
-		$this->setAlternatives($alternatives);
-	}
 }
