@@ -23,7 +23,7 @@ trait QualityValueTrait
 
 	public function setQualityValue($qualityValue)
 	{
-		$this->qualityValue = min(1, max(0.001, $qualityValue));
+		$this->qualityValue = min(1, max(0, $qualityValue));
 	}
 
 	public function getQualityValueParameterString()
