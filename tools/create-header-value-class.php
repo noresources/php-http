@@ -32,7 +32,8 @@ foreach ($argv as $value)
 {
 	if ($value == '-h' || $value == '--help')
 	{
-		echo ($_SERVER['argv'][0] . ' [options] <header field name>' . PHP_EOL);
+		echo ($_SERVER['argv'][0] . ' [options] <header field name>' .
+			PHP_EOL);
 		echo <<< EOF
  
 	-a: Create AlternativeValueList class
@@ -41,7 +42,7 @@ foreach ($argv as $value)
 
 
 EOF;
-		exit (0);
+		exit(0);
 	}
 	if ($value == '-a')
 		$createAlternativeValueListClass = true;
@@ -55,13 +56,18 @@ EOF;
 
 $classnames = HeaderValueFactory::getHeaderValueClassnames($headerName);
 
-$fileHeader = \file_get_contents(__DIR__ . '/../resources/templates/class-file-header.txt');
+$fileHeader = \file_get_contents(
+	__DIR__ . '/../resources/templates/file-header.txt');
 $fileHeader = \str_replace('{year}', date('Y'), $fileHeader);
 $projectPath = realPath(__DIR__ . '/..');
 
 $interfaceNames = [
-	[ AlternativeValueListInterface::class ],
-	[ HeaderValueInterface::class ]
+	[
+		AlternativeValueListInterface::class
+	],
+	[
+		HeaderValueInterface::class
+	]
 ];
 
 $traits = [
@@ -74,7 +80,8 @@ $traits = [
 $constants = [
 
 	[
-		'HEADERVALUE_CLASSNAME' => new Literal(TextHeaderValue::class . '::class'),
+		'HEADERVALUE_CLASSNAME' => new Literal(
+			TextHeaderValue::class . '::class'),
 		'VALUE_DELIMITER' => ','
 	],
 	[]

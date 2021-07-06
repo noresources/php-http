@@ -6,7 +6,7 @@
 
 /**
  *
- * @package Http
+ * @package HTTP
  */
 namespace NoreSources\Http;
 
