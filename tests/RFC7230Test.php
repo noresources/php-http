@@ -54,7 +54,8 @@ final class RFC7230Test extends \PHPUnit\Framework\TestCase
 		{
 			$test = (object) $test;
 
-			$match = @preg_match(chr(1) . $test->pattern . chr(1), $test->subject, $groups);
+			$match = @preg_match(chr(1) . $test->pattern . chr(1),
+				$test->subject, $groups);
 			$error = error_get_last();
 			if ($match === false)
 				throw new \Exception($error['message']);
@@ -63,7 +64,8 @@ final class RFC7230Test extends \PHPUnit\Framework\TestCase
 			$this->assertEquals($test->match, $match, $label . ' match');
 			if ($test->match)
 			{
-				$this->assertEquals($test->groups, $groups, $label . ' number of capturing groups');
+				$this->assertEquals($test->groups, $groups,
+					$label . ' number of capturing groups');
 			}
 		}
 	}
@@ -113,18 +115,24 @@ final class RFC7230Test extends \PHPUnit\Framework\TestCase
 
 		foreach ($tests as $label => $test)
 		{
-			$test['consumed'] = Container::keyValue($test, 'consumed', \strlen($test['text']));
+			$test['consumed'] = Container::keyValue($test, 'consumed',
+				\strlen($test['text']));
 			$test['accept'] = Container::keyValue($test, 'accept', null);
 			$test = (object) $test;
 
-			$parameters = new HeaderValueParameterMap();
-			$consumed = $parameters->populateFromString($test->text, $test->accept);
+			$parameters = new ParameterMap();
+			$consumed = ParameterMapSerializer::unserializeParameters(
+				$parameters, $test->text,
+				($test->accept ? $test->accept : []));
 
-			$this->assertEquals($test->consumed, $consumed, $label . ' consumed bytes');
+			$this->assertEquals($test->consumed, $consumed,
+				$label . ' consumed bytes');
 
-			$this->assertCount(\count($test->parameters), $parameters, $label . ' parameter count');
+			$this->assertCount(\count($test->parameters), $parameters,
+				$label . ' parameter count');
 
-			$this->assertEquals($test->toString, strval($parameters),
+			$this->assertEquals($test->toString,
+				ParameterMapSerializer::serializeParameters($parameters),
 				$label . ' convert back to string');
 		}
 	}

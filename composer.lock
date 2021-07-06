@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "495c78469d31dc79d0a939f23cc20f12",
+    "content-hash": "78050f68241bbe387f0c16b96efb0fbb",
     "packages": [
         {
             "name": "noresources/ns-php-core",
@@ -819,12 +819,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/php-generator.git",
-                "reference": "2ea0c5fe5f2b4031aef684c259dd437e0ddd6912"
+                "reference": "59bb35ed6e8da95854fbf7b7d47dce6156b42915"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/php-generator/zipball/2ea0c5fe5f2b4031aef684c259dd437e0ddd6912",
-                "reference": "2ea0c5fe5f2b4031aef684c259dd437e0ddd6912",
+                "url": "https://api.github.com/repos/nette/php-generator/zipball/59bb35ed6e8da95854fbf7b7d47dce6156b42915",
+                "reference": "59bb35ed6e8da95854fbf7b7d47dce6156b42915",
                 "shasum": ""
             },
             "require": {
@@ -879,7 +879,7 @@
                 "issues": "https://github.com/nette/php-generator/issues",
                 "source": "https://github.com/nette/php-generator/tree/v3.5"
             },
-            "time": "2021-03-11T20:54:24+00:00"
+            "time": "2021-07-05T12:02:42+00:00"
         },
         {
             "name": "nette/utils",
@@ -2590,7 +2590,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "psr/http-server-middleware": 20,
         "laminas/laminas-httphandlerrunner": 20,
         "nette/php-generator": 20
     },
