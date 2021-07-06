@@ -1,21 +1,18 @@
 <?php
 /**
- * Copyright © 2012 - 2020 by Renaud Guillard (dev@nore.fr)
+ * Copyright © 2012 - 2021 by Renaud Guillard (dev@nore.fr)
  * Distributed under the terms of the MIT License, see LICENSE
- */
-
-/**
  *
  * @package HTTP
  */
 namespace NoreSources\Http\Server;
 
-use NoreSources\StructuredText;
-use NoreSources\TypeConversionException;
 use NoreSources\Http\Header\ContentTypeHeaderValue;
 use NoreSources\Http\Header\HeaderField;
 use NoreSources\Http\Header\HeaderValueFactory;
 use NoreSources\Http\Request\LiteralValueRequestBody;
+use NoreSources\Text\StructuredText;
+use NoreSources\Type\TypeConversionException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -35,7 +32,7 @@ class StructuredTextRequestBodyParserMiddleware implements
 		 *
 		 * @var ContentTypeHeaderValue $contentType
 		 */
-		$contentType = HeaderValueFactory::fromMessage($request,
+		$contentType = HeaderValueFactory::createFromMessage($request,
 			HeaderField::CONTENT_TYPE);
 		$format = StructuredText::mediaTypeFormat(
 			\strval($contentType->getMediaType()));

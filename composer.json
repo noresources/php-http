@@ -26,12 +26,12 @@
 			"NoreSources\\Http\\Tools\\": "tools/src"
 		}
 	}, 
-	"minimum-stability": "dev", 
 	"require": {
-		"php": ">=7.0", 
+		"php": ">=7.0",
+		"noresources/ns-php-mediatype": "~1.4.0", 
+		"noresources/ns-php-languagetag": "^1.1", 
 		"psr/http-message": "~1.0", 
-		"noresources/ns-php-mediatype": "~1.2.0", 
-		"psr/http-server-middleware": "^1.0" 
+		"psr/http-server-middleware": "^1.0@dev"
 	}, 
 	"scripts": {
 		"tests": "@php  ./vendor/bin/phpunit --color=never --bootstrap tests/bootstrap.php tests"
@@ -44,8 +44,9 @@
 	}, 
 	"extra": {
 		"branch-alias": {
-			"dev-master": "1.1.x-dev", 
-			"dev-1.0.x": "1.0.x-dev"
+			"dev-1.0.x": "1.0.x-dev",
+			"dev-1.1.x": "1.1.x-dev",
+			"dev-master": "1.2.x-dev" 
 		}
 	}, 
 	"config": {

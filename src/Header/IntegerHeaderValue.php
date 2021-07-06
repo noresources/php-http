@@ -1,19 +1,17 @@
 <?php
 /**
- * Copyright © 2012 - 2020 by Renaud Guillard (dev@nore.fr)
+ * Copyright © 2012 - 2021 by Renaud Guillard (dev@nore.fr)
  * Distributed under the terms of the MIT License, see LICENSE
- */
-
-/**
  *
  * @package HTTP
  */
 namespace NoreSources\Http\Header;
 
-use NoreSources\IntegerRepresentation;
-use NoreSources\TypeConversion;
+use NoreSources\Type\IntegerRepresentation;
+use NoreSources\Type\TypeConversion;
 
-class IntegerHeaderValue implements HeaderValueInterface, IntegerRepresentation
+class IntegerHeaderValue implements HeaderValueInterface,
+	IntegerRepresentation
 {
 
 	/**
@@ -40,7 +38,7 @@ class IntegerHeaderValue implements HeaderValueInterface, IntegerRepresentation
 	 * @param string $text
 	 * @return \NoreSources\Http\Header\IntegerHeaderValue
 	 */
-	public static function fromString($text)
+	public static function createFromString($text)
 	{
 		return new IntegerHeaderValue($text);
 	}
