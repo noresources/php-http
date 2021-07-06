@@ -1,10 +1,7 @@
 <?php
 /**
- * Copyright © 2012 - 2020 by Renaud Guillard (dev@nore.fr)
+ * Copyright © 2012 - 2021 by Renaud Guillard (dev@nore.fr)
  * Distributed under the terms of the MIT License, see LICENSE
- */
-
-/**
  *
  * @package HTTP
  */
@@ -66,7 +63,7 @@ class Stream implements StreamInterface
 	 *        	File open mode
 	 * @return StreamInterface
 	 */
-	public static function fromFile($filename, $mode = 'r')
+	public static function createFromFile($filename, $mode = 'r')
 	{
 		$resource = @\fopen($filename, $mode);
 		if (!self::isValidResource($resource))

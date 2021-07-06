@@ -1,16 +1,13 @@
 <?php
 /**
- * Copyright © 2012 - 2020 by Renaud Guillard (dev@nore.fr)
+ * Copyright © 2012 - 2021 by Renaud Guillard (dev@nore.fr)
  * Distributed under the terms of the MIT License, see LICENSE
- */
-
-/**
  *
  * @package HTTP
  */
 namespace NoreSources\Http\Header;
 
-use NoreSources\Container;
+use NoreSources\Container\Container;
 use NoreSources\Http\RFC7230;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
@@ -48,7 +45,7 @@ class HeaderValueFactory
 	 * @param boolean $multiple
 	 * @return AlternativeValueListInterface|HeaderValueInterface
 	 */
-	public static function fromMessage(MessageInterface $message,
+	public static function createFromMessage(MessageInterface $message,
 		$headerFieldName, $multiple = false)
 	{
 		if (!$message->hasHeader($headerFieldName))
@@ -61,7 +58,7 @@ class HeaderValueFactory
 			$alternatives = [];
 			foreach ($headerValues as $headerValue)
 			{
-				$alternatives[] = self::fromKeyValue($headerFieldName,
+				$alternatives[] = self::createFromKeyValue($headerFieldName,
 					$headerValue);
 			}
 
@@ -69,24 +66,24 @@ class HeaderValueFactory
 		}
 
 		$headerValue = Container::firstValue($headerValues);
-		return self::fromKeyValue($headerFieldName, $headerValue);
+		return self::createFromKeyValue($headerFieldName, $headerValue);
 	}
 
 	/**
 	 *
-	 * @deprecated Use fromMessage()
+	 * @deprecated Use createFromMessage()
 	 */
 	public static function fromRequest(RequestInterface $request,
 		$headerFieldName, $multiple = false)
 	{
-		return self::fromMessage($request, $headerFieldName);
+		return self::createFromMessage($request, $headerFieldName);
 	}
 
 	/**
 	 *
 	 * @param string $headerLine
 	 * @param boolean $returnKeyValue
-	 *        	If true, return an arraycontaining the header name and header value
+	 *        	If true, return an array containing the header name and header value
 	 * @throws InvalidHeaderException::
 	 * @return HeaderValueInterface|array The header value or an array [name, value] if
 	 *         $returnKeyValue is true
@@ -104,7 +101,7 @@ class HeaderValueFactory
 
 		try
 		{
-			$value = self::fromKeyValue($m[1], $m[2]);
+			$value = self::createFromKeyValue($m[1], $m[2]);
 		}
 		catch (\Exception $e)
 		{
@@ -126,7 +123,7 @@ class HeaderValueFactory
 	 * @param string $headerValue
 	 * @return AlternativeValueListInterface|HeaderValueInterface
 	 */
-	public static function fromKeyValue($headerFieldName, $headerValue)
+	public static function createFromKeyValue($headerFieldName, $headerValue)
 	{
 		$headerValue = \ltrim($headerValue);
 
@@ -149,11 +146,11 @@ class HeaderValueFactory
 			$listReflection->implementsInterface(
 				AlternativeValueListInterface::class))
 		{
-			if ($listReflection->hasMethod('fromString'))
+			if ($listReflection->hasMethod('createFromString'))
 				return \call_user_func(
 					[
 						$alternativeValueListClassname,
-						'fromString'
+						'createFromString'
 					], $headerValue);
 
 			$valueDelimiter = ',';
@@ -205,11 +202,11 @@ class HeaderValueFactory
 			$reflection->implementsInterface(
 				HeaderValueInterface::class))
 		{
-			if ($reflection->hasMethod('fromString'))
+			if ($reflection->hasMethod('createFromString'))
 				return \call_user_func(
 					[
 						$headerValueClassName,
-						'fromString'
+						'createFromString'
 					], $headerValue);
 
 			if ($reflection->hasMethod('parseFieldValueString'))

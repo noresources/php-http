@@ -1,16 +1,13 @@
 <?php
 /**
- * Copyright © 2012 - 2020 by Renaud Guillard (dev@nore.fr)
+ * Copyright © 2012 - 2021 by Renaud Guillard (dev@nore.fr)
  * Distributed under the terms of the MIT License, see LICENSE
- */
-
-/**
  *
  * @package HTTP
  */
 namespace NoreSources\Http\Header;
 
-use NoreSources\TypeConversion;
+use NoreSources\Type\TypeConversion;
 
 /**
  * Arbitrary string header value
@@ -38,7 +35,7 @@ class TextHeaderValue implements HeaderValueInterface
 	 * @param string $text
 	 * @return \NoreSources\Http\Header\TextHeaderValue
 	 */
-	public static function fromString($text)
+	public static function createFromString($text)
 	{
 		return new TextHeaderValue($text);
 	}
