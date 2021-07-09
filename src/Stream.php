@@ -38,17 +38,12 @@ class Stream implements StreamInterface
 	 * @param string|MediaTypeInterface $mediaType
 	 * @return StreamInterface
 	 */
-	public static function fromData($data, $dataEncoding = self::DATA_INPUT_RAW, $mode = 'rb',
+	public static function fromData($data,
+		$dataEncoding = self::DATA_INPUT_RAW, $mode = 'rb',
 		$mediaType = 'text/plain')
 	{
 		if ($mediaType instanceof MediaTypeInterface)
-		{
-			$parameters = $mediaType->getParameters();
-			$mediaType = \strval($mediaType);
-
-			if ($parameters->count())
-				$mediaType .= ';' . ParameterMapSerializer::serializeParameters($parameters, ';');
-		}
+			$mediaType = $mediaType->serialize();
 
 		$uri = 'data://' . $mediaType;
 
@@ -75,7 +70,8 @@ class Stream implements StreamInterface
 	{
 		$resource = @\fopen($filename, $mode);
 		if (!self::isValidResource($resource))
-			throw new StreamException('Failed to open "' . $filename . '" (' . $mode . ')',
+			throw new StreamException(
+				'Failed to open "' . $filename . '" (' . $mode . ')',
 				StreamException::ERROR_OPEN);
 
 		return new Stream($resource);
@@ -114,7 +110,8 @@ class Stream implements StreamInterface
 		if (!self::isValidResource($this->resource))
 			return false;
 
-		return Container::keyValue(\stream_get_meta_data($this->resource), 'seekable', false);
+		return Container::keyValue(
+			\stream_get_meta_data($this->resource), 'seekable', false);
 	}
 
 	public function read($length)
@@ -153,8 +150,10 @@ class Stream implements StreamInterface
 		$meta = \stream_get_meta_data($this->resource);
 		$mode = $meta['mode'];
 
-		return ((\strpos($mode, 'x') !== false) || (\strpos($mode, 'w') !== false) ||
-			(\strpos($mode, 'c') !== false) || (\strpos($mode, 'a') !== false) ||
+		return ((\strpos($mode, 'x') !== false) ||
+			(\strpos($mode, 'w') !== false) ||
+			(\strpos($mode, 'c') !== false) ||
+			(\strpos($mode, 'a') !== false) ||
 			(\strpos($mode, '+') !== false));
 	}
 
@@ -266,12 +265,14 @@ class Stream implements StreamInterface
 		$meta = \stream_get_meta_data($this->resource);
 		$mode = $meta['mode'];
 
-		return ((\strpos($mode, 'r') !== false) || (\strpos($mode, '+') !== false));
+		return ((\strpos($mode, 'r') !== false) ||
+			(\strpos($mode, '+') !== false));
 	}
 
 	protected static function isValidResource($resource)
 	{
-		return \is_resource($resource) && (\get_resource_type($resource) == 'stream');
+		return \is_resource($resource) &&
+			(\get_resource_type($resource) == 'stream');
 	}
 
 	/**
