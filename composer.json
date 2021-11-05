@@ -8,11 +8,11 @@
 		"psr-7"
 	], 
 	"authors": [
-			{
+		{
 			"name": "Renaud Guillard", 
 			"email": "dev@nore.fr", 
 			"role": "lead"
-			}
+		}
 	], 
 	"autoload": {
 		"psr-4": {
@@ -27,7 +27,7 @@
 		}
 	}, 
 	"require": {
-		"php": ">=7.0",
+		"php": ">=7.0", 
 		"noresources/ns-php-mediatype": "~1.4.0", 
 		"noresources/ns-php-languagetag": "^1.1", 
 		"psr/http-message": "~1.0", 
@@ -37,21 +37,16 @@
 		"tests": "@php  ./vendor/bin/phpunit --color=never --bootstrap tests/bootstrap.php tests"
 	}, 
 	"require-dev": {
-		"phpunit/phpunit": "< 7.0", 
+		"phpunit/phpunit": ">= 5.0", 
 		"laminas/laminas-diactoros": "^2.3", 
 		"laminas/laminas-httphandlerrunner": "^1.2@dev", 
 		"nette/php-generator": "^3.4@dev"
 	}, 
 	"extra": {
 		"branch-alias": {
-			"dev-1.0.x": "1.0.x-dev",
-			"dev-1.1.x": "1.1.x-dev",
-			"dev-master": "1.2.x-dev" 
-		}
-	}, 
-	"config": {
-		"platform": {
-			"php": "7.1.33"
+			"dev-1.0.x": "1.0.x-dev", 
+			"dev-1.1.x": "1.1.x-dev", 
+			"dev-master": "1.2.x-dev"
 		}
 	}
 }
