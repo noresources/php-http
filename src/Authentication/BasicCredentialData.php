@@ -12,6 +12,8 @@ use NoreSources\Http\Header\InvalidHeaderException;
 
 /**
  * Basic authentication scheme user-password credential data
+ *
+ * @see https://datatracker.ietf.org/doc/html/rfc2617#section-2
  */
 class BasicCredentialData extends TokenCredentialData
 {

@@ -26,7 +26,7 @@ class TokenCredentialData implements CredentialDataInterface
 	/**
 	 *
 	 * @param string $token68
-	 *        	Token68 string from Authorization header value
+	 *        	Token68 string from Authorization header value.
 	 */
 	public function __construct($token68)
 	{

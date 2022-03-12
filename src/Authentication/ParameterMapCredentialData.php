@@ -30,7 +30,7 @@ class ParameterMapCredentialData implements CredentialDataInterface,
 		$this->parameters = new ParameterMap();
 		if (\is_string($parameters))
 		{
-			$length = \strlen($data);
+			$length = \strlen($parameters);
 			$consumed = ParameterMapSerializer::unserializeParameters(
 				$this->parameters, $parameters,
 				[

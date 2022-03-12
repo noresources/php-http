@@ -13,6 +13,14 @@ use NoreSources\Http\Authentication\AuthenticationScheme;
 use NoreSources\Http\Authentication\CredentialDataFactory;
 use NoreSources\Http\Authentication\CredentialDataInterface;
 
+/**
+ * Authorization HTTP header value.
+ *
+ * @see https://datatracker.ietf.org/doc/html/rfc2616#section-14.8
+ * @see https://datatracker.ietf.org/doc/html/rfc2617#section-1.2
+ * @see https://datatracker.ietf.org/doc/html/rfc2617#section-2
+ *
+ */
 class AuthorizationHeaderValue implements HeaderValueInterface
 {
 

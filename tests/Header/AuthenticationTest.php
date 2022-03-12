@@ -9,6 +9,7 @@ namespace NoreSources\Http;
 
 use NoreSources\Container\Container;
 use NoreSources\Http\Authentication\BasicCredentialData;
+use NoreSources\Http\Authentication\TokenCredentialData;
 use NoreSources\Http\Header\AuthorizationHeaderValue;
 use NoreSources\Http\Header\HeaderField;
 use NoreSources\Http\Header\HeaderValueFactory;
@@ -26,6 +27,13 @@ final class AuthenticationTest extends \PHPUnit\Framework\TestCase
 				'text' => 'LonelyScheme',
 				'scheme' => 'LonelyScheme',
 				'valid' => true
+			],
+			'Bearer (with whitespaces)' => [
+				'text' => 'bearer   SGVsbG8gd29ybGQK== ',
+				'scheme' => 'bearer',
+				'valid' => true,
+				'data' => 'SGVsbG8gd29ybGQK==',
+				'dataClass' => TokenCredentialData::class
 			],
 			'Basic' => [
 				'text' => 'Basic ' . $b64UserPass,
