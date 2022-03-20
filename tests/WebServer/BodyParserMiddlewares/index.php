@@ -2,8 +2,8 @@
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\Diactoros\Response\TextResponse;
 use NoreSources\Container\Container;
+use NoreSources\Data\Serialization\DataSerializationManager;
 use NoreSources\Http\Server\MultipartFormDataRequestBodyParserMiddleware;
-use NoreSources\Http\Server\StructuredTextRequestBodyParserMiddleware;
 use NoreSources\Http\Test\ClosureRequestHandler;
 use NoreSources\Type\TypeDescription;
 use Psr\Http\Message\ServerRequestInterface;
@@ -55,7 +55,7 @@ print_request($request);
 $base = basename($request->getUri()->getPath());
 $middlewares = [
 	'multipart' => new MultipartFormDataRequestBodyParserMiddleware(),
-	'structured' => new StructuredTextRequestBodyParserMiddleware()
+	'structured' => new DataSerializationManager()
 ];
 
 $mw = Container::keyValue($middlewares, $base,

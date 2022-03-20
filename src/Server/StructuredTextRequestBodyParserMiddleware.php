@@ -7,20 +7,33 @@
  */
 namespace NoreSources\Http\Server;
 
+use NoreSources\Data\Serialization\DataSerializationException;
+use NoreSources\Data\Serialization\DataSerializationManager;
 use NoreSources\Http\Header\ContentTypeHeaderValue;
 use NoreSources\Http\Header\HeaderField;
 use NoreSources\Http\Header\HeaderValueFactory;
 use NoreSources\Http\Request\LiteralValueRequestBody;
-use NoreSources\Text\StructuredText;
-use NoreSources\Type\TypeConversionException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ *
+ * @deprecated Use DataSerializationBodyParserMiddleware
+ *
+ */
 class StructuredTextRequestBodyParserMiddleware implements
 	MiddlewareInterface
 {
+
+	public function __construct(
+		DataSerializationManager $deserializer = null)
+	{
+		$this->deserializer = $deserializer;
+		if (!$deserializer)
+			$this->deserializer = new DataSerializationManager();
+	}
 
 	public function process(ServerRequestInterface $request,
 		RequestHandlerInterface $handler): ResponseInterface
@@ -34,26 +47,35 @@ class StructuredTextRequestBodyParserMiddleware implements
 		 */
 		$contentType = HeaderValueFactory::createFromMessage($request,
 			HeaderField::CONTENT_TYPE);
-		$format = StructuredText::mediaTypeFormat(
-			\strval($contentType->getMediaType()));
 
-		if ($format === false)
+		$mediaType = $contentType->getMediaType();
+		$body = $request->getBody();
+		if ($body->isSeekable())
+			$body->rewind();
+		$contents = $body->getContents();
+
+		if (!$this->deserializer->canUnserializeData($contents,
+			$mediaType))
 			return $handler->handle($request);
 
 		try
 		{
-			$request->getBody()->rewind();
-			$data = StructuredText::parseText(
-				$request->getBody()->getContents(), $format);
-
+			$data = $this->deserializer->unserializeData($contents,
+				$mediaType);
 			if (!(\is_object($data) || \is_array($data)))
 				$data = new LiteralValueRequestBody($data);
 
 			return $handler->handle($request->withParsedBody($data));
 		}
-		catch (TypeConversionException $e)
-		{
-			return $handler->handle($request);
-		}
+		catch (DataSerializationException $e)
+		{}
+
+		return $handler->handle($request);
 	}
+
+	/**
+	 *
+	 * @var DataSerializationManager
+	 */
+	private $deserializer;
 }
