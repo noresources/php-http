@@ -9,6 +9,7 @@ namespace NoreSources\Http;
 
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\Diactoros\Request\Serializer;
+use Laminas\Diactoros\Response\TextResponse;
 use NoreSources\Container\Container;
 use NoreSources\Http\Coding\ContentCoding;
 use NoreSources\Http\ContentNegociation\ContentNegociationException;
@@ -532,7 +533,8 @@ final class ContentNegociationtTest extends \PHPUnit\Framework\TestCase
 					'User-Agent' => 'NoreBrowser'
 				],
 				'availables' => [],
-				'negociated' => []
+				'negociated' => [],
+				'expected-vary' => []
 			],
 			'Nothing from client' => [
 				'headers' => [
@@ -546,6 +548,9 @@ final class ContentNegociationtTest extends \PHPUnit\Framework\TestCase
 				],
 				'expected' => [
 					HeaderField::CONTENT_TYPE => 'text/html'
+				],
+				'expected-vary' => [
+					HeaderField::CONTENT_TYPE
 				]
 			],
 			'Nothing from server' => [
@@ -554,7 +559,8 @@ final class ContentNegociationtTest extends \PHPUnit\Framework\TestCase
 					'accept-Language' => 'de',
 					'accEPT' => 'application/json'
 				],
-				'expected' => []
+				'expected' => [],
+				'expected-vary' => []
 			],
 			'Basic' => [
 				'headers' => [
@@ -567,7 +573,9 @@ final class ContentNegociationtTest extends \PHPUnit\Framework\TestCase
 						'text/plain',
 						'text/xhtml'
 					],
-					HeaderField::CONTENT_ENCODING => [
+					HeaderField::ACCEPT_ENCODING => [
+						// Same as
+						// HeaderField::CONTENT_ENCODING => [
 						ContentCoding::DEFLATE,
 						ContentCoding::IDENTITY
 					],
@@ -581,6 +589,11 @@ final class ContentNegociationtTest extends \PHPUnit\Framework\TestCase
 					HeaderField::CONTENT_TYPE => 'text/xhtml',
 					HeaderField::CONTENT_ENCODING => 'deflate',
 					HeaderField::CONTENT_LANGUAGE => 'en'
+				],
+				'expected-vary' => [
+					HeaderField::CONTENT_TYPE,
+					HeaderField::CONTENT_ENCODING,
+					HeaderField::CONTENT_LANGUAGE
 				]
 			]
 		];
@@ -648,16 +661,32 @@ final class ContentNegociationtTest extends \PHPUnit\Framework\TestCase
 								$v);
 					}
 				}
+				elseif ($result instanceof \Serializable)
+					$serialized[$header] = $result->serialize();
 				else
-					if ($result instanceof \Serializable)
-						$serialized[$header] = $result->serialize();
-					else
-						$serialized[$header] = TypeConversion::toString(
-							$result);
+					$serialized[$header] = TypeConversion::toString(
+						$result);
 			}
 
 			$this->assertEquals($expected, $serialized,
 				$label . 'Negociation result');
+
+			if (($vary = Container::keyValue($test, 'expected-vary')))
+			{
+				$vary = Container::implodeValues($vary, ' ');
+				$response = new TextResponse('Response');
+				$response = $negociator->populateResponse($response,
+					$negociated, $availables);
+				$headers = $response->getHeader(HeaderField::VARY);
+				$this->assertCount(\strlen($vary) ? 1 : 0, $headers,
+					'Vary header presence');
+				if (Container::count($headers))
+				{
+					$this->assertEquals($vary,
+						Container::firstValue($headers),
+						'Vary header value');
+				}
+			}
 		}
 	}
 }

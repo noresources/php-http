@@ -28,6 +28,7 @@ use NoreSources\MediaType\MediaTypeInterface;
 use NoreSources\Type\TypeConversion;
 use NoreSources\Type\TypeDescription;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Traversable;
 
 class ContentNegociator
@@ -173,6 +174,54 @@ class ContentNegociator
 		}
 
 		return $negociated;
+	}
+
+	/**
+	 *
+	 * @param ResponseInterface $response
+	 *        	The response to alter
+	 * @param array $negociatied
+	 *        	Result of negociation
+	 * @param array $availables
+	 *        	Same list of available alternative given during negociation.
+	 *        	List of header name is also accepted.
+	 * @return \Psr\Http\Message\ResponseInterface A new response, copy of the response given in
+	 *         parameter filled with negociation headers.
+	 */
+	public function populateResponse(ResponseInterface $response,
+		$negociatied, $availables = null)
+	{
+		$vary = [];
+		if (Container::isTraversable($availables))
+		{
+			if (Container::isIndexed($availables))
+				$vary = $availables;
+			else
+			{
+				static $headerMap = [
+					HeaderField::ACCEPT => HeaderField::CONTENT_TYPE,
+					HeaderField::ACCEPT_ENCODING => HeaderField::CONTENT_ENCODING,
+					HeaderField::ACCEPT_LANGUAGE => HeaderField::CONTENT_LANGUAGE
+				];
+
+				$vary = [];
+				foreach ($availables as $h => $_)
+					$vary[] = Container::keyValue($headerMap, $h, $h);
+			}
+		}
+
+		if (Container::count($vary))
+			$response = $response->withHeader(HeaderField::VARY,
+				Container::implodeValues($vary, ' '));
+
+		foreach ($negociatied as $h => $v)
+		{
+			$response = $response->withHeader($h,
+				($v instanceof \Serializable) ? $v->serialize() : TypeConversion::toString(
+					$v));
+		}
+
+		return $response;
 	}
 
 	/**
