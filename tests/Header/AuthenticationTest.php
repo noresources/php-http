@@ -8,6 +8,7 @@
 namespace NoreSources\Http;
 
 use NoreSources\Container\Container;
+use NoreSources\Http\Authentication\AuthenticationScheme;
 use NoreSources\Http\Authentication\BasicCredentialData;
 use NoreSources\Http\Authentication\TokenCredentialData;
 use NoreSources\Http\Header\AuthorizationHeaderValue;
@@ -27,6 +28,13 @@ final class AuthenticationTest extends \PHPUnit\Framework\TestCase
 				'text' => 'LonelyScheme',
 				'scheme' => 'LonelyScheme',
 				'valid' => true
+			],
+			'Bearer (JWT)' => [
+				'text' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9kYXRhLmRlcGlueGkuYmUiLCJhdWQiOiJodHRwOlwvXC9kYXRhLmRlcGlueGkuYmUiLCJpYXQiOjE2NDgxMjk1OTgsIm5iZiI6MTY0ODEyOTU5OCwiZXhwIjoxNjQ4MjE1OTk4LCJ1c2VyIjoicm9vdCJ9.sYtmW6UsxjKlHpzyx2nWhXP9dMyLJPGLWrFC_z26YyY',
+				'scheme' => AuthenticationScheme::BEARER,
+				'valid' => true,
+				'data' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9kYXRhLmRlcGlueGkuYmUiLCJhdWQiOiJodHRwOlwvXC9kYXRhLmRlcGlueGkuYmUiLCJpYXQiOjE2NDgxMjk1OTgsIm5iZiI6MTY0ODEyOTU5OCwiZXhwIjoxNjQ4MjE1OTk4LCJ1c2VyIjoicm9vdCJ9.sYtmW6UsxjKlHpzyx2nWhXP9dMyLJPGLWrFC_z26YyY',
+				'dataClass' => TokenCredentialData::class
 			],
 			'Bearer (with whitespaces)' => [
 				'text' => 'bearer   SGVsbG8gd29ybGQK== ',
