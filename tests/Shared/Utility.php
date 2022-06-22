@@ -7,7 +7,7 @@
  */
 namespace NoreSources\Http\Test;
 
-use Laminas\Diactoros\Stream;
+use NoreSources\Http\Stream;
 use Psr\Http\Message\StreamInterface;
 
 class Utility

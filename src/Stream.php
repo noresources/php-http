@@ -7,7 +7,7 @@
  */
 namespace NoreSources\Http;
 
-use NoreSources\Container;
+use NoreSources\Container\Container;
 use NoreSources\MediaType\MediaTypeInterface;
 use Psr\Http\Message\StreamInterface;
 

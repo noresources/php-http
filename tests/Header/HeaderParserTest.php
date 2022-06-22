@@ -7,7 +7,6 @@
  */
 namespace NoreSources\Http;
 
-use Laminas\Diactoros\Stream;
 use NoreSources\Http\Header\HeaderFieldParser;
 
 class HeaderFieldParserTest extends \PHPUnit\Framework\TestCase
