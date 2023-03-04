@@ -14,7 +14,7 @@ use NoreSources\Http\Test\ClosureRequestHandler;
 use NoreSources\Http\Test\Utility;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class StructuredTextParserTest extends \PHPUnit\Framework\TestCase
+final class StructuredTextRequestBodyParserMiddlewareTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testStructuredTextBodyParser()

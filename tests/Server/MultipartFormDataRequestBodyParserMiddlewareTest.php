@@ -14,7 +14,7 @@ use NoreSources\Http\Test\ClosureRequestHandler;
 use NoreSources\Http\Test\Utility;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class MultipartParserTest extends \PHPUnit\Framework\TestCase
+final class MultipartFormDataRequestBodyParserMiddlewareTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testMultipartBodyParser()

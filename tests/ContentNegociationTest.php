@@ -28,7 +28,7 @@ use NoreSources\MediaType\MediaTypeInterface;
 use NoreSources\Type\TypeConversion;
 use NoreSources\Type\TypeDescription;
 
-final class ContentNegociationtTest extends \PHPUnit\Framework\TestCase
+final class ContentNegociationTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testLanguage()
