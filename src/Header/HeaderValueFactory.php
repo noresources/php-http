@@ -58,14 +58,14 @@ class HeaderValueFactory
 			$alternatives = [];
 			foreach ($headerValues as $headerValue)
 			{
-				$alternatives[] = self::createFromKeyValue($headerFieldName,
-					$headerValue);
+				$alternatives[] = self::createFromKeyValue(
+					$headerFieldName, $headerValue);
 			}
 
 			return $alternatives;
 		}
 
-		$headerValue = Container::firstValue($headerValues);
+		$headerValue = $headerValues[\count($headerValues) - 1];
 		return self::createFromKeyValue($headerFieldName, $headerValue);
 	}
 
@@ -123,7 +123,8 @@ class HeaderValueFactory
 	 * @param string $headerValue
 	 * @return AlternativeValueListInterface|HeaderValueInterface
 	 */
-	public static function createFromKeyValue($headerFieldName, $headerValue)
+	public static function createFromKeyValue($headerFieldName,
+		$headerValue)
 	{
 		$headerValue = \ltrim($headerValue);
 

@@ -7,15 +7,19 @@
  */
 namespace NoreSources\Http;
 
+use Laminas\Diactoros\ServerRequestFactory;
 use NoreSources\Container\Container;
 use NoreSources\Http\Header\AcceptEncodingHeaderValue;
 use NoreSources\Http\Header\AlternativeValueListInterface;
+use NoreSources\Http\Header\ContentTypeHeaderValue;
+use NoreSources\Http\Header\HeaderField;
 use NoreSources\Http\Header\HeaderTokenValueParser;
 use NoreSources\Http\Header\HeaderValueFactory;
 use NoreSources\Http\Header\HeaderValueInterface;
 use NoreSources\Http\Header\InvalidHeaderException;
 use NoreSources\Http\Header\TextHeaderValue;
 use NoreSources\Type\TypeDescription;
+use Psr\Http\Message\ServerRequestInterface;
 
 final class HeaderValueFactoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -100,6 +104,35 @@ final class HeaderValueFactoryTest extends \PHPUnit\Framework\TestCase
 			$this->assertInstanceOf($expectedClass, $headerValue,
 				$label . ' header value class');
 		}
+	}
+
+	public function testFromMessage()
+	{
+		$requestFactory = new ServerRequestFactory();
+		$request = $requestFactory->createServerRequest('GET',
+			'/foo/bar');
+		$this->assertInstanceOf(ServerRequestInterface::class, $request);
+
+		$expected = 'application/json';
+
+		$f = HeaderField::CONTENT_TYPE;
+		$request = $request->withHeader($f, 'text/plain')->withAddedHeader(
+			$f, $expected);
+		$values = $request->getHeader($f);
+		$this->assertCount(2, $values);
+		$this->assertEquals($expected, $values[1]);
+
+		/**
+		 *
+		 * @var ContentTypeHeaderValue $contentType
+		 */
+		$contentType = HeaderValueFactory::createFromMessage($request,
+			$f);
+		$this->assertInstanceOf(ContentTypeHeaderValue::class,
+			$contentType);
+		$mediaType = $contentType->getMediaType();
+		$this->assertEquals($expected, \strval($mediaType),
+			'Get last header value');
 	}
 
 	public function testFactory()
