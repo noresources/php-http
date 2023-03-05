@@ -28,6 +28,19 @@ class Stream implements StreamInterface
 	/**
 	 * Create a Stream from binary data
 	 *
+	 * @deprecated Use createFromDat()a
+	 */
+	public static function fromData($data,
+		$dataEncoding = self::DATA_INPUT_RAW, $mode = 'rb',
+		$mediaType = 'text/plain')
+	{
+		return self::createFromData($data, $dataEncoding, $mode,
+			$mediaType);
+	}
+
+	/**
+	 * Create a Stream from binary data
+	 *
 	 * @param string $data
 	 * @param string $dataEncoding
 	 *        	Describe how $data is encoded
@@ -35,7 +48,7 @@ class Stream implements StreamInterface
 	 * @param string|MediaTypeInterface $mediaType
 	 * @return StreamInterface
 	 */
-	public static function fromData($data,
+	public static function createFromData($data,
 		$dataEncoding = self::DATA_INPUT_RAW, $mode = 'rb',
 		$mediaType = 'text/plain')
 	{
