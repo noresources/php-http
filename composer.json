@@ -28,7 +28,7 @@
 	}, 
 	"require": {
 		"php": ">=7.0", 
-		"noresources/ns-php-mediatype": "~1.4.0", 
+		"noresources/ns-php-mediatype": "^1.5", 
 		"noresources/ns-php-data": "^1.2", 
 		"noresources/ns-php-languagetag": "^1.1", 
 		"psr/http-message": "~1.0", 

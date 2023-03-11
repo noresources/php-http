@@ -29,7 +29,7 @@ class AcceptHeaderValue implements HeaderValueInterface,
 
 	public function __toString()
 	{
-		$s = ($this->mediaRange instanceof MediaTypeInterface) ? $this->mediaRange->serialize() : '*/*';
+		$s = ($this->mediaRange instanceof MediaTypeInterface) ? $this->mediaRange->jsonSerialize() : '*/*';
 		if ($this->getQualityValue() < 1)
 			$s .= '; ' . $this->getQualityValueParameterString();
 		if ($this->extensions->count())
@@ -75,16 +75,15 @@ class AcceptHeaderValue implements HeaderValueInterface,
 
 		if ($semicolon === false)
 		{
-			$mediaRange = MediaRange::createFromString($text, false);
+			$mediaRange = MediaRange::createFromString($text);
 			return [
 				new AcceptHeaderValue($mediaRange),
 				$consumed + \strlen(\strval($mediaRange))
 			];
 		}
 
-		$mediaRange = new MediaRange();
 		$part = \substr($text, 0, $semicolon);
-		$mediaRange->unserialize(\trim($part));
+		$mediaRange = MediaRange::createFromString($part, true);
 
 		$accept = new AcceptHeaderValue($mediaRange);
 

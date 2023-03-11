@@ -27,7 +27,7 @@ class ContentTypeHeaderValue implements HeaderValueInterface
 	public function __toString()
 	{
 		if ($this->mediaType instanceof MediaTypeInterface)
-			return $this->mediaType->serialize();
+			return $this->mediaType->jsonSerialize();
 		return '';
 	}
 
@@ -49,8 +49,7 @@ class ContentTypeHeaderValue implements HeaderValueInterface
 	 */
 	public static function parseFieldValueString($text)
 	{
-		$mediaType = new MediaType(null, null);
-		$mediaType->unserialize(\trim($text));
+		$mediaType = MediaType::createFromString($text, true);
 		return [
 			new ContentTypeHeaderValue($mediaType),
 			\strlen($text)

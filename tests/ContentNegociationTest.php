@@ -258,14 +258,12 @@ final class ContentNegociationTest extends \PHPUnit\Framework\TestCase
 
 				try
 				{
-					$mediaType = new MediaType('');
-					$mediaType->unserialize($v);
-
-					$this->assertEquals($v, $mediaType->serialize(),
+					$mediaType = MediaType::createFromString($v, true);
+					$this->assertEquals($v, $mediaType->jsonSerialize(),
 						$v . ' conversion to media type');
 
 					$v = $mediaType;
-					$k = $v->serialize();
+					$k = $v->jsonSerialize();
 				}
 				catch (\Exception $e)
 				{}
@@ -278,7 +276,7 @@ final class ContentNegociationTest extends \PHPUnit\Framework\TestCase
 
 			$serialized = $negociated;
 			if ($serialized instanceof MediaTypeInterface)
-				$serialized = $serialized->serialize();
+				$serialized = $serialized->jsonSerialize();
 
 			if (Container::keyExists($test, 'expected'))
 			{
@@ -289,7 +287,9 @@ final class ContentNegociationTest extends \PHPUnit\Framework\TestCase
 
 			foreach ($available as $original => $current)
 			{
-				$actual = ($current instanceof \Serializable) ? $current->serialize() : $current;
+				$actual = $current;
+				if ($current instanceof MediaTypeInterface)
+					$actual = $current->jsonSerialize();
 				$this->assertEquals($original, $actual,
 					$label .
 					' available elements should not have been modified');
@@ -516,7 +516,7 @@ final class ContentNegociationTest extends \PHPUnit\Framework\TestCase
 				$negociated);
 
 			$this->assertEquals($selection,
-				($negociated[HeaderField::CONTENT_TYPE])->serialize(),
+				($negociated[HeaderField::CONTENT_TYPE])->jsonSerialize(),
 				$label . ' content-type negociation');
 		}
 	}
@@ -654,18 +654,13 @@ final class ContentNegociationTest extends \PHPUnit\Framework\TestCase
 				{
 					foreach ($result as $k => $v)
 					{
-						if ($v instanceof \Serializable)
-							$serialized[$header][$k] = $v->serialize();
-						else
-							$serialized[$header][$k] = TypeConversion::toString(
-								$v);
+						$serialized[$header][$k] = HeaderValueFactory::stringifyValue(
+							$v, $header);
 					}
 				}
-				elseif ($result instanceof \Serializable)
-					$serialized[$header] = $result->serialize();
 				else
-					$serialized[$header] = TypeConversion::toString(
-						$result);
+					$serialized[$header] = HeaderValueFactory::stringifyValue(
+						$result, $header);
 			}
 
 			$this->assertEquals($expected, $serialized,

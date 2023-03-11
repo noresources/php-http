@@ -217,8 +217,7 @@ class ContentNegociator
 		foreach ($negociatied as $h => $v)
 		{
 			$response = $response->withHeader($h,
-				($v instanceof \Serializable) ? $v->serialize() : TypeConversion::toString(
-					$v));
+				HeaderValueFactory::stringifyValue($v, $h));
 		}
 
 		return $response;
@@ -631,8 +630,7 @@ class ContentNegociator
 			elseif (TypeDescription::hasStringRepresentation($accepted))
 			{
 				$text = TypeConversion::toString($mediaRange);
-				$mediaRange = new MediaRange(MediaRange::ANY);
-				$mediaRange->unserialize($text);
+				$mediaRange = MediaRange::createFromString($text, true);
 			}
 
 			if (!($mediaRange instanceof MediaTypeInterface))
@@ -712,8 +710,7 @@ class ContentNegociator
 			return $input->getMediaType();
 		if (TypeDescription::hasStringRepresentation($input))
 		{
-			$mediaType = new MediaType('');
-			$mediaType->unserialize(TypeConversion::toString($input));
+			$mediaType = MediaType::createFromString($input, true);
 			return $mediaType;
 		}
 

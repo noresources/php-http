@@ -9,11 +9,29 @@ namespace NoreSources\Http\Header;
 
 use NoreSources\Container\Container;
 use NoreSources\Http\RFC7230;
+use NoreSources\MediaType\MediaTypeInterface;
+use NoreSources\Type\TypeConversion;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
 
 class HeaderValueFactory
 {
+
+	/**
+	 * Convert value to be written in a header line
+	 *
+	 * @param mixed $value
+	 *        	Value to stringify
+	 * @param string|NULL $forHeader
+	 *        	Target header field name
+	 * @return string Stringified value
+	 */
+	public static function stringifyValue($value, $forHeader = null)
+	{
+		if ($value instanceof MediaTypeInterface)
+			return $value->jsonSerialize();
+		return TypeConversion::toString($value);
+	}
 
 	/**
 	 * Get the expected Header value class names for the given header name

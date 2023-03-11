@@ -53,7 +53,7 @@ class Stream implements StreamInterface
 		$mediaType = 'text/plain')
 	{
 		if ($mediaType instanceof MediaTypeInterface)
-			$mediaType = $mediaType->serialize();
+			$mediaType = $mediaType->jsonSerialize();
 
 		$uri = 'data://' . $mediaType;
 
