@@ -87,15 +87,6 @@ class HeaderValueFactory
 		return self::createFromKeyValue($headerFieldName, $headerValue);
 	}
 
-	/**
-	 *
-	 * @deprecated Use createFromMessage()
-	 */
-	public static function fromRequest(RequestInterface $request,
-		$headerFieldName, $multiple = false)
-	{
-		return self::createFromMessage($request, $headerFieldName);
-	}
 
 	/**
 	 *

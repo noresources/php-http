@@ -25,18 +25,6 @@ class Stream implements StreamInterface
 
 	const DATA_INPUT_BASE64 = 'base64';
 
-	/**
-	 * Create a Stream from binary data
-	 *
-	 * @deprecated Use createFromDat()a
-	 */
-	public static function fromData($data,
-		$dataEncoding = self::DATA_INPUT_RAW, $mode = 'rb',
-		$mediaType = 'text/plain')
-	{
-		return self::createFromData($data, $dataEncoding, $mode,
-			$mediaType);
-	}
 
 	/**
 	 * Create a Stream from binary data
