@@ -6,11 +6,12 @@ HTTP message manipulation library
 
 * Header field value parsing
 * Request body parsing PSR-15 middlewares
+* Content negociation
 
 ## Installation
 
 ```bash
-composer require noresources/ns-php-http ~1.0
+composer require noresources/ns-php-http
 ```
 
 ## References
