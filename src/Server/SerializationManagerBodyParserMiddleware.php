@@ -8,10 +8,12 @@
  */
 namespace NoreSources\Http\Server;
 
+use Laminas\Diactoros\Exception\SerializationException;
 use NoreSources\Bitset;
-use NoreSources\Data\Serialization\DataSerializationException;
-use NoreSources\Data\Serialization\DataSerializationManager;
 use NoreSources\Data\Serialization\DataUnserializerInterface;
+use NoreSources\Data\Serialization\SerializationManager;
+use NoreSources\Data\Serialization\StreamUnserializerInterface;
+use NoreSources\Http\StreamManager;
 use NoreSources\Http\Header\ContentTypeHeaderValue;
 use NoreSources\Http\Header\HeaderField;
 use NoreSources\Http\Header\HeaderValueFactory;
@@ -21,8 +23,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class DataSerializationBodyParserMiddleware implements
-	MiddlewareInterface
+class SerializationManagerBodyParserMiddleware implements MiddlewareInterface
 {
 
 	/**
@@ -48,14 +49,22 @@ class DataSerializationBodyParserMiddleware implements
 
 	/**
 	 *
-	 * @param DataUnserializerInterface $deserializer
+	 * @param DataUnserializerInterface|StreamUnserializerInterface $deserializer
 	 *        	Instance of deserializer to use. If not set, a default one will be created
 	 */
-	public function __construct(
-		DataUnserializerInterface $deserializer = null)
+	public function __construct($deserializer = null)
 	{
 		if ($deserializer)
+		{
+			if (!($deserializer instanceof StreamUnserializerInterface ||
+				$deserializer instanceof DataUnserializerInterface))
+				throw new \InvalidArgumentException(
+					'Invalid deserializer class type. Must be a ' .
+					StreamUnserializerInterface::class . ' and/or ' .
+					DataUnserializerInterface::class);
+
 			$this->deserializer = $deserializer;
+		}
 		$this->flags = 0;
 	}
 
@@ -95,25 +104,49 @@ class DataSerializationBodyParserMiddleware implements
 		if (!$reparse)
 			return $handler->handle($request);
 
-		$deserializer = $this->getDataUnserializer();
+		$deserializer = $this->getUnserializer();
 
 		$body = $request->getBody();
 		if ($body->isSeekable())
 			$body->rewind();
 
-		$data = \strval($body);
-		try
+		if ($deserializer instanceof StreamUnserializerInterface)
 		{
-			$data = $deserializer->unserializeData($data, $mediaType);
+			$reparse = false;
+			$manager = StreamManager::getInstance();
+			$resource = $manager->getStreamResource($body);
 
-			if (!(\is_array($data) || \is_null($data) ||
-				\is_object($data)))
-				$data = new LiteralValueRequestBody($data);
-			return $handler->handle($request->withParsedBody($data));
+			if ($deserializer->isUnserializableFromStream($resource,
+				$mediaType))
+			{
+
+				try
+				{
+					$data = $deserializer->unserializeFromStream(
+						$resource, $mediaType);
+
+					return $this->postProcess($request, $data, $handler);
+				}
+				catch (SerializationException $e)
+				{
+					$reparse = true;
+				}
+			}
 		}
-		catch (DataSerializationException $e)
+
+		if ($reparse &&
+			($deserializer instanceof DataUnserializerInterface) &&
+			($bodyContent = \strval($body->getContents())) &&
+			$deserializer->isUnserializableFrom($bodyContent, $mediaType))
 		{
-			var_dump($e->getMessage());
+			try
+			{
+				$data = $deserializer->unserializeData($bodyContent,
+					$mediaType);
+				return $this->postProcess($request, $data, $handler);
+			}
+			catch (SerializationException $e)
+			{}
 		}
 
 		return $handler->handle($request);
@@ -121,14 +154,30 @@ class DataSerializationBodyParserMiddleware implements
 
 	/**
 	 *
-	 * @return DataUnserializerInterface
+	 * @param ServerRequestInterface $request
+	 *        	Original request
+	 * @param mixed $data
+	 *        	Parsed body data
+	 * @param RequestHandlerInterface $handler
+	 *        	Next middleware or controller
+	 * @return ResponseInterface
 	 */
-	public function getDataUnserializer()
+	protected function postProcess(ServerRequestInterface $request,
+		$data, RequestHandlerInterface $handler): ResponseInterface
+	{
+		if (!(\is_array($data) || \is_null($data) || \is_object($data)))
+			$data = new LiteralValueRequestBody($data);
+		return $handler->handle($request->withParsedBody($data));
+	}
+
+	/**
+	 *
+	 * @return DataUnserializerInterface|StreamUnserializerInterface
+	 */
+	public function getUnserializer()
 	{
 		if (!isset($this->deserializer))
-		{
-			$this->deserializer = new DataSerializationManager();
-		}
+			$this->deserializer = new SerializationManager();
 
 		return $this->deserializer;
 	}
@@ -145,7 +194,7 @@ class DataSerializationBodyParserMiddleware implements
 
 	/**
 	 *
-	 * @var DataUnserializerInterface
+	 * @var DataUnserializerInterface|StreamUnserializerInterface
 	 */
 	private $deserializer;
 
