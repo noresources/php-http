@@ -12,15 +12,15 @@ use Laminas\Diactoros\Response\JsonResponse;
 use NoreSources\Container\Container;
 use NoreSources\Http\Header\HeaderField;
 use NoreSources\Http\Request\LiteralValueRequestBody;
-use NoreSources\Http\Server\SerializationBodyParserMiddleware;
+use NoreSources\Http\Server\DeserializationBodyParserMiddleware;
 use NoreSources\Http\Test\ClosureRequestHandler;
 use NoreSources\Http\Test\Utility;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class SerializationBodyParserMiddlewareTest extends \PHPUnit\Framework\TestCase
+final class DeerializationBodyParserMiddlewareTest extends \PHPUnit\Framework\TestCase
 {
 
-	public function testSerializationBodyParserMiddleware()
+	public function testDeserializationBodyParserMiddleware()
 	{
 		$tests = [
 			'Plain text' => [
@@ -40,7 +40,7 @@ final class SerializationBodyParserMiddlewareTest extends \PHPUnit\Framework\Tes
 			],
 			'URL encoded text (inhibit default)' => [
 				HeaderField::CONTENT_TYPE => 'application/x-www-form-urlencoded',
-				'flags' => SerializationBodyParserMiddleware::INHIBIT_POST_ARRAY_COMPLIANCE,
+				'flags' => DeserializationBodyParserMiddleware::INHIBIT_POST_ARRAY_COMPLIANCE,
 				'body' => \urlencode('Hello world!'),
 				'expected' => 'Hello world!'
 			],
@@ -76,7 +76,7 @@ final class SerializationBodyParserMiddlewareTest extends \PHPUnit\Framework\Tes
 
 			$label = $method . '[' . $flags . '] ' . $label;
 
-			$middleware = new SerializationBodyParserMiddleware();
+			$middleware = new DeserializationBodyParserMiddleware();
 			$middleware->setFlags($flags);
 
 			$body = Utility::createStreamFromText($body);
