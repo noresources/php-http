@@ -23,7 +23,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class DeserializationBodyParserMiddleware implements MiddlewareInterface
+class SerializationManagerBodyParserMiddleware implements MiddlewareInterface
 {
 
 	/**
