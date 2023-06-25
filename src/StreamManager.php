@@ -24,7 +24,7 @@ class StreamManager
 	 * @throws \RuntimeException
 	 * @return StreamInterface
 	 */
-	public static function createFileStream($filename, $mode)
+	public function createFileStream($filename, $mode)
 	{
 		$file = @\fopen($filename, $mode);
 		if ($file === false)
@@ -42,7 +42,7 @@ class StreamManager
 	 *        	PSR-7 Stream
 	 * @return resource
 	 */
-	public static function getStreamResource(StreamInterface $stream)
+	public function getStreamResource(StreamInterface $stream)
 	{
 		if (!\in_array(StreamWrapper::WRAPPER_SCHEME,
 			\stream_get_wrappers()))
@@ -64,7 +64,6 @@ class StreamManager
 					'stream' => $stream
 				]
 			]);
-		return \fopen(StreamWrapper::WRAPPER_URI, $mode, false,
-			$context);
+		return \fopen(StreamWrapper::WRAPPER_URI, $mode, false, $context);
 	}
 }
