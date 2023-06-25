@@ -550,7 +550,7 @@ final class ContentNegociationTest extends \PHPUnit\Framework\TestCase
 					HeaderField::CONTENT_TYPE => 'text/html'
 				],
 				'expected-vary' => [
-					HeaderField::CONTENT_TYPE
+					HeaderField::ACCEPT
 				]
 			],
 			'Nothing from server' => [
@@ -591,9 +591,9 @@ final class ContentNegociationTest extends \PHPUnit\Framework\TestCase
 					HeaderField::CONTENT_LANGUAGE => 'en'
 				],
 				'expected-vary' => [
-					HeaderField::CONTENT_TYPE,
-					HeaderField::CONTENT_ENCODING,
-					HeaderField::CONTENT_LANGUAGE
+					HeaderField::ACCEPT,
+					HeaderField::ACCEPT_ENCODING,
+					HeaderField::ACCEPT_LANGUAGE
 				]
 			]
 		];
