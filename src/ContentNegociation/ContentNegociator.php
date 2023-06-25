@@ -205,8 +205,13 @@ class ContentNegociator
 				];
 
 				$vary = [];
-				foreach ($availables as $h => $_)
-					$vary[] = Container::keyValue($headerMap, $h, $h);
+				foreach ($headerMap as $requestHeader => $responseHeader)
+				{
+					if (!Container::keyExists($negociatied,
+						$responseHeader))
+						continue;
+					$vary[] = $requestHeader;
+				}
 			}
 		}
 
@@ -216,7 +221,7 @@ class ContentNegociator
 
 		foreach ($negociatied as $h => $v)
 		{
-			$response = $response->withHeader($h,
+			$response = $response->withoutHeader($h)->withHeader($h,
 				HeaderValueFactory::stringifyValue($v, $h));
 		}
 
