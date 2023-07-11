@@ -23,6 +23,7 @@ use NoreSources\Http\Header\HeaderField;
 use NoreSources\Http\Header\HeaderValueFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use NoreSources\Type\TypeDescription;
 
 class SerializationManagerResponsePopulator
 {
@@ -70,7 +71,6 @@ class SerializationManagerResponsePopulator
 
 		$negociation = $negociator->negociate($request, $availables,
 			ContentNegociator::ALL_MATCH);
-		$stream = null;
 		$contentType = null;
 		$errors = [];
 
@@ -80,7 +80,7 @@ class SerializationManagerResponsePopulator
 		{
 			try
 			{
-				if ($serializer instanceof StreamSerializerBaseTrait)
+				if ($serializer instanceof StreamSerializerInterface)
 				{
 					if ($body->isSeekable())
 						$body->rewind();
@@ -91,7 +91,7 @@ class SerializationManagerResponsePopulator
 					 *
 					 * @var StreamSerializerInterface $serializer
 					 */
-					$serializer->serializeToStream($stream, $content,
+					$serializer->serializeToStream($resource, $content,
 						$mediaType);
 					$contentType = $mediaType;
 					break;
@@ -105,10 +105,10 @@ class SerializationManagerResponsePopulator
 
 					$serialized = $serializer->serializeData($content,
 						$mediaType);
-					$stream = StreamManager::getInstance()->createFileStream(
+					$body = StreamManager::getInstance()->createFileStream(
 						'php://temp', 'rw');
-					$stream->write($serialized);
-					$response = $response->withBody($stream);
+					$body->write($serialized);
+					$response = $response->withBody($body);
 					$contentType = $mediaType;
 					break;
 				}
@@ -128,8 +128,8 @@ class SerializationManagerResponsePopulator
 
 		$negociation[HeaderField::CONTENT_TYPE] = $contentType;
 
-		return $response = $negociator->populateResponse($response,
-			$negociation, $availables);
+		return $negociator->populateResponse($response, $negociation,
+			$availables);
 	}
 
 	public function getSerializer()
