@@ -6,9 +6,11 @@
  *
  * @package Http
  */
+use NoreSources\Http\Stream;
 use NoreSources\Http\StreamManager;
 use NoreSources\Http\StreamWrapper;
 use NoreSources\Test\DerivedFileTestTrait;
+use NoreSources\Type\TypeDescription;
 use Psr\Http\Message\StreamInterface;
 
 class StreamTest extends \PHPUnit\Framework\TestCase
@@ -66,5 +68,24 @@ class StreamTest extends \PHPUnit\Framework\TestCase
 
 		\fclose($resource);
 		$stream->close();
+	}
+
+	public function testManager()
+	{
+		$uri = 'php://memory';
+		$resource = \fopen($uri, 'r');
+		$stream = new Stream($resource);
+		$manager = StreamManager::getInstance();
+
+		foreach ([
+			$uri,
+			$resource,
+			$stream
+		] as $input)
+		{
+			$actual = $manager->create($input);
+			$this->assertInstanceOf(StreamInterface::class, $actual,
+				'Stream from ' . TypeDescription::getName($input));
+		}
 	}
 }

@@ -9,6 +9,7 @@
 namespace NoreSources\Http;
 
 use NoreSources\SingletonTrait;
+use NoreSources\Type\TypeDescription;
 use Psr\Http\Message\StreamInterface;
 
 class StreamManager
@@ -17,14 +18,63 @@ class StreamManager
 
 	/**
 	 *
-	 * @param unknown $filename
-	 *        	File path
-	 * @param unknown $mode
+	 * Create a StreamInterface from any supported kind of input.
+	 *
+	 * @param mixed $input
+	 *        	Anything that can be a internal resource for a Stream.
+	 * @param string $mode
+	 *        	Stream open mode (for string input)
+	 * @throws \InvalidArgumentException
+	 * @return StreamInterface
+	 */
+	public function create($input, $mode = 'r')
+	{
+		if (\is_string($input))
+			return $this->createFileStream($input, $mode);
+
+		if (\is_resource($input))
+			return $this->createFromResource($input);
+
+		if ($input instanceof StreamInterface)
+			return $input;
+
+		throw new \InvalidArgumentException(
+			TypeDescription::getName($input) . ' type is not supported');
+	}
+
+	/**
+	 * Create StreamInterface object from stream resource
+	 *
+	 * @param resource $resource
+	 *        	Stream resource
+	 * @throws \InvalidArgumentException
+	 * @return StreamInterface
+	 */
+	public function createFromResource($resource)
+	{
+		if (!\is_resource($resource))
+			throw new \InvalidArgumentException('resource expected');
+		$type = \get_resource_type($resource);
+		switch ($type)
+		{
+			case 'stream':
+				return new Stream($resource);
+		}
+		throw new \InvalidArgumentException(
+			$type . ' resource type is not supported');
+	}
+
+	/**
+	 * Create a StreamInterface object from any stream URI or file path
+	 *
+	 * @param string $filename
+	 *        	File path or stream URI
+	 * @param string $mode
 	 *        	File mode flags
 	 * @throws \RuntimeException
 	 * @return StreamInterface
 	 */
-	public function createFileStream($filename, $mode)
+	public function createFileStream($filename, $mode = 'r')
 	{
 		$file = @\fopen($filename, $mode);
 		if ($file === false)
