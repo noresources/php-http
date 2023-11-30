@@ -11,17 +11,31 @@ use NoreSources\Http\Status;
 use NoreSources\Http\StatusExceptionInterface;
 use NoreSources\Http\Traits\StatusExceptionTrait;
 
+/**
+ * Exception raised during content negociation.
+ *
+ * Exception error code corresponds to the HTTP status 406 Not Acceptable
+ */
 class ContentNegociationException extends \Exception implements
 	StatusExceptionInterface
 {
 
 	use StatusExceptionTrait;
 
-	public function __construct($negociationType)
+	/**
+	 *
+	 * @param string $negociationType
+	 *        	HTTP header field name.
+	 * @param string $details
+	 *        	Exception details.
+	 */
+	public function __construct($negociationType, $details = '')
 	{
 		$this->negociationType = $negociationType;
-		parent::__construct($negociationType . ' negociation error',
-			Status::NOT_ACCEPTABLE);
+		$message = $negociationType . ' negociation error';
+		if (\strlen($details))
+			$message .= ': ' . $details;
+		parent::__construct($message, Status::NOT_ACCEPTABLE);
 	}
 
 	public function getNegociationType()

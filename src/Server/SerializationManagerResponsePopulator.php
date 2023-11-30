@@ -14,20 +14,32 @@ use NoreSources\Data\Serialization\SerializableMediaTypeInterface;
 use NoreSources\Data\Serialization\SerializationException;
 use NoreSources\Data\Serialization\SerializationManager;
 use NoreSources\Data\Serialization\StreamSerializerInterface;
-use NoreSources\Data\Serialization\Traits\StreamSerializerBaseTrait;
 use NoreSources\Data\Utility\MediaTypeListInterface;
 use NoreSources\Http\StreamManager;
+use NoreSources\Http\ContentNegociation\ContentNegociationException;
 use NoreSources\Http\ContentNegociation\ContentNegociator;
 use NoreSources\Http\Header\AcceptAlternativeValueList;
 use NoreSources\Http\Header\HeaderField;
 use NoreSources\Http\Header\HeaderValueFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use NoreSources\Type\TypeDescription;
 
 class SerializationManagerResponsePopulator
 {
 
+	/**
+	 * Fill HTTP response with serialized content and according HTTP headers.
+	 *
+	 * @param ResponseInterface $response
+	 *        	Response to fil.
+	 * @param ServerRequestInterface $request
+	 *        	Client request.
+	 * @param mixed $content
+	 *        	Unserialized response body data.
+	 * @throws ContentNegociationException
+	 * @throws \RuntimeException
+	 * @return \Psr\Http\Message\ResponseInterface
+	 */
 	public function populateResponse(ResponseInterface $response,
 		ServerRequestInterface $request, $content = null)
 	{
@@ -62,7 +74,7 @@ class SerializationManagerResponsePopulator
 		}
 
 		if (Container::count($availableMediaRanges) == 0)
-			throw new \RuntimeException(
+			throw new ContentNegociationException(HeaderField::ACCEPT,
 				'Unable to get serializer supported media types');
 
 		$availables = [

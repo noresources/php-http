@@ -2,6 +2,7 @@
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\Diactoros\Response\TextResponse;
 use NoreSources\Http\StreamManager;
+use NoreSources\Http\ContentNegociation\ContentNegociationException;
 use NoreSources\Http\Header\HeaderField;
 use NoreSources\Http\Server\SerializationManagerResponsePopulator;
 use NoreSources\MediaType\MediaTypeFactory;
@@ -27,6 +28,20 @@ class SerializationManagerResponsePopulatorTest extends \PHPUnit\Framework\TestC
 	public function tearDown(): void
 	{
 		$this->cleanupDerivedFileTest();
+	}
+
+	public function testException()
+	{
+		$populator = new SerializationManagerResponsePopulator();
+		$request = ServerRequestFactory::fromGlobals();
+		$request = $request->withHeader(HeaderField::ACCEPT,
+			'text/alien-format');
+		$data = '???? Ack Ack Ack !!!';
+		$response = new TextResponse('');
+		$this->expectException(ContentNegociationException::class,
+			'No supported media type');
+		$response = $populator->populateResponse($response, $request,
+			$data);
 	}
 
 	public function testJSON()
