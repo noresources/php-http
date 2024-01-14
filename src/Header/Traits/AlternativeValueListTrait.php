@@ -25,12 +25,12 @@ trait AlternativeValueListTrait
 		throw new \OutOfBoundsException();
 	}
 
-	public function count()
+	public function count() : int
 	{
 		return $this->alternativeValues->count();
 	}
 
-	public function getIterator()
+	public function getIterator() : \Traversable
 	{
 		return $this->alternativeValues->getIterator();
 	}
