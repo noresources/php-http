@@ -10,21 +10,27 @@
  */
 namespace NoreSources\Http\Tools;
 
-use NoreSources\TypeConversion;
+use NoreSources\Type\TypeConversion;
 
 class FileBuilderHelper
 {
 
 	public static function makePhpDocReferenceLinks($references)
 	{
+		$base = 'https://tools.ietf.org/html/rfc';
 		$pattern = '\[RFC([0-9]+)(?:,\s*Section\s+([0-9]+(?:\.[0-9]+)*))?\]';
-		return \preg_replace_callback(chr(1) . $pattern . chr(1) . 'i',
-			function ($m) {
-				$s = 'https://tools.ietf.org/html/rfc' . $m[1];
+		$references = \preg_replace_callback(
+			chr(1) . $pattern . chr(1) . 'i',
+			function ($m) use ($base) {
+				$s = $base . $m[1];
 				if (\array_key_exists(2, $m))
 					$s .= '#section-' . $m[2];
 				return PHP_EOL . '@see ' . $s . PHP_EOL;
 			}, $references);
+		$pattern = '\[RFC([0-9]+)[:,]\s*(.*)\]';
+		return \preg_replace(chr(1) . $pattern . chr(1),
+			'@see ' . $base . '$1 $2' . PHP_EOL, $references);
+		return $references;
 	}
 
 	public static function download($url, $filename)

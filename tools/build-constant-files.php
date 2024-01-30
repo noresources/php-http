@@ -13,6 +13,7 @@ namespace NoreSources\Http;
 use Nette\PhpGenerator\Dumper;
 use Nette\PhpGenerator\PhpFile;
 use NoreSources\Container\Container;
+use NoreSources\Data\Serialization\SerializationManager;
 use NoreSources\Http\Tools\FileBuilderHelper;
 require (__DIR__ . '/../vendor/autoload.php');
 
@@ -22,18 +23,20 @@ $fileHeader = \file_get_contents(
 	$projectPath . '/resources/templates/file-header.txt');
 $fileHeader = \str_replace('{year}', date('Y'), $fileHeader);
 
+$serializer = new SerializationManager();
 $files = [
+	// Header fields
 	[
 		'input' => [
-			'url' => 'https://www.iana.org/assignments/message-headers/perm-headers.csv',
-			'file' => 'resources/data/perm-headers.csv',
+			'url' => 'http://www.iana.org/assignments/http-fields/field-names.csv',
+			'file' => 'resources/data/field-names.csv',
 			'columns' => [
 				'name' => 0,
-				'references' => 4
+				'references' => 3
 			],
 			'validator' => function ($entry) {
-				return \strcasecmp(Container::keyValue($entry, 2),
-					'http') == 0;
+				$status = \strtolower(Container::keyValue($entry, 2));
+				return true;
 			}
 		],
 		'target' => [
@@ -141,7 +144,7 @@ foreach ($files as $file)
 			continue;
 	}
 
-	$dataStream = \fopen($dataFilename, 'r');
+	$data = $serializer->unserializeFromFile($dataFilename);
 
 	$className = $target['class'];
 	$directory = Container::keyValue($target, 'directory', '');
@@ -179,7 +182,7 @@ foreach ($files as $file)
 
 	$validator = Container::keyValue($input, 'validator');
 
-	while ($entry = \fgetcsv($dataStream))
+	foreach ($data as $entry)
 	{
 		if ($index++ == 0 && Container::keyValue($input, 'header', true))
 			continue; // Column names
@@ -197,7 +200,7 @@ foreach ($files as $file)
 		$notes = Container::keyValue($entry,
 			Container::keyValue($columns, 'notes', -1), '');
 
-		if (empty($name) || empty($value))
+		if (empty($name) || empty($value) || ($name == '*'))
 			continue;
 
 		$valueProcessor = Container::keyValue($constants,
@@ -220,8 +223,6 @@ foreach ($files as $file)
 		if (Container::keyExists($target, 'reverseMap'))
 			$reverseMap[$value] = $name;
 	}
-
-	\fclose($dataStream);
 
 	$dumper = new Dumper();
 
