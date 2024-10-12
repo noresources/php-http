@@ -449,7 +449,7 @@ final class ContentNegociationTest extends \PHPUnit\Framework\TestCase
 			'rfc7231-example' => [
 				'accept' => 'text/*;q=0.3, text/html;q=0.7, ' .
 				' text/html;level=1, text/html;level=2;q=0.4, */*;q=0.5',
-				'mediaTypes' => [
+				'availableMediaTypes' => [
 					'text/html;level=1' => 1,
 					'text/html' => 0.7,
 					'text/plain' => 0.3,
@@ -461,18 +461,19 @@ final class ContentNegociationTest extends \PHPUnit\Framework\TestCase
 			],
 			'strict' => [
 				'accept' => 'application/json',
-				'mediaTypes' => [
+				'availableMediaTypes' => [
 					'application/json' => 1,
 					'application/json; charset="utf-8"' => 1,
 					'foo/bar' => -1
 				]
 			],
-			'strict 2' => [
-				'accept' => 'application/json; charset="utf-8", application/json; q=0.8',
-				'mediaTypes' => [
-					'application/json;  charset=utf-8' => 1,
-					'application/json' => 0.8,
-					'foo/bar' => -1
+			'untitle test' => [
+				'accept' => 'application/json; style=pretty' .
+				', */*;q=0.1',
+				'availableMediaTypes' => [
+					'application/json' => 1,
+					'application/json; charset="utf-8"' => 1,
+					'foo/bar' => 0.1
 				]
 			]
 		];
@@ -480,16 +481,19 @@ final class ContentNegociationTest extends \PHPUnit\Framework\TestCase
 		foreach ($tests as $label => $test)
 		{
 			$test = (object) $test;
-			$accept = HeaderValueFactory::createFromKeyValue(
-				HeaderField::ACCEPT, $test->accept);
+			$accept = $test->accept;
+			if (\is_string($accept))
+				$accept = \explode(',', $accept);
+			$acceptValue = HeaderValueFactory::createFromKeyValue(
+				HeaderField::ACCEPT, \implode(', ', $accept));
 			$selection = null;
 			$selectionQuality = -1;
-			foreach ($test->mediaTypes as $mediaTypeString => $expectedQualityValue)
+			foreach ($test->availableMediaTypes as $mediaTypeString => $expectedQualityValue)
 			{
 				$contentType = HeaderValueFactory::createFromKeyValue(
 					HeaderField::CONTENT_TYPE, $mediaTypeString);
 				$qualityValue = $negociator->getContentTypeQualityValue(
-					$contentType->getMediaType(), $accept);
+					$contentType->getMediaType(), $acceptValue);
 
 				$this->assertEquals($expectedQualityValue, $qualityValue,
 					$label . ' vs ' . $mediaTypeString);
@@ -509,7 +513,7 @@ final class ContentNegociationTest extends \PHPUnit\Framework\TestCase
 			$negociated = $negociator->negociate($request,
 				[
 					HeaderField::ACCEPT => \array_keys(
-						$test->mediaTypes)
+						$test->availableMediaTypes)
 				]);
 
 			$this->assertArrayHasKey(HeaderField::CONTENT_TYPE,

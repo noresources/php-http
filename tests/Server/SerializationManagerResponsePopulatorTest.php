@@ -1,6 +1,7 @@
 <?php
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\Diactoros\Response\TextResponse;
+use NoreSources\Container\Container;
 use NoreSources\Http\StreamManager;
 use NoreSources\Http\ContentNegociation\ContentNegociationException;
 use NoreSources\Http\Header\HeaderField;
@@ -44,58 +45,100 @@ class SerializationManagerResponsePopulatorTest extends \PHPUnit\Framework\TestC
 			$data);
 	}
 
-	public function testJSON()
+	public function testOutput()
 	{
+		$tests = [
+			'json' => [
+				'accept' => 'application/json; unknown=no; style=pretty; undefined=yes',
+				'acceptParameters' => [
+					'style',
+					'undefined'
+				]
+			],
+			'text-art' => [
+				'accept' => 'text/vnd.ascii-art; charset=ascii; max-row-length=80; not=supported',
+				'acceptParameters' => [
+					'charset',
+					'max-row-length'
+				]
+			],
+			'csv' => [
+				'accept' => 'text/csv; separator="|";foo=bar',
+				'acceptParameters' => [
+					'separator',
+					'foo'
+				]
+			]
+		];
+
 		$populator = new SerializationManagerResponsePopulator();
 		$serializer = $populator->getSerializer();
 		$sm = StreamManager::getInstance();
-		$mediaType = MediaTypeFactory::getInstance()->createFromString(
-			'application/json');
-		$data = [
-			'type' => 'object',
-			'format' => 'json'
-		];
-
-		if (!$serializer->isMediaTypeSerializable($mediaType))
-		{
-			$this->assertFalse(false, 'JSON extension not loaded ?');
-			return;
-		}
-
 		$method = __METHOD__;
-		$suffix = null;
 
-		$body = $sm->createFileStream('php://temp', 'w');
-		$stream = $sm->getStreamResource($body);
-
-		$response = new TextResponse('');
-		$response = $response->withBody($body);
-
-		$request = ServerRequestFactory::fromGlobals();
-		$request = $request->withHeader(HeaderField::ACCEPT,
-			\strval($mediaType));
-
+		foreach ($tests as $format => $test)
 		{
-			$requestText = \Laminas\Diactoros\Request\Serializer::toString(
-				$request);
-			$extension = 'request';
-			$this->assertDerivedFile($requestText . PHP_EOL, $method,
-				$suffix, $extension);
-		}
+			$mediaType = MediaTypeFactory::getInstance()->createFromString(
+				$test['accept'], true);
+			$acceptParameters = Container::keyValue($test,
+				'acceptparameters', []);
+			foreach ($acceptParameters as $name)
+			{
+				$parameters = $mediaType->getParameters();
+				$this->assertTrue($parameters->has($name),
+					\strval($mediaType) . ' has ' . $name . ' parameter');
+			}
 
-		$response = $populator->populateResponse($response, $request,
-			$data);
+			if (!$serializer->isMediaTypeSerializable($mediaType))
+			{
+				continue;
+			}
 
-		//
+			$data = [
+				'body' => [
+					'type' => 'object',
+					'format' => $format
+				],
+				'request' => [
+					'type' => 'acceptable',
+					'format' => 'HTTP'
+				]
+			];
 
-		{
-			$extension = 'response';
-			if ($response->getBody()->isSeekable())
-				$response->getBody()->rewind();
-			$responseText = \Laminas\Diactoros\Response\Serializer::toString(
-				$response);
-			$this->assertDerivedFile($responseText . PHP_EOL, $method,
-				$suffix, $extension);
+			$suffix = $format;
+
+			$body = $sm->createFileStream('php://temp', 'w');
+			$stream = $sm->getStreamResource($body);
+
+			$response = new TextResponse('');
+			$response = $response->withBody($body);
+
+			$request = ServerRequestFactory::fromGlobals();
+			$request = $request->withHeader(HeaderField::ACCEPT,
+				$mediaType->serializeToString());
+
+			{
+				$requestText = \Laminas\Diactoros\Request\Serializer::toString(
+					$request);
+				$extension = 'request';
+				$this->assertDerivedFile($requestText . PHP_EOL, $method,
+					$suffix, $extension);
+			}
+
+			$response = $populator->populateResponse($response, $request,
+				$data);
+
+			//
+
+			{
+				$extension = 'response';
+				if ($response->getBody()->isSeekable())
+					$response->getBody()->rewind();
+				$responseText = \Laminas\Diactoros\Response\Serializer::toString(
+					$response);
+				$this->assertDerivedFile($responseText . PHP_EOL,
+					$method, $suffix, $extension);
+			}
 		}
 	}
 }

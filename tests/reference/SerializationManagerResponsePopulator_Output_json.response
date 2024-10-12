@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+Vary: Accept
+Content-Type: application/json; style=pretty
+
+{
+    "body": {
+        "type": "object",
+        "format": "json"
+    },
+    "request": {
+        "type": "acceptable",
+        "format": "HTTP"
+    }
+}

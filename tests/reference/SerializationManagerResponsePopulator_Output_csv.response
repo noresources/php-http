@@ -1,0 +1,8 @@
+HTTP/1.1 200 OK
+Vary: Accept
+Content-Type: text/csv; separator=|
+
+|type|format
+body|object|csv
+request|acceptable|HTTP
+
