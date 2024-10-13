@@ -33,6 +33,13 @@ class AuthenticationScheme
 	const BEARER = 'Bearer';
 
 	/**
+	 * Concealed authentication scheme
+	 *
+	 * [RFC-ietf-httpbis-unprompted-auth-12]
+	 */
+	const CONCEALED = 'Concealed';
+
+	/**
 	 * Digest authentication scheme
 	 *
 	 *
@@ -47,6 +54,14 @@ class AuthenticationScheme
 	 * @see https://tools.ietf.org/html/rfc9449#section-7.1
 	 */
 	const DPOP = 'DPoP';
+
+	/**
+	 * GNAP authentication scheme
+	 *
+	 *
+	 * @see https://tools.ietf.org/html/rfc9635#section-7.2
+	 */
+	const GNAP = 'GNAP';
 
 	/**
 	 * HOBA authentication scheme
@@ -90,7 +105,8 @@ class AuthenticationScheme
 	/**
 	 * PrivateToken authentication scheme
 	 *
-	 * [RFC-ietf-privacypass-auth-scheme-15, Section 2]
+	 *
+	 * @see https://tools.ietf.org/html/rfc9577#section-2
 	 */
 	const PRIVATETOKEN = 'PrivateToken';
 

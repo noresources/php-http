@@ -510,7 +510,7 @@ class Status
 	 * Not Extended (OBSOLETED) HTTP status code
 	 *
 	 *
-	 * @see https://tools.ietf.org/html/rfc2774 [status-change-http-experiments-to-historic]
+	 * @see https://tools.ietf.org/html/rfc2774 [Status change of HTTP experiments to Historic]
 	 */
 	const NOT_EXTENDED__OBSOLETED_ = 510;
 

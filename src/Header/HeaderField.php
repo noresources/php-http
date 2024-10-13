@@ -103,7 +103,7 @@ class HeaderField
 	/**
 	 * Accept-Signature HTTP message header field name
 	 *
-	 * [RFC-ietf-httpbis-message-signatures-19, Section 5.1: HTTP Message Signatures]
+	 * [RFC 9421, Section 5.1: HTTP Message Signatures]
 	 */
 	const ACCEPT_SIGNATURE = 'Accept-Signature';
 
@@ -248,37 +248,44 @@ class HeaderField
 	const AUTHORIZATION = 'Authorization';
 
 	/**
+	 * Available-Dictionary HTTP message header field name
+	 *
+	 * [RFC-ietf-httpbis-compression-dictionary-19, Section 2.2: Compression Dictionary Transport]
+	 */
+	const AVAILABLE_DICTIONARY = 'Available-Dictionary';
+
+	/**
 	 * C-Ext HTTP message header field name
 	 *
-	 * [RFC 2774: An HTTP Extension Framework][status-change-http-experiments-to-historic]
+	 * [RFC 2774: An HTTP Extension Framework]
 	 */
 	const C_EXT = 'C-Ext';
 
 	/**
 	 * C-Man HTTP message header field name
 	 *
-	 * [RFC 2774: An HTTP Extension Framework][status-change-http-experiments-to-historic]
+	 * [RFC 2774: An HTTP Extension Framework]
 	 */
 	const C_MAN = 'C-Man';
 
 	/**
 	 * C-Opt HTTP message header field name
 	 *
-	 * [RFC 2774: An HTTP Extension Framework][status-change-http-experiments-to-historic]
+	 * [RFC 2774: An HTTP Extension Framework]
 	 */
 	const C_OPT = 'C-Opt';
 
 	/**
 	 * C-PEP HTTP message header field name
 	 *
-	 * [PEP - an Extension Mechanism for HTTP][status-change-http-experiments-to-historic]
+	 * [PEP - an Extension Mechanism for HTTP]
 	 */
 	const C_PEP = 'C-PEP';
 
 	/**
 	 * C-PEP-Info HTTP message header field name
 	 *
-	 * [PEP - an Extension Mechanism for HTTP][status-change-http-experiments-to-historic]
+	 * [PEP - an Extension Mechanism for HTTP]
 	 */
 	const C_PEP_INFO = 'C-PEP-Info';
 
@@ -378,6 +385,55 @@ class HeaderField
 	const CLOSE = 'Close';
 
 	/**
+	 * CMCD-Object HTTP message header field name
+	 *
+	 * [CTA][CTA-5004 Common Media Client Data]
+	 */
+	const CMCD_OBJECT = 'CMCD-Object';
+
+	/**
+	 * CMCD-Request HTTP message header field name
+	 *
+	 * [CTA][CTA-5004 Common Media Client Data]
+	 */
+	const CMCD_REQUEST = 'CMCD-Request';
+
+	/**
+	 * CMCD-Session HTTP message header field name
+	 *
+	 * [CTA][CTA-5004 Common Media Client Data]
+	 */
+	const CMCD_SESSION = 'CMCD-Session';
+
+	/**
+	 * CMCD-Status HTTP message header field name
+	 *
+	 * [CTA][CTA-5004 Common Media Client Data]
+	 */
+	const CMCD_STATUS = 'CMCD-Status';
+
+	/**
+	 * CMSD-Dynamic HTTP message header field name
+	 *
+	 * [CTA][CTA-5006 Common Media Server Data (CMSD)]
+	 */
+	const CMSD_DYNAMIC = 'CMSD-Dynamic';
+
+	/**
+	 * CMSD-Static HTTP message header field name
+	 *
+	 * [CTA][CTA-5006 Common Media Server Data (CMSD)]
+	 */
+	const CMSD_STATIC = 'CMSD-Static';
+
+	/**
+	 * Concealed-Auth-Export HTTP message header field name
+	 *
+	 * [RFC-ietf-httpbis-unprompted-auth-12: The Concealed HTTP Authentication Scheme]
+	 */
+	const CONCEALED_AUTH_EXPORT = 'Concealed-Auth-Export';
+
+	/**
 	 * Configuration-Context HTTP message header field name
 	 *
 	 * [OSLC Configuration Management Version 1.0. Part 3: Configuration Specification]
@@ -394,15 +450,14 @@ class HeaderField
 	/**
 	 * Content-Base HTTP message header field name
 	 *
-	 * [RFC 2068: Hypertext Transfer Protocol -- HTTP/1.1][RFC 2616: Hypertext Transfer Protocol --
-	 * HTTP/1.1]
+	 * [RFC 2068: Hypertext Transfer Protocol -- HTTP/1.1]
 	 */
 	const CONTENT_BASE = 'Content-Base';
 
 	/**
 	 * Content-Digest HTTP message header field name
 	 *
-	 * [RFC-ietf-httpbis-digest-headers-13, Section 2: Digest Fields]
+	 * [RFC 9530, Section 2: Digest Fields]
 	 */
 	const CONTENT_DIGEST = 'Content-Digest';
 
@@ -452,8 +507,7 @@ class HeaderField
 	/**
 	 * Content-MD5 HTTP message header field name
 	 *
-	 * [RFC 2616, Section 14.15: Hypertext Transfer Protocol -- HTTP/1.1][RFC 7231, Appendix B:
-	 * Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content]
+	 * [RFC 2616, Section 14.15: Hypertext Transfer Protocol -- HTTP/1.1]
 	 */
 	const CONTENT_MD5 = 'Content-MD5';
 
@@ -516,7 +570,7 @@ class HeaderField
 	/**
 	 * Cookie2 HTTP message header field name
 	 *
-	 * [RFC 2965: HTTP State Management Mechanism][RFC 6265: HTTP State Management Mechanism]
+	 * [RFC 2965: HTTP State Management Mechanism]
 	 */
 	const COOKIE2 = 'Cookie2';
 
@@ -556,6 +610,13 @@ class HeaderField
 	const CROSS_ORIGIN_RESOURCE_POLICY = 'Cross-Origin-Resource-Policy';
 
 	/**
+	 * CTA-Common-Access-Token HTTP message header field name
+	 *
+	 * [CTA][Chris_Lemmons]
+	 */
+	const CTA_COMMON_ACCESS_TOKEN = 'CTA-Common-Access-Token';
+
+	/**
 	 * DASL HTTP message header field name
 	 *
 	 * [RFC 5323: Web Distributed Authoring and Versioning (WebDAV) SEARCH]
@@ -591,6 +652,14 @@ class HeaderField
 	const DELTA_BASE = 'Delta-Base';
 
 	/**
+	 * Deprecation HTTP message header field name
+	 *
+	 * [RFC-ietf-httpapi-deprecation-header-09, Section 2: The Deprecation HTTP Response Header
+	 * Field]
+	 */
+	const DEPRECATION = 'Deprecation';
+
+	/**
 	 * Depth HTTP message header field name
 	 *
 	 * [RFC 4918: HTTP Extensions for Web Distributed Authoring and Versioning (WebDAV)]
@@ -619,10 +688,16 @@ class HeaderField
 	const DIFFERENTIAL_ID = 'Differential-ID';
 
 	/**
+	 * Dictionary-ID HTTP message header field name
+	 *
+	 * [RFC-ietf-httpbis-compression-dictionary-19, Section 2.3: Compression Dictionary Transport]
+	 */
+	const DICTIONARY_ID = 'Dictionary-ID';
+
+	/**
 	 * Digest HTTP message header field name
 	 *
-	 * [RFC 3230: Instance Digests in HTTP][RFC-ietf-httpbis-digest-headers-13, Section 1.3: Digest
-	 * Fields]
+	 * [RFC 3230: Instance Digests in HTTP]
 	 */
 	const DIGEST = 'Digest';
 
@@ -671,7 +746,7 @@ class HeaderField
 	/**
 	 * Expect-CT HTTP message header field name
 	 *
-	 * @see https://tools.ietf.org/html/rfc9163 Expect-CT Extension for HTTP][IESG][HTTPBIS
+	 * @see https://tools.ietf.org/html/rfc9163 Expect-CT Extension for HTTP
 	 */
 	const EXPECT_CT = 'Expect-CT';
 
@@ -685,7 +760,7 @@ class HeaderField
 	/**
 	 * Ext HTTP message header field name
 	 *
-	 * [RFC 2774: An HTTP Extension Framework][status-change-http-experiments-to-historic]
+	 * [RFC 2774: An HTTP Extension Framework]
 	 */
 	const EXT = 'Ext';
 
@@ -837,6 +912,13 @@ class HeaderField
 	const LINK = 'Link';
 
 	/**
+	 * Link-Template HTTP message header field name
+	 *
+	 * [RFC 9652: The Link-Template HTTP Header Field]
+	 */
+	const LINK_TEMPLATE = 'Link-Template';
+
+	/**
 	 * Location HTTP message header field name
 	 *
 	 * @see https://tools.ietf.org/html/rfc9110 Section 10.2.2: HTTP Semantics
@@ -853,7 +935,7 @@ class HeaderField
 	/**
 	 * Man HTTP message header field name
 	 *
-	 * [RFC 2774: An HTTP Extension Framework][status-change-http-experiments-to-historic]
+	 * [RFC 2774: An HTTP Extension Framework]
 	 */
 	const MAN = 'Man';
 
@@ -944,7 +1026,7 @@ class HeaderField
 	/**
 	 * Opt HTTP message header field name
 	 *
-	 * [RFC 2774: An HTTP Extension Framework][status-change-http-experiments-to-historic]
+	 * [RFC 2774: An HTTP Extension Framework]
 	 */
 	const OPT = 'Opt';
 
@@ -1208,6 +1290,13 @@ class HeaderField
 	const REFERER_ROOT = 'Referer-Root';
 
 	/**
+	 * Referrer-Policy HTTP message header field name
+	 *
+	 * [Referrer Policy]
+	 */
+	const REFERRER_POLICY = 'Referrer-Policy';
+
+	/**
 	 * Refresh HTTP message header field name
 	 *
 	 * [HTML]
@@ -1259,7 +1348,7 @@ class HeaderField
 	/**
 	 * Repr-Digest HTTP message header field name
 	 *
-	 * [RFC-ietf-httpbis-digest-headers-13, Section 3: Digest Fields]
+	 * [RFC 9530, Section 3: Digest Fields]
 	 */
 	const REPR_DIGEST = 'Repr-Digest';
 
@@ -1273,7 +1362,7 @@ class HeaderField
 	/**
 	 * Safe HTTP message header field name
 	 *
-	 * [RFC 2310: The Safe Response Header Field][status-change-http-experiments-to-historic]
+	 * [RFC 2310: The Safe Response Header Field]
 	 */
 	const SAFE = 'Safe';
 
@@ -1350,8 +1439,7 @@ class HeaderField
 	/**
 	 * Security-Scheme HTTP message header field name
 	 *
-	 * [RFC 2660: The Secure HyperText Transfer
-	 * Protocol][status-change-http-experiments-to-historic]
+	 * [RFC 2660: The Secure HyperText Transfer Protocol]
 	 */
 	const SECURITY_SCHEME = 'Security-Scheme';
 
@@ -1379,7 +1467,7 @@ class HeaderField
 	/**
 	 * Set-Cookie2 HTTP message header field name
 	 *
-	 * [RFC 2965: HTTP State Management Mechanism][RFC 6265: HTTP State Management Mechanism]
+	 * [RFC 2965: HTTP State Management Mechanism]
 	 */
 	const SET_COOKIE2 = 'Set-Cookie2';
 
@@ -1393,14 +1481,14 @@ class HeaderField
 	/**
 	 * Signature HTTP message header field name
 	 *
-	 * [RFC-ietf-httpbis-message-signatures-19, Section 4.2: HTTP Message Signatures]
+	 * [RFC 9421, Section 4.2: HTTP Message Signatures]
 	 */
 	const SIGNATURE = 'Signature';
 
 	/**
 	 * Signature-Input HTTP message header field name
 	 *
-	 * [RFC-ietf-httpbis-message-signatures-19, Section 4.1: HTTP Message Signatures]
+	 * [RFC 9421, Section 4.1: HTTP Message Signatures]
 	 */
 	const SIGNATURE_INPUT = 'Signature-Input';
 
@@ -1545,6 +1633,13 @@ class HeaderField
 	const URI = 'URI';
 
 	/**
+	 * Use-As-Dictionary HTTP message header field name
+	 *
+	 * [RFC-ietf-httpbis-compression-dictionary-19, Section 2.1: Compression Dictionary Transport]
+	 */
+	const USE_AS_DICTIONARY = 'Use-As-Dictionary';
+
+	/**
 	 * User-Agent HTTP message header field name
 	 *
 	 * @see https://tools.ietf.org/html/rfc9110 Section 10.1.5: HTTP Semantics
@@ -1575,22 +1670,21 @@ class HeaderField
 	/**
 	 * Want-Content-Digest HTTP message header field name
 	 *
-	 * [RFC-ietf-httpbis-digest-headers-13, Section 4: Digest Fields]
+	 * [RFC 9530, Section 4: Digest Fields]
 	 */
 	const WANT_CONTENT_DIGEST = 'Want-Content-Digest';
 
 	/**
 	 * Want-Digest HTTP message header field name
 	 *
-	 * [RFC 3230: Instance Digests in HTTP][RFC-ietf-httpbis-digest-headers-13, Section 1.3: Digest
-	 * Fields]
+	 * [RFC 3230: Instance Digests in HTTP]
 	 */
 	const WANT_DIGEST = 'Want-Digest';
 
 	/**
 	 * Want-Repr-Digest HTTP message header field name
 	 *
-	 * [RFC-ietf-httpbis-digest-headers-13, Section 4: Digest Fields]
+	 * [RFC 9530, Section 4: Digest Fields]
 	 */
 	const WANT_REPR_DIGEST = 'Want-Repr-Digest';
 

@@ -42,6 +42,20 @@ class ContentCoding
 	const COMPRESS = 'compress';
 
 	/**
+	 * dcb HTTP Content coding
+	 * "Dictionary-Compressed Brotli" data format.
+	 * [RFC-ietf-httpbis-compression-dictionary-19]
+	 */
+	const DCB = 'dcb';
+
+	/**
+	 * dcz HTTP Content coding
+	 * "Dictionary-Compressed Zstandard" data format.
+	 * [RFC-ietf-httpbis-compression-dictionary-19]
+	 */
+	const DCZ = 'dcz';
+
+	/**
 	 * deflate HTTP Content coding
 	 * "deflate" compressed data ([RFC1951]) inside the "zlib" data format ([RFC1950])
 	 *
@@ -97,8 +111,10 @@ class ContentCoding
 
 	/**
 	 * zstd HTTP Content coding
-	 * A stream of bytes compressed using the Zstandard
-	 * protocol
+	 * A stream of bytes compressed using the Zstandard protocol with a Window_Size of not more than
+	 * 8 MB.
+	 *
+	 * @see https://tools.ietf.org/html/rfc9659
 	 *
 	 * @see https://tools.ietf.org/html/rfc8878
 	 */
