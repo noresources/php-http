@@ -278,7 +278,7 @@ class ContentNegociator
 				$mb = $filtered[$b];
 				try
 				{
-					$c = $mb->compare($ma);
+					$c = $mb->precisionCompare($ma);
 					if ($c != 0)
 						return $c;
 				}

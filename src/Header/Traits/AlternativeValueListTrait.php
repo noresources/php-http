@@ -8,6 +8,7 @@
 namespace NoreSources\Http\Header\Traits;
 
 use NoreSources\Container\Container;
+use NoreSources\Type\TypeConversion;
 
 trait AlternativeValueListTrait
 {
@@ -25,12 +26,12 @@ trait AlternativeValueListTrait
 		throw new \OutOfBoundsException();
 	}
 
-	public function count() : int
+	public function count(): int
 	{
 		return $this->alternativeValues->count();
 	}
 
-	public function getIterator() : \Traversable
+	public function getIterator(): \Traversable
 	{
 		return $this->alternativeValues->getIterator();
 	}
@@ -52,7 +53,7 @@ trait AlternativeValueListTrait
 			$this->alternativeValues = $alternatives;
 		else
 			$this->alternativeValues->exchangeArray(
-				Container::createArray($alternatives));
+				TypeConversion::toArray($alternatives));
 	}
 
 	/**

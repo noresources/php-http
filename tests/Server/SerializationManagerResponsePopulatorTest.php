@@ -115,7 +115,7 @@ class SerializationManagerResponsePopulatorTest extends \PHPUnit\Framework\TestC
 
 			$request = ServerRequestFactory::fromGlobals();
 			$request = $request->withHeader(HeaderField::ACCEPT,
-				$mediaType->serializeToString());
+				$mediaType->toString());
 
 			{
 				$requestText = \Laminas\Diactoros\Request\Serializer::toString(

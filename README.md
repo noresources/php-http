@@ -1,4 +1,5 @@
-# ns-php-http
+noresources/http
+=================
 
 HTTP message manipulation library
 

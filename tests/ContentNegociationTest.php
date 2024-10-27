@@ -529,8 +529,8 @@ final class ContentNegociationTest extends \PHPUnit\Framework\TestCase
 			$this->assertInstanceOf(MediaTypeInterface::class, $actual,
 				$label);
 
-			$this->assertEquals($selection->serializeToString(),
-				$actual->serializeToString(),
+			$this->assertEquals($selection->toString(),
+				$actual->toString(),
 				$label . ' content-type negociation');
 		}
 	}
