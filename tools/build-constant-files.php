@@ -15,6 +15,7 @@ use Nette\PhpGenerator\PhpFile;
 use NoreSources\Container\Container;
 use NoreSources\Data\Serialization\SerializationManager;
 use NoreSources\Http\Tools\FileBuilderHelper;
+use NoreSources\Text\Text;
 require (__DIR__ . '/../vendor/autoload.php');
 
 $projectPath = realPath(__DIR__ . '/..');
@@ -211,8 +212,9 @@ foreach ($files as $file)
 		$referenceLinks = FileBuilderHelper::makePhpDocReferenceLinks(
 			$references);
 
-		$constantName = \strtoupper(
-			\preg_replace(',[^a-zA-Z0-9],', '_', $name));
+		$shortName = \preg_replace('/^([a-zA-Z0-9-_ \t]+).*/', '$1',
+			$name);
+		$constantName = Text::toMacroCase($shortName);
 		$constantComment = $name . ' ' .
 			Container::keyValue($constants, 'comment', $className) .
 			PHP_EOL . $notes . PHP_EOL . $referenceLinks;
