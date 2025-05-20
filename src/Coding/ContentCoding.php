@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2024 by Renaud Guillard (dev@nore.fr)
+ * Copyright © 2025 by Renaud Guillard (dev@nore.fr)
  * Distributed under the terms of the MIT License, see LICENSE
  *
  * @package HTTP
@@ -22,7 +22,7 @@ class ContentCoding
 	 *
 	 * @see https://tools.ietf.org/html/rfc8188
 	 */
-	const AES128GCM = 'aes128gcm';
+	const AES_128_GCM = 'aes128gcm';
 
 	/**
 	 * br HTTP Content coding
@@ -91,7 +91,7 @@ class ContentCoding
 	 * Network Transfer Format for Java Archives
 	 * [JSR 200: Network Transfer Format for Java][Kumar_Srinivasan][John_Rose]
 	 */
-	const PACK200_GZIP = 'pack200-gzip';
+	const PACK_200_GZIP = 'pack200-gzip';
 
 	/**
 	 * x-compress HTTP Content coding

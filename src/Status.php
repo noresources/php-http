@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2024 by Renaud Guillard (dev@nore.fr)
+ * Copyright © 2025 by Renaud Guillard (dev@nore.fr)
  * Distributed under the terms of the MIT License, see LICENSE
  *
  * @package HTTP
@@ -52,6 +52,14 @@ class Status
 	 * @see https://tools.ietf.org/html/rfc8297
 	 */
 	const EARLY_HINTS = 103;
+
+	/**
+	 * Upload Resumption Supported (TEMPORARY - registered 2024-11-13, expires 2025-11-13) HTTP
+	 * status code
+	 *
+	 * [draft-ietf-httpbis-resumable-upload-05]
+	 */
+	const UPLOAD_RESUMPTION_SUPPORTED = 104;
 
 	/**
 	 * Unassigned HTTP status code
@@ -192,7 +200,7 @@ class Status
 	 *
 	 * @see https://tools.ietf.org/html/rfc9110#section-15.5.19
 	 */
-	const _UNUSED_ = 418;
+	const UNUSED = 418;
 
 	/**
 	 * Temporary Redirect HTTP status code
@@ -512,7 +520,7 @@ class Status
 	 *
 	 * @see https://tools.ietf.org/html/rfc2774 [Status change of HTTP experiments to Historic]
 	 */
-	const NOT_EXTENDED__OBSOLETED_ = 510;
+	const NOT_EXTENDED = 510;
 
 	/**
 	 * Network Authentication Required HTTP status code
@@ -529,7 +537,8 @@ class Status
 			101 => 'Switching Protocols',
 			102 => 'Processing',
 			103 => 'Early Hints',
-			104 => 'Unassigned',
+			104 => 'Upload Resumption Supported (TEMPORARY - registered 2024-11-13, expires 2025-11-13)',
+			105 => 'Unassigned',
 			200 => 'OK',
 			201 => 'Created',
 			202 => 'Accepted',

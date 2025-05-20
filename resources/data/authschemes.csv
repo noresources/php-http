@@ -1,7 +1,7 @@
 Authentication Scheme Name,Reference,Notes
 Basic,[RFC7617],
 Bearer,[RFC6750],
-Concealed,[RFC-ietf-httpbis-unprompted-auth-12],
+Concealed,[RFC9729],
 Digest,[RFC7616],
 DPoP,"[RFC9449, Section 7.1]",
 GNAP,"[RFC9635, Section 7.2]",

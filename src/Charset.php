@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2024 by Renaud Guillard (dev@nore.fr)
+ * Copyright © 2025 by Renaud Guillard (dev@nore.fr)
  * Distributed under the terms of the MIT License, see LICENSE
  *
  * @package HTTP
@@ -30,7 +30,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const ISO_8859_1_1987 = 'ISO_8859-1:1987';
+	const ISO_8859_1 = 'ISO_8859-1:1987';
 
 	/**
 	 * ISO_8859-2:1987 charset name
@@ -38,7 +38,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const ISO_8859_2_1987 = 'ISO_8859-2:1987';
+	const ISO_8859_2 = 'ISO_8859-2:1987';
 
 	/**
 	 * ISO_8859-3:1988 charset name
@@ -46,7 +46,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const ISO_8859_3_1988 = 'ISO_8859-3:1988';
+	const ISO_8859_3 = 'ISO_8859-3:1988';
 
 	/**
 	 * ISO_8859-4:1988 charset name
@@ -54,7 +54,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const ISO_8859_4_1988 = 'ISO_8859-4:1988';
+	const ISO_8859_4 = 'ISO_8859-4:1988';
 
 	/**
 	 * ISO_8859-5:1988 charset name
@@ -62,7 +62,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const ISO_8859_5_1988 = 'ISO_8859-5:1988';
+	const ISO_8859_5 = 'ISO_8859-5:1988';
 
 	/**
 	 * ISO_8859-6:1987 charset name
@@ -70,7 +70,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const ISO_8859_6_1987 = 'ISO_8859-6:1987';
+	const ISO_8859_6 = 'ISO_8859-6:1987';
 
 	/**
 	 * ISO_8859-7:1987 charset name
@@ -80,7 +80,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const ISO_8859_7_1987 = 'ISO_8859-7:1987';
+	const ISO_8859_7 = 'ISO_8859-7:1987';
 
 	/**
 	 * ISO_8859-8:1988 charset name
@@ -88,7 +88,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const ISO_8859_8_1988 = 'ISO_8859-8:1988';
+	const ISO_8859_8 = 'ISO_8859-8:1988';
 
 	/**
 	 * ISO_8859-9:1989 charset name
@@ -96,7 +96,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const ISO_8859_9_1989 = 'ISO_8859-9:1989';
+	const ISO_8859_9 = 'ISO_8859-9:1989';
 
 	/**
 	 * ISO-8859-10 charset name
@@ -120,7 +120,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const JIS_X0201 = 'JIS_X0201';
+	const JIS_X_0201 = 'JIS_X0201';
 
 	/**
 	 * JIS_Encoding charset name
@@ -191,12 +191,12 @@ class Charset
 	const NS_4551_1 = 'NS_4551-1';
 
 	/**
-	 * NF_Z_62-010 charset name
+	 * NF_Z_62-010_(1973) charset name
 	 *
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const NF_Z_62_010 = 'NF_Z_62-010';
+	const NF_Z_62_010 = 'NF_Z_62-010_(1973)';
 
 	/**
 	 * ISO-10646-UTF-1 charset name
@@ -204,12 +204,12 @@ class Charset
 	const ISO_10646_UTF_1 = 'ISO-10646-UTF-1';
 
 	/**
-	 * ISO_646.basic:1983 charset name
+	 * ISO_646.irv:1983 charset name
 	 *
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const ISO_646_BASIC_1983 = 'ISO_646.basic:1983';
+	const ISO_646 = 'ISO_646.irv:1983';
 
 	/**
 	 * INVARIANT charset name
@@ -218,14 +218,6 @@ class Charset
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
 	const INVARIANT = 'INVARIANT';
-
-	/**
-	 * ISO_646.irv:1983 charset name
-	 *
-	 *
-	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
-	 */
-	const ISO_646_IRV_1983 = 'ISO_646.irv:1983';
 
 	/**
 	 * NATS-SEFI charset name
@@ -313,7 +305,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const JIS_C6220_1969_JP = 'JIS_C6220-1969-jp';
+	const JIS_C_6220_1969_JP = 'JIS_C6220-1969-jp';
 
 	/**
 	 * JIS_C6220-1969-ro charset name
@@ -321,7 +313,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const JIS_C6220_1969_RO = 'JIS_C6220-1969-ro';
+	const JIS_C_6220_1969_RO = 'JIS_C6220-1969-ro';
 
 	/**
 	 * PT charset name
@@ -337,7 +329,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const GREEK7_OLD = 'greek7-old';
+	const GREEK_7_OLD = 'greek7-old';
 
 	/**
 	 * latin-greek charset name
@@ -348,14 +340,6 @@ class Charset
 	const LATIN_GREEK = 'latin-greek';
 
 	/**
-	 * NF_Z_62-010_(1973) charset name
-	 *
-	 *
-	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
-	 */
-	const NF_Z_62_010__1973_ = 'NF_Z_62-010_(1973)';
-
-	/**
 	 * Latin-greek-1 charset name
 	 *
 	 *
@@ -364,12 +348,12 @@ class Charset
 	const LATIN_GREEK_1 = 'Latin-greek-1';
 
 	/**
-	 * ISO_5427 charset name
+	 * ISO_5427:1981 charset name
 	 *
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const ISO_5427 = 'ISO_5427';
+	const ISO_5427 = 'ISO_5427:1981';
 
 	/**
 	 * JIS_C6226-1978 charset name
@@ -377,7 +361,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const JIS_C6226_1978 = 'JIS_C6226-1978';
+	const JIS_C_6226_1978 = 'JIS_C6226-1978';
 
 	/**
 	 * BS_viewdata charset name
@@ -412,20 +396,12 @@ class Charset
 	const INIS_CYRILLIC = 'INIS-cyrillic';
 
 	/**
-	 * ISO_5427:1981 charset name
-	 *
-	 *
-	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
-	 */
-	const ISO_5427_1981 = 'ISO_5427:1981';
-
-	/**
 	 * ISO_5428:1980 charset name
 	 *
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const ISO_5428_1980 = 'ISO_5428:1980';
+	const ISO_5428 = 'ISO_5428:1980';
 
 	/**
 	 * GB_1988-80 charset name
@@ -465,7 +441,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const PT2 = 'PT2';
+	const PT_2 = 'PT2';
 
 	/**
 	 * ES2 charset name
@@ -473,7 +449,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const ES2 = 'ES2';
+	const ES_2 = 'ES2';
 
 	/**
 	 * MSZ_7795.3 charset name
@@ -481,7 +457,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const MSZ_7795_3 = 'MSZ_7795.3';
+	const MSZ_7795 = 'MSZ_7795.3';
 
 	/**
 	 * JIS_C6226-1983 charset name
@@ -489,7 +465,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const JIS_C6226_1983 = 'JIS_C6226-1983';
+	const JIS_C_6226_1983 = 'JIS_C6226-1983';
 
 	/**
 	 * greek7 charset name
@@ -497,7 +473,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const GREEK7 = 'greek7';
+	const GREEK_7 = 'greek7';
 
 	/**
 	 * ASMO_449 charset name
@@ -521,7 +497,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const JIS_C6229_1984_A = 'JIS_C6229-1984-a';
+	const JIS_C_6229_1984_A = 'JIS_C6229-1984-a';
 
 	/**
 	 * JIS_C6229-1984-b charset name
@@ -529,7 +505,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const JIS_C6229_1984_B = 'JIS_C6229-1984-b';
+	const JIS_C_6229_1984_B = 'JIS_C6229-1984-b';
 
 	/**
 	 * JIS_C6229-1984-b-add charset name
@@ -537,7 +513,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const JIS_C6229_1984_B_ADD = 'JIS_C6229-1984-b-add';
+	const JIS_C_6229_1984_B_ADD = 'JIS_C6229-1984-b-add';
 
 	/**
 	 * JIS_C6229-1984-hand charset name
@@ -545,7 +521,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const JIS_C6229_1984_HAND = 'JIS_C6229-1984-hand';
+	const JIS_C_6229_1984_HAND = 'JIS_C6229-1984-hand';
 
 	/**
 	 * JIS_C6229-1984-hand-add charset name
@@ -553,7 +529,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const JIS_C6229_1984_HAND_ADD = 'JIS_C6229-1984-hand-add';
+	const JIS_C_6229_1984_HAND_ADD = 'JIS_C6229-1984-hand-add';
 
 	/**
 	 * JIS_C6229-1984-kana charset name
@@ -561,7 +537,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const JIS_C6229_1984_KANA = 'JIS_C6229-1984-kana';
+	const JIS_C_6229_1984_KANA = 'JIS_C6229-1984-kana';
 
 	/**
 	 * ISO_2033-1983 charset name
@@ -577,23 +553,15 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const ANSI_X3_110_1983 = 'ANSI_X3.110-1983';
+	const ANSI_X_3 = 'ANSI_X3.110-1983';
 
 	/**
-	 * T.61-7bit charset name
+	 * T.101-G2 charset name
 	 *
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const T_61_7BIT = 'T.61-7bit';
-
-	/**
-	 * T.61-8bit charset name
-	 *
-	 *
-	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
-	 */
-	const T_61_8BIT = 'T.61-8bit';
+	const T = 'T.101-G2';
 
 	/**
 	 * ECMA-cyrillic charset name
@@ -601,28 +569,12 @@ class Charset
 	const ECMA_CYRILLIC = 'ECMA-cyrillic';
 
 	/**
-	 * CSA_Z243.4-1985-1 charset name
-	 *
-	 *
-	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
-	 */
-	const CSA_Z243_4_1985_1 = 'CSA_Z243.4-1985-1';
-
-	/**
-	 * CSA_Z243.4-1985-2 charset name
-	 *
-	 *
-	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
-	 */
-	const CSA_Z243_4_1985_2 = 'CSA_Z243.4-1985-2';
-
-	/**
 	 * CSA_Z243.4-1985-gr charset name
 	 *
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const CSA_Z243_4_1985_GR = 'CSA_Z243.4-1985-gr';
+	const CSA_Z_243 = 'CSA_Z243.4-1985-gr';
 
 	/**
 	 * ISO_8859-6-E charset name
@@ -639,14 +591,6 @@ class Charset
 	 * @see https://tools.ietf.org/html/rfc1556 [IANA]
 	 */
 	const ISO_8859_6_I = 'ISO_8859-6-I';
-
-	/**
-	 * T.101-G2 charset name
-	 *
-	 *
-	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
-	 */
-	const T_101_G2 = 'T.101-G2';
 
 	/**
 	 * ISO_8859-8-E charset name
@@ -673,12 +617,12 @@ class Charset
 	const CSN_369103 = 'CSN_369103';
 
 	/**
-	 * JUS_I.B1.002 charset name
+	 * JUS_I.B1.003-mac charset name
 	 *
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const JUS_I_B1_002 = 'JUS_I.B1.002';
+	const JUS_I = 'JUS_I.B1.003-mac';
 
 	/**
 	 * IEC_P27-1 charset name
@@ -686,23 +630,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IEC_P27_1 = 'IEC_P27-1';
-
-	/**
-	 * JUS_I.B1.003-serb charset name
-	 *
-	 *
-	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
-	 */
-	const JUS_I_B1_003_SERB = 'JUS_I.B1.003-serb';
-
-	/**
-	 * JUS_I.B1.003-mac charset name
-	 *
-	 *
-	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
-	 */
-	const JUS_I_B1_003_MAC = 'JUS_I.B1.003-mac';
+	const IEC_P_27_1 = 'IEC_P27-1';
 
 	/**
 	 * greek-ccitt charset name
@@ -718,7 +646,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const NC_NC00_10_81 = 'NC_NC00-10:81';
+	const NC_NC_00_10 = 'NC_NC00-10:81';
 
 	/**
 	 * ISO_6937-2-25 charset name
@@ -766,7 +694,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const JIS_X0212_1990 = 'JIS_X0212-1990';
+	const JIS_X_0212_1990 = 'JIS_X0212-1990';
 
 	/**
 	 * DS_2089 charset name
@@ -798,7 +726,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const KSC5636 = 'KSC5636';
+	const KSC_5636 = 'KSC5636';
 
 	/**
 	 * UNICODE-1-1-UTF-7 charset name
@@ -860,22 +788,22 @@ class Charset
 	/**
 	 * GB18030 charset name
 	 */
-	const GB18030 = 'GB18030';
+	const GB_18030 = 'GB18030';
 
 	/**
 	 * OSD_EBCDIC_DF04_15 charset name
 	 */
-	const OSD_EBCDIC_DF04_15 = 'OSD_EBCDIC_DF04_15';
+	const OSD_EBCDIC_DF_04_15 = 'OSD_EBCDIC_DF04_15';
 
 	/**
 	 * OSD_EBCDIC_DF03_IRV charset name
 	 */
-	const OSD_EBCDIC_DF03_IRV = 'OSD_EBCDIC_DF03_IRV';
+	const OSD_EBCDIC_DF_03_IRV = 'OSD_EBCDIC_DF03_IRV';
 
 	/**
 	 * OSD_EBCDIC_DF04_1 charset name
 	 */
-	const OSD_EBCDIC_DF04_1 = 'OSD_EBCDIC_DF04_1';
+	const OSD_EBCDIC_DF_04_1 = 'OSD_EBCDIC_DF04_1';
 
 	/**
 	 * ISO-11548-1 charset name
@@ -905,7 +833,7 @@ class Charset
 	/**
 	 * ISO-10646-Unicode-Latin1 charset name
 	 */
-	const ISO_10646_UNICODE_LATIN1 = 'ISO-10646-Unicode-Latin1';
+	const ISO_10646_UNICODE_LATIN_1 = 'ISO-10646-Unicode-Latin1';
 
 	/**
 	 * ISO-10646-J-1 charset name
@@ -964,7 +892,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc2781
 	 */
-	const UTF_16BE = 'UTF-16BE';
+	const UTF_16_BE = 'UTF-16BE';
 
 	/**
 	 * UTF-16LE charset name
@@ -972,7 +900,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc2781
 	 */
-	const UTF_16LE = 'UTF-16LE';
+	const UTF_16_LE = 'UTF-16LE';
 
 	/**
 	 * UTF-16 charset name
@@ -1001,14 +929,14 @@ class Charset
 	 *
 	 * [Mark_Davis]
 	 */
-	const UTF_32BE = 'UTF-32BE';
+	const UTF_32_BE = 'UTF-32BE';
 
 	/**
 	 * UTF-32LE charset name
 	 *
 	 * [Mark_Davis]
 	 */
-	const UTF_32LE = 'UTF-32LE';
+	const UTF_32_LE = 'UTF-32LE';
 
 	/**
 	 * BOCU-1 charset name
@@ -1025,20 +953,12 @@ class Charset
 	const UTF_7_IMAP = 'UTF-7-IMAP';
 
 	/**
-	 * ISO-8859-1-Windows-3.0-Latin-1 charset name
-	 *
-	 * [Hewlett-Packard Company, "HP PCL 5 Comparison Guide",
-	 * (P/N 5021-0329) pp B-13, 1996.]
-	 */
-	const ISO_8859_1_WINDOWS_3_0_LATIN_1 = 'ISO-8859-1-Windows-3.0-Latin-1';
-
-	/**
 	 * ISO-8859-1-Windows-3.1-Latin-1 charset name
 	 *
 	 * [Hewlett-Packard Company, "HP PCL 5 Comparison Guide",
 	 * (P/N 5021-0329) pp B-13, 1996.]
 	 */
-	const ISO_8859_1_WINDOWS_3_1_LATIN_1 = 'ISO-8859-1-Windows-3.1-Latin-1';
+	const ISO_8859_1_WINDOWS_3 = 'ISO-8859-1-Windows-3.1-Latin-1';
 
 	/**
 	 * ISO-8859-2-Windows-Latin-2 charset name
@@ -1064,7 +984,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const HP_ROMAN8 = 'hp-roman8';
+	const HP_ROMAN_8 = 'hp-roman8';
 
 	/**
 	 * Adobe-Standard-Encoding charset name
@@ -1105,7 +1025,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM850 = 'IBM850';
+	const IBM_850 = 'IBM850';
 
 	/**
 	 * PC8-Danish-Norwegian charset name
@@ -1113,7 +1033,7 @@ class Charset
 	 * [Hewlett-Packard Company, "HP PCL 5 Comparison Guide",
 	 * (P/N 5021-0329) pp B-13, 1996.]
 	 */
-	const PC8_DANISH_NORWEGIAN = 'PC8-Danish-Norwegian';
+	const PC_8_DANISH_NORWEGIAN = 'PC8-Danish-Norwegian';
 
 	/**
 	 * IBM862 charset name
@@ -1121,7 +1041,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM862 = 'IBM862';
+	const IBM_862 = 'IBM862';
 
 	/**
 	 * PC8-Turkish charset name
@@ -1129,7 +1049,7 @@ class Charset
 	 * [Hewlett-Packard Company, "HP PCL 5 Comparison Guide",
 	 * (P/N 5021-0329) pp B-13, 1996.]
 	 */
-	const PC8_TURKISH = 'PC8-Turkish';
+	const PC_8_TURKISH = 'PC8-Turkish';
 
 	/**
 	 * IBM-Symbols charset name
@@ -1171,7 +1091,7 @@ class Charset
 	 * [Hewlett-Packard Company, "HP PCL 5 Comparison Guide",
 	 * (P/N 5021-0329) pp B-13, 1996.]
 	 */
-	const HP_MATH8 = 'HP-Math8';
+	const HP_MATH_8 = 'HP-Math8';
 
 	/**
 	 * Adobe-Symbol-Encoding charset name
@@ -1188,7 +1108,7 @@ class Charset
 	 * [Hewlett-Packard Company, "HP PCL 5 Comparison Guide",
 	 * (P/N 5021-0329) pp B-13, 1996.]
 	 */
-	const HP_DESKTOP = 'HP-DeskTop';
+	const HP_DESK_TOP = 'HP-DeskTop';
 
 	/**
 	 * Ventura-Math charset name
@@ -1209,17 +1129,17 @@ class Charset
 	/**
 	 * Windows-31J charset name
 	 */
-	const WINDOWS_31J = 'Windows-31J';
+	const WINDOWS_31_J = 'Windows-31J';
 
 	/**
 	 * GB2312 charset name
 	 */
-	const GB2312 = 'GB2312';
+	const GB_2312 = 'GB2312';
 
 	/**
 	 * Big5 charset name
 	 */
-	const BIG5 = 'Big5';
+	const BIG_5 = 'Big5';
 
 	/**
 	 * macintosh charset name
@@ -1235,7 +1155,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM037 = 'IBM037';
+	const IBM_037 = 'IBM037';
 
 	/**
 	 * IBM038 charset name
@@ -1243,7 +1163,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM038 = 'IBM038';
+	const IBM_038 = 'IBM038';
 
 	/**
 	 * IBM273 charset name
@@ -1251,7 +1171,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM273 = 'IBM273';
+	const IBM_273 = 'IBM273';
 
 	/**
 	 * IBM274 charset name
@@ -1259,7 +1179,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM274 = 'IBM274';
+	const IBM_274 = 'IBM274';
 
 	/**
 	 * IBM275 charset name
@@ -1267,7 +1187,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM275 = 'IBM275';
+	const IBM_275 = 'IBM275';
 
 	/**
 	 * IBM277 charset name
@@ -1275,7 +1195,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM277 = 'IBM277';
+	const IBM_277 = 'IBM277';
 
 	/**
 	 * IBM278 charset name
@@ -1283,7 +1203,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM278 = 'IBM278';
+	const IBM_278 = 'IBM278';
 
 	/**
 	 * IBM280 charset name
@@ -1291,7 +1211,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM280 = 'IBM280';
+	const IBM_280 = 'IBM280';
 
 	/**
 	 * IBM281 charset name
@@ -1299,7 +1219,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM281 = 'IBM281';
+	const IBM_281 = 'IBM281';
 
 	/**
 	 * IBM284 charset name
@@ -1307,7 +1227,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM284 = 'IBM284';
+	const IBM_284 = 'IBM284';
 
 	/**
 	 * IBM285 charset name
@@ -1315,7 +1235,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM285 = 'IBM285';
+	const IBM_285 = 'IBM285';
 
 	/**
 	 * IBM290 charset name
@@ -1323,7 +1243,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM290 = 'IBM290';
+	const IBM_290 = 'IBM290';
 
 	/**
 	 * IBM297 charset name
@@ -1331,7 +1251,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM297 = 'IBM297';
+	const IBM_297 = 'IBM297';
 
 	/**
 	 * IBM420 charset name
@@ -1339,7 +1259,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM420 = 'IBM420';
+	const IBM_420 = 'IBM420';
 
 	/**
 	 * IBM423 charset name
@@ -1347,7 +1267,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM423 = 'IBM423';
+	const IBM_423 = 'IBM423';
 
 	/**
 	 * IBM424 charset name
@@ -1355,7 +1275,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM424 = 'IBM424';
+	const IBM_424 = 'IBM424';
 
 	/**
 	 * IBM437 charset name
@@ -1363,7 +1283,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM437 = 'IBM437';
+	const IBM_437 = 'IBM437';
 
 	/**
 	 * IBM500 charset name
@@ -1371,7 +1291,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM500 = 'IBM500';
+	const IBM_500 = 'IBM500';
 
 	/**
 	 * IBM851 charset name
@@ -1379,7 +1299,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM851 = 'IBM851';
+	const IBM_851 = 'IBM851';
 
 	/**
 	 * IBM852 charset name
@@ -1387,7 +1307,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM852 = 'IBM852';
+	const IBM_852 = 'IBM852';
 
 	/**
 	 * IBM855 charset name
@@ -1395,7 +1315,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM855 = 'IBM855';
+	const IBM_855 = 'IBM855';
 
 	/**
 	 * IBM857 charset name
@@ -1403,7 +1323,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM857 = 'IBM857';
+	const IBM_857 = 'IBM857';
 
 	/**
 	 * IBM860 charset name
@@ -1411,7 +1331,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM860 = 'IBM860';
+	const IBM_860 = 'IBM860';
 
 	/**
 	 * IBM861 charset name
@@ -1419,7 +1339,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM861 = 'IBM861';
+	const IBM_861 = 'IBM861';
 
 	/**
 	 * IBM863 charset name
@@ -1427,7 +1347,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM863 = 'IBM863';
+	const IBM_863 = 'IBM863';
 
 	/**
 	 * IBM864 charset name
@@ -1435,7 +1355,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM864 = 'IBM864';
+	const IBM_864 = 'IBM864';
 
 	/**
 	 * IBM865 charset name
@@ -1443,7 +1363,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM865 = 'IBM865';
+	const IBM_865 = 'IBM865';
 
 	/**
 	 * IBM868 charset name
@@ -1451,7 +1371,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM868 = 'IBM868';
+	const IBM_868 = 'IBM868';
 
 	/**
 	 * IBM869 charset name
@@ -1459,7 +1379,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM869 = 'IBM869';
+	const IBM_869 = 'IBM869';
 
 	/**
 	 * IBM870 charset name
@@ -1467,7 +1387,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM870 = 'IBM870';
+	const IBM_870 = 'IBM870';
 
 	/**
 	 * IBM871 charset name
@@ -1475,7 +1395,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM871 = 'IBM871';
+	const IBM_871 = 'IBM871';
 
 	/**
 	 * IBM880 charset name
@@ -1483,7 +1403,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM880 = 'IBM880';
+	const IBM_880 = 'IBM880';
 
 	/**
 	 * IBM891 charset name
@@ -1491,7 +1411,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM891 = 'IBM891';
+	const IBM_891 = 'IBM891';
 
 	/**
 	 * IBM903 charset name
@@ -1499,7 +1419,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM903 = 'IBM903';
+	const IBM_903 = 'IBM903';
 
 	/**
 	 * IBM904 charset name
@@ -1507,7 +1427,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM904 = 'IBM904';
+	const IBM_904 = 'IBM904';
 
 	/**
 	 * IBM905 charset name
@@ -1515,7 +1435,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM905 = 'IBM905';
+	const IBM_905 = 'IBM905';
 
 	/**
 	 * IBM918 charset name
@@ -1523,7 +1443,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM918 = 'IBM918';
+	const IBM_918 = 'IBM918';
 
 	/**
 	 * IBM1026 charset name
@@ -1531,7 +1451,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1345 [Keld_Simonsen]
 	 */
-	const IBM1026 = 'IBM1026';
+	const IBM_1026 = 'IBM1026';
 
 	/**
 	 * EBCDIC-AT-DE charset name
@@ -1659,7 +1579,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1428
 	 */
-	const UNKNOWN_8BIT = 'UNKNOWN-8BIT';
+	const UNKNOWN_8_BIT = 'UNKNOWN-8BIT';
 
 	/**
 	 * MNEMONIC charset name
@@ -1699,7 +1619,7 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc1489
 	 */
-	const KOI8_R = 'KOI8-R';
+	const KOI_8_R = 'KOI8-R';
 
 	/**
 	 * HZ-GB-2312 charset name
@@ -1711,7 +1631,7 @@ class Charset
 	 *
 	 * [Rick_Pond]
 	 */
-	const IBM866 = 'IBM866';
+	const IBM_866 = 'IBM866';
 
 	/**
 	 * IBM775 charset name
@@ -1719,7 +1639,7 @@ class Charset
 	 * [Hewlett-Packard Company, "HP PCL 5 Comparison Guide",
 	 * (P/N 5021-0329) pp B-13, 1996.]
 	 */
-	const IBM775 = 'IBM775';
+	const IBM_775 = 'IBM775';
 
 	/**
 	 * KOI8-U charset name
@@ -1727,88 +1647,88 @@ class Charset
 	 *
 	 * @see https://tools.ietf.org/html/rfc2319
 	 */
-	const KOI8_U = 'KOI8-U';
+	const KOI_8_U = 'KOI8-U';
 
 	/**
 	 * IBM00858 charset name
 	 */
-	const IBM00858 = 'IBM00858';
+	const IBM_00858 = 'IBM00858';
 
 	/**
 	 * IBM00924 charset name
 	 */
-	const IBM00924 = 'IBM00924';
+	const IBM_00924 = 'IBM00924';
 
 	/**
 	 * IBM01140 charset name
 	 */
-	const IBM01140 = 'IBM01140';
+	const IBM_01140 = 'IBM01140';
 
 	/**
 	 * IBM01141 charset name
 	 */
-	const IBM01141 = 'IBM01141';
+	const IBM_01141 = 'IBM01141';
 
 	/**
 	 * IBM01142 charset name
 	 */
-	const IBM01142 = 'IBM01142';
+	const IBM_01142 = 'IBM01142';
 
 	/**
 	 * IBM01143 charset name
 	 */
-	const IBM01143 = 'IBM01143';
+	const IBM_01143 = 'IBM01143';
 
 	/**
 	 * IBM01144 charset name
 	 */
-	const IBM01144 = 'IBM01144';
+	const IBM_01144 = 'IBM01144';
 
 	/**
 	 * IBM01145 charset name
 	 */
-	const IBM01145 = 'IBM01145';
+	const IBM_01145 = 'IBM01145';
 
 	/**
 	 * IBM01146 charset name
 	 */
-	const IBM01146 = 'IBM01146';
+	const IBM_01146 = 'IBM01146';
 
 	/**
 	 * IBM01147 charset name
 	 */
-	const IBM01147 = 'IBM01147';
+	const IBM_01147 = 'IBM01147';
 
 	/**
 	 * IBM01148 charset name
 	 */
-	const IBM01148 = 'IBM01148';
+	const IBM_01148 = 'IBM01148';
 
 	/**
 	 * IBM01149 charset name
 	 */
-	const IBM01149 = 'IBM01149';
+	const IBM_01149 = 'IBM01149';
 
 	/**
 	 * Big5-HKSCS charset name
 	 *
 	 * [Nicky_Yick]
 	 */
-	const BIG5_HKSCS = 'Big5-HKSCS';
+	const BIG_5_HKSCS = 'Big5-HKSCS';
 
 	/**
 	 * IBM1047 charset name
 	 *
 	 * [Reuel_Robrigado]
 	 */
-	const IBM1047 = 'IBM1047';
+	const IBM_1047 = 'IBM1047';
 
 	/**
 	 * PTCP154 charset name
 	 *
 	 * [Alexander_Uskov]
 	 */
-	const PTCP154 = 'PTCP154';
+	const PTCP_154 = 'PTCP154';
 
 	/**
 	 * Amiga-1251 charset name
@@ -1818,7 +1738,7 @@ class Charset
 	/**
 	 * KOI7-switched charset name
 	 */
-	const KOI7_SWITCHED = 'KOI7-switched';
+	const KOI_7_SWITCHED = 'KOI7-switched';
 
 	/**
 	 * BRF charset name
@@ -1833,7 +1753,7 @@ class Charset
 	/**
 	 * CP51932 charset name
 	 */
-	const CP51932 = 'CP51932';
+	const CP_51932 = 'CP51932';
 
 	/**
 	 * windows-874 charset name
@@ -1893,5 +1813,5 @@ class Charset
 	/**
 	 * CP50220 charset name
 	 */
-	const CP50220 = 'CP50220';
+	const CP_50220 = 'CP50220';
 }

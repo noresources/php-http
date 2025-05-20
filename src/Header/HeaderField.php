@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2024 by Renaud Guillard (dev@nore.fr)
+ * Copyright © 2025 by Renaud Guillard (dev@nore.fr)
  * Distributed under the terms of the MIT License, see LICENSE
  *
  * @package HTTP
@@ -171,6 +171,13 @@ class HeaderField
 	const ACCESS_CONTROL_REQUEST_METHOD = 'Access-Control-Request-Method';
 
 	/**
+	 * Activate-Storage-Access HTTP message header field name
+	 *
+	 * [https://privacycg.github.io/storage-access-headers]
+	 */
+	const ACTIVATE_STORAGE_ACCESS = 'Activate-Storage-Access';
+
+	/**
 	 * Age HTTP message header field name
 	 *
 	 * @see https://tools.ietf.org/html/rfc9111 Section 5.1: HTTP Caching
@@ -316,7 +323,7 @@ class HeaderField
 	 *
 	 * [RFC 7809, Section 7.1: Calendaring Extensions to WebDAV (CalDAV): Time Zones by Reference]
 	 */
-	const CALDAV_TIMEZONES = 'CalDAV-Timezones';
+	const CAL_DAV_TIMEZONES = 'CalDAV-Timezones';
 
 	/**
 	 * Capsule-Protocol HTTP message header field name
@@ -429,7 +436,7 @@ class HeaderField
 	/**
 	 * Concealed-Auth-Export HTTP message header field name
 	 *
-	 * [RFC-ietf-httpbis-unprompted-auth-12: The Concealed HTTP Authentication Scheme]
+	 * @see https://tools.ietf.org/html/rfc9729 The Concealed HTTP Authentication Scheme
 	 */
 	const CONCEALED_AUTH_EXPORT = 'Concealed-Auth-Export';
 
@@ -509,7 +516,7 @@ class HeaderField
 	 *
 	 * [RFC 2616, Section 14.15: Hypertext Transfer Protocol -- HTTP/1.1]
 	 */
-	const CONTENT_MD5 = 'Content-MD5';
+	const CONTENT_MD_5 = 'Content-MD5';
 
 	/**
 	 * Content-Range HTTP message header field name
@@ -572,7 +579,7 @@ class HeaderField
 	 *
 	 * [RFC 2965: HTTP State Management Mechanism]
 	 */
-	const COOKIE2 = 'Cookie2';
+	const COOKIE_2 = 'Cookie2';
 
 	/**
 	 * Cross-Origin-Embedder-Policy HTTP message header field name
@@ -654,8 +661,8 @@ class HeaderField
 	/**
 	 * Deprecation HTTP message header field name
 	 *
-	 * [RFC-ietf-httpapi-deprecation-header-09, Section 2: The Deprecation HTTP Response Header
-	 * Field]
+	 * @see https://tools.ietf.org/html/rfc9745 Section 2: The Deprecation HTTP Response Header
+	 *      Field
 	 */
 	const DEPRECATION = 'Deprecation';
 
@@ -679,6 +686,13 @@ class HeaderField
 	 * [RFC 4918: HTTP Extensions for Web Distributed Authoring and Versioning (WebDAV)]
 	 */
 	const DESTINATION = 'Destination';
+
+	/**
+	 * Detached-JWS HTTP message header field name
+	 *
+	 * [RFC 9635: Grant Negotiation and Authorization Protocol (GNAP)]
+	 */
+	const DETACHED_JWS = 'Detached-JWS';
 
 	/**
 	 * Differential-ID HTTP message header field name
@@ -706,14 +720,14 @@ class HeaderField
 	 *
 	 * @see https://tools.ietf.org/html/rfc9449 OAuth 2.0 Demonstrating Proof of Possession (DPoP)
 	 */
-	const DPOP = 'DPoP';
+	const D_PO_P = 'DPoP';
 
 	/**
 	 * DPoP-Nonce HTTP message header field name
 	 *
 	 * @see https://tools.ietf.org/html/rfc9449 OAuth 2.0 Demonstrating Proof of Possession (DPoP)
 	 */
-	const DPOP_NONCE = 'DPoP-Nonce';
+	const D_PO_P_NONCE = 'DPoP-Nonce';
 
 	/**
 	 * Early-Data HTTP message header field name
@@ -734,7 +748,7 @@ class HeaderField
 	 *
 	 * @see https://tools.ietf.org/html/rfc9110 Section 8.8.3: HTTP Semantics
 	 */
-	const ETAG = 'ETag';
+	const E_TAG = 'ETag';
 
 	/**
 	 * Expect HTTP message header field name
@@ -783,7 +797,7 @@ class HeaderField
 	 *
 	 * [Implementation of OPS Over HTTP]
 	 */
-	const GETPROFILE = 'GetProfile';
+	const GET_PROFILE = 'GetProfile';
 
 	/**
 	 * Hobareg HTTP message header field name
@@ -804,7 +818,7 @@ class HeaderField
 	 *
 	 * [RFC 7540, Section 3.2.1: Hypertext Transfer Protocol Version 2 (HTTP/2)]
 	 */
-	const HTTP2_SETTINGS = 'HTTP2-Settings';
+	const HTTP_2_SETTINGS = 'HTTP2-Settings';
 
 	/**
 	 * If HTTP message header field name
@@ -1000,28 +1014,28 @@ class HeaderField
 	 *
 	 * [OData Version 4.01 Part 1: Protocol][OASIS][Chet_Ensign]
 	 */
-	const ODATA_ENTITYID = 'OData-EntityId';
+	const O_DATA_ENTITY_ID = 'OData-EntityId';
 
 	/**
 	 * OData-Isolation HTTP message header field name
 	 *
 	 * [OData Version 4.01 Part 1: Protocol][OASIS][Chet_Ensign]
 	 */
-	const ODATA_ISOLATION = 'OData-Isolation';
+	const O_DATA_ISOLATION = 'OData-Isolation';
 
 	/**
 	 * OData-MaxVersion HTTP message header field name
 	 *
 	 * [OData Version 4.01 Part 1: Protocol][OASIS][Chet_Ensign]
 	 */
-	const ODATA_MAXVERSION = 'OData-MaxVersion';
+	const O_DATA_MAX_VERSION = 'OData-MaxVersion';
 
 	/**
 	 * OData-Version HTTP message header field name
 	 *
 	 * [OData Version 4.01 Part 1: Protocol][OASIS][Chet_Ensign]
 	 */
-	const ODATA_VERSION = 'OData-Version';
+	const O_DATA_VERSION = 'OData-Version';
 
 	/**
 	 * Opt HTTP message header field name
@@ -1084,7 +1098,7 @@ class HeaderField
 	 *
 	 * [The Platform for Privacy Preferences 1.0 (P3P1.0) Specification]
 	 */
-	const P3P = 'P3P';
+	const P_3_P = 'P3P';
 
 	/**
 	 * PEP HTTP message header field name
@@ -1168,7 +1182,7 @@ class HeaderField
 	 *
 	 * [Implementation of OPS Over HTTP]
 	 */
-	const PROFILEOBJECT = 'ProfileObject';
+	const PROFILE_OBJECT = 'ProfileObject';
 
 	/**
 	 * Protocol HTTP message header field name
@@ -1381,6 +1395,41 @@ class HeaderField
 	const SCHEDULE_TAG = 'Schedule-Tag';
 
 	/**
+	 * Sec-Fetch-Dest HTTP message header field name
+	 *
+	 * [https://www.w3.org/TR/fetch-metadata/#sec-fetch-dest-header]
+	 */
+	const SEC_FETCH_DEST = 'Sec-Fetch-Dest';
+
+	/**
+	 * Sec-Fetch-Mode HTTP message header field name
+	 *
+	 * [https://www.w3.org/TR/fetch-metadata/#sec-fetch-mode-header]
+	 */
+	const SEC_FETCH_MODE = 'Sec-Fetch-Mode';
+
+	/**
+	 * Sec-Fetch-Site HTTP message header field name
+	 *
+	 * [https://www.w3.org/TR/fetch-metadata/#sec-fetch-site-header]
+	 */
+	const SEC_FETCH_SITE = 'Sec-Fetch-Site';
+
+	/**
+	 * Sec-Fetch-Storage-Access HTTP message header field name
+	 *
+	 * [https://privacycg.github.io/storage-access-headers]
+	 */
+	const SEC_FETCH_STORAGE_ACCESS = 'Sec-Fetch-Storage-Access';
+
+	/**
+	 * Sec-Fetch-User HTTP message header field name
+	 *
+	 * [https://www.w3.org/TR/fetch-metadata/#sec-fetch-user-header]
+	 */
+	const SEC_FETCH_USER = 'Sec-Fetch-User';
+
+	/**
 	 * Sec-GPC HTTP message header field name
 	 *
 	 * [Global Privacy Control (GPC)]
@@ -1406,35 +1455,35 @@ class HeaderField
 	 *
 	 * [RFC 6455: The WebSocket Protocol]
 	 */
-	const SEC_WEBSOCKET_ACCEPT = 'Sec-WebSocket-Accept';
+	const SEC_WEB_SOCKET_ACCEPT = 'Sec-WebSocket-Accept';
 
 	/**
 	 * Sec-WebSocket-Extensions HTTP message header field name
 	 *
 	 * [RFC 6455: The WebSocket Protocol]
 	 */
-	const SEC_WEBSOCKET_EXTENSIONS = 'Sec-WebSocket-Extensions';
+	const SEC_WEB_SOCKET_EXTENSIONS = 'Sec-WebSocket-Extensions';
 
 	/**
 	 * Sec-WebSocket-Key HTTP message header field name
 	 *
 	 * [RFC 6455: The WebSocket Protocol]
 	 */
-	const SEC_WEBSOCKET_KEY = 'Sec-WebSocket-Key';
+	const SEC_WEB_SOCKET_KEY = 'Sec-WebSocket-Key';
 
 	/**
 	 * Sec-WebSocket-Protocol HTTP message header field name
 	 *
 	 * [RFC 6455: The WebSocket Protocol]
 	 */
-	const SEC_WEBSOCKET_PROTOCOL = 'Sec-WebSocket-Protocol';
+	const SEC_WEB_SOCKET_PROTOCOL = 'Sec-WebSocket-Protocol';
 
 	/**
 	 * Sec-WebSocket-Version HTTP message header field name
 	 *
 	 * [RFC 6455: The WebSocket Protocol]
 	 */
-	const SEC_WEBSOCKET_VERSION = 'Sec-WebSocket-Version';
+	const SEC_WEB_SOCKET_VERSION = 'Sec-WebSocket-Version';
 
 	/**
 	 * Security-Scheme HTTP message header field name
@@ -1469,14 +1518,14 @@ class HeaderField
 	 *
 	 * [RFC 2965: HTTP State Management Mechanism]
 	 */
-	const SET_COOKIE2 = 'Set-Cookie2';
+	const SET_COOKIE_2 = 'Set-Cookie2';
 
 	/**
 	 * SetProfile HTTP message header field name
 	 *
 	 * [Implementation of OPS Over HTTP]
 	 */
-	const SETPROFILE = 'SetProfile';
+	const SET_PROFILE = 'SetProfile';
 
 	/**
 	 * Signature HTTP message header field name
@@ -1504,7 +1553,7 @@ class HeaderField
 	 *
 	 * [Simple Object Access Protocol (SOAP) 1.1]
 	 */
-	const SOAPACTION = 'SoapAction';
+	const SOAP_ACTION = 'SoapAction';
 
 	/**
 	 * Status-URI HTTP message header field name

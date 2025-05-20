@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2024 by Renaud Guillard (dev@nore.fr)
+ * Copyright © 2025 by Renaud Guillard (dev@nore.fr)
  * Distributed under the terms of the MIT License, see LICENSE
  *
  * @package HTTP
@@ -35,7 +35,8 @@ class AuthenticationScheme
 	/**
 	 * Concealed authentication scheme
 	 *
-	 * [RFC-ietf-httpbis-unprompted-auth-12]
+	 *
+	 * @see https://tools.ietf.org/html/rfc9729
 	 */
 	const CONCEALED = 'Concealed';
 
@@ -53,7 +54,7 @@ class AuthenticationScheme
 	 *
 	 * @see https://tools.ietf.org/html/rfc9449#section-7.1
 	 */
-	const DPOP = 'DPoP';
+	const D_PO_P = 'DPoP';
 
 	/**
 	 * GNAP authentication scheme
@@ -100,7 +101,7 @@ class AuthenticationScheme
 	 *
 	 * @see https://tools.ietf.org/html/rfc5849#section-3.5.1
 	 */
-	const OAUTH = 'OAuth';
+	const O_AUTH = 'OAuth';
 
 	/**
 	 * PrivateToken authentication scheme
@@ -108,7 +109,7 @@ class AuthenticationScheme
 	 *
 	 * @see https://tools.ietf.org/html/rfc9577#section-2
 	 */
-	const PRIVATETOKEN = 'PrivateToken';
+	const PRIVATE_TOKEN = 'PrivateToken';
 
 	/**
 	 * SCRAM-SHA-1 authentication scheme
