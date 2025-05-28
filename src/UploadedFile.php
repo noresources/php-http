@@ -32,22 +32,22 @@ class UploadedFile implements UploadedFileInterface
 			Container::keyValue($entry, 'error'));
 	}
 
-	public function getError()
+	public function getError() : int
 	{
 		return $this->errorCode;
 	}
 
-	public function getSize()
+	public function getSize() : ?int
 	{
 		return $this->fileSize;
 	}
 
-	public function getClientFilename()
+	public function getClientFilename() : ?string
 	{
 		return $this->clientFilename;
 	}
 
-	public function getStream()
+	public function getStream() : \Psr\Http\Message\StreamInterface
 	{
 		if ($this->flags & self::MOVED)
 			throw new UploadedFileException('File moved');
@@ -55,7 +55,7 @@ class UploadedFile implements UploadedFileInterface
 		return Stream::createFromFile($this->filePath);
 	}
 
-	public function getClientMediaType()
+	public function getClientMediaType() : ?string
 	{
 		if (!\is_null($this->clientMediaType))
 			return \strval($this->clientMediaType);
@@ -63,7 +63,7 @@ class UploadedFile implements UploadedFileInterface
 		return $this->clientMediaType;
 	}
 
-	public function moveTo($targetPath)
+	public function moveTo(string $targetPath) : void
 	{
 		if ($this->flags & self::MOVED)
 			throw new UploadedFileException('File already moved');

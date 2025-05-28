@@ -7,9 +7,9 @@
  */
 namespace NoreSources\Http;
 
-use NoreSources\Container\Container;
 use NoreSources\MediaType\MediaTypeInterface;
 use Psr\Http\Message\StreamInterface;
+use NoreSources\Container\Container;
 
 /**
  * PSR-7 StreamInterface implementation
@@ -103,7 +103,7 @@ class Stream implements StreamInterface
 		return $m[$key];
 	}
 
-	public function isSeekable()
+	public function isSeekable() : bool
 	{
 		if (!self::isValidResource($this->resource))
 			return false;
@@ -112,7 +112,7 @@ class Stream implements StreamInterface
 			\stream_get_meta_data($this->resource), 'seekable', false);
 	}
 
-	public function read($length)
+	public function read(int $length) : string
 	{
 		if (!self::isValidResource($this->resource))
 			throw new StreamException('Invalid resource');
@@ -128,7 +128,7 @@ class Stream implements StreamInterface
 		return $result;
 	}
 
-	public function tell()
+	public function tell() : int
 	{
 		if (!self::isValidResource($this->resource))
 			throw new StreamException('Invalid stream');
@@ -140,7 +140,7 @@ class Stream implements StreamInterface
 		return $result;
 	}
 
-	public function isWritable()
+	public function isWritable() : bool
 	{
 		if (!self::isValidResource($this->resource))
 			return false;
@@ -155,7 +155,7 @@ class Stream implements StreamInterface
 			(\strpos($mode, '+') !== false));
 	}
 
-	public function seek($offset, $whence = SEEK_SET)
+	public function seek($offset, $whence = SEEK_SET) : void
 	{
 		if (!self::isValidResource($this->resource))
 			throw new StreamException('Invalid resource');
@@ -186,19 +186,19 @@ class Stream implements StreamInterface
 		}
 	}
 
-	public function getSize()
+	public function getSize() : ?int
 	{
-		if (!self::isValidResource($this->resource))
-			return null;
-
-		$stats = \fstat($this->resource);
-		if ($stats !== false)
-			return $stats['size'];
-
+	if (!self::isValidResource($this->resource))
 		return null;
-	}
 
-	public function rewind()
+	$stats = \fstat($this->resource);
+	if ($stats !== false)
+		return $stats['size'];
+
+	return null;
+}
+
+	public function rewind() : void
 	{
 		$this->seek(0);
 	}
@@ -210,7 +210,7 @@ class Stream implements StreamInterface
 		return $resource;
 	}
 
-	public function getContents()
+		public function getContents() : string
 	{
 		if (!self::isValidResource($this->resource))
 			throw new StreamException('Invalid resource');
@@ -222,7 +222,7 @@ class Stream implements StreamInterface
 		return $result;
 	}
 
-	public function close()
+	public function close() : void
 	{
 		if (!self::isValidResource($this->resource))
 			return;
@@ -231,7 +231,7 @@ class Stream implements StreamInterface
 		fclose($resource);
 	}
 
-	public function eof()
+	public function eof() : bool
 	{
 		if (!self::isValidResource($this->resource))
 			return true;
@@ -239,7 +239,7 @@ class Stream implements StreamInterface
 		return \feof($this->resource);
 	}
 
-	public function write($string)
+	public function write(string $string) : int
 	{
 		if (!self::isValidResource($this->resource))
 			throw new StreamException('Invalid resource');
@@ -255,7 +255,7 @@ class Stream implements StreamInterface
 		return $result;
 	}
 
-	public function isReadable()
+	public function isReadable() : bool
 	{
 		if (!self::isValidResource($this->resource))
 			return false;
@@ -267,7 +267,7 @@ class Stream implements StreamInterface
 			(\strpos($mode, '+') !== false));
 	}
 
-	protected static function isValidResource($resource)
+	protected static function isValidResource($resource) : bool
 	{
 		return \is_resource($resource) &&
 			(\get_resource_type($resource) == 'stream');
