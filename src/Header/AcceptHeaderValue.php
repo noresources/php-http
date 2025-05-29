@@ -19,7 +19,7 @@ class AcceptHeaderValue implements HeaderValueInterface,
 {
 	use QualityValueTrait;
 
-	public function __construct(MediaRange $range = null,
+	public function __construct(?MediaRange $range = null,
 		$extensions = array())
 	{
 		$this->setQualityValue(1.0);

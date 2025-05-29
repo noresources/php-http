@@ -8,7 +8,6 @@
  */
 namespace NoreSources\Http;
 
-use Psr\Http\Message\StreamInterface;
 
 /**
  * Wraps PSR-7 Stream to a regular PHP stream resource
@@ -49,17 +48,18 @@ class StreamWrapper
 	 * @return bool
 	 */
 	public function stream_open(string $path, string $mode, int $options,
-		string &$unused_opened_path = null): bool
-	{
-		$options = stream_context_get_options($this->context);
+		?string &$unused_opened_path = null): bool
 
-		if (!isset($options[static::class]['stream']))
-			return false;
+{
+	$options = stream_context_get_options($this->context);
 
-		$this->mode = $mode;
-		$this->stream = $options[static::class]['stream'];
-		return true;
-	}
+	if (!isset($options[static::class]['stream']))
+		return false;
+
+	$this->mode = $mode;
+	$this->stream = $options[static::class]['stream'];
+	return true;
+}
 
 	/**
 	 *

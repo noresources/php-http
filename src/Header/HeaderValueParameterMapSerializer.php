@@ -41,7 +41,7 @@ class HeaderValueParameterMapSerializer
 
 	public function __construct(HeaderValueInterface $headerValue,
 		ParameterMapInterface $parameters,
-		ParameterMapInterface $extensions = null)
+		?ParameterMapInterface $extensions = null)
 	{
 		$this->headerValue = $headerValue;
 		$this->parameters = $parameters;

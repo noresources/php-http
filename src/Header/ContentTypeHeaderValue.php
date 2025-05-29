@@ -19,7 +19,7 @@ use NoreSources\MediaType\MediaTypeInterface;
 class ContentTypeHeaderValue implements HeaderValueInterface
 {
 
-	public function __construct(MediaType $mediaType = null)
+	public function __construct(?MediaType $mediaType = null)
 	{
 		$this->mediaType = $mediaType;
 	}
